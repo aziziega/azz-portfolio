@@ -381,6 +381,13 @@ nav {
   opacity: 0;
   filter: blur(8px);
   animation: letter-blur-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  white-space: nowrap;
+}
+
+.hero-bio {
+  word-break: normal;
+  overflow-wrap: break-word;
+  white-space: normal;
 }
 
 @keyframes letter-blur-in {
