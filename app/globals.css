@@ -443,6 +443,12 @@ nav {
   letter-spacing: -1px;
 }
 
+/* .section-tech-stack {
+  font-size: 20px;
+  color: var(--text-secondary);
+  margin-top: 8px;
+} */
+
 .view-all {
   font-size: 14px;
   font-weight: 600;
@@ -996,6 +1002,11 @@ footer {
     justify-content: center;
     position: static;
     transform: none;
+    margin-left: 0;
+  }
+
+  .nav-actions {
+    gap: 12px;
     margin-left: auto;
   }
 
