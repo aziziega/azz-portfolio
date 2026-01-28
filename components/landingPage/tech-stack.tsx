@@ -11,6 +11,8 @@ export default function TechStack() {
                         <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
                             All projects here are based on this tech stack.
                         </p>
+                        <p className="text-white">/</p>
+                        <p className="text-white">/</p>
                     </div>
                     <div className="relative py-6 w-full max-w-5xl">
                         <InfiniteSlider
