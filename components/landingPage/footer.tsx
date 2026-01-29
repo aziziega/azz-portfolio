@@ -1,4 +1,10 @@
+
+import { useLanguage } from "@/contexts/language-contexts"
+
 export default function Footer() {
+
+    const { t } = useLanguage()
+
     return (
         <footer>
             <div className="container">
@@ -6,10 +12,10 @@ export default function Footer() {
                     <div className="logo">Azizi Egatri M.</div>
                     <div className="footer-content">
                         <nav className="footer-nav">
-                            <a href="#about">About</a>
-                            <a href="#work">Work</a>
-                            <a href="#blog">Blog</a>
-                            <a href="#contact">Contact</a>
+                            <a href="#about">{t("foot.about")}</a>
+                            <a href="#work">{t("foot.work")}</a>
+                            <a href="#blog">{t("foot.blog")}</a>
+                            <a href="#contact">{t("foot.contact")}</a>
                         </nav>
                         <div className="social-icons">
                             <a href="https://x.com/AziZiega" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
@@ -30,7 +36,7 @@ export default function Footer() {
                         </div>
                     </div>
                 </div>
-                <div className="copyright">© 2026 Azizi Egatri M. All rights reserved.</div>
+                <div className="copyright">{t("footer.copyright")}</div>
                 <div className="credit">Designed using 1UI.dev and built using v0.app</div>
             </div>
         </footer>

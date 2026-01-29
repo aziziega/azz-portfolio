@@ -1,56 +1,58 @@
+"use client"
+
+import { useLanguage } from "@/contexts/language-contexts"
+
 export default function Blog() {
+    const { t } = useLanguage()
     return (
         <>
             <section id="blog" className="section blog-section">
                 <div className="container">
                     <div className="section-header animate-on-scroll">
-                        <h2 className="section-title">Latest Articles</h2>
+                        <h2 className="section-title">{t("blog.title")}</h2>
                         <a href="#" target="_blank" rel="noopener noreferrer" className="view-all">
-                            View All
+                            {t("blog.viewAll")}
                         </a>
                     </div>
                     <div className="grid">
                         <article className="card animate-on-scroll">
                             <div className="card-content">
-                                <span className="card-tag">Design Systems</span>
-                                <div className="blog-date">January 15, 2026</div>
-                                <h3 className="card-title">Building Scalable Component Libraries</h3>
+                                <span className="card-tag">{t("blog.article1.tag")}</span>
+                                <div className="blog-date">{t("blog.article1.date")}</div>
+                                <h3 className="card-title">{t("blog.article1.title")}</h3>
                                 <p className="card-desc">
-                                    Learn how to create maintainable design systems that grow with your product and team. A
-                                    comprehensive guide to tokens, components, and documentation.
+                                    {t("blog.article1.desc")}
                                 </p>
                                 <a href="#" target="_blank" rel="noopener noreferrer" className="read-more">
-                                    Read More →
+                                    {t("blog.readMore")}
                                 </a>
                             </div>
                         </article>
 
                         <article className="card animate-on-scroll">
                             <div className="card-content">
-                                <span className="card-tag">Development</span>
-                                <div className="blog-date">January 8, 2026</div>
-                                <h3 className="card-title">Modern React Patterns for 2026</h3>
+                                <span className="card-tag">{t("blog.article2.tag")}</span>
+                                <div className="blog-date">{t("blog.article2.date")}</div>
+                                <h3 className="card-title">{t("blog.article2.title")}</h3>
                                 <p className="card-desc">
-                                    Exploring the latest patterns and best practices in React development, from server components to
-                                    advanced state management techniques.
+                                    {t("blog.article2.desc")}
                                 </p>
                                 <a href="#" target="_blank" rel="noopener noreferrer" className="read-more">
-                                    Read More →
+                                    {t("blog.readMore")}
                                 </a>
                             </div>
                         </article>
 
                         <article className="card animate-on-scroll">
                             <div className="card-content">
-                                <span className="card-tag">Product Design</span>
-                                <div className="blog-date">December 28, 2025</div>
-                                <h3 className="card-title">The Art of Micro-Interactions</h3>
+                                <span className="card-tag">{t("blog.article3.tag")}</span>
+                                <div className="blog-date">{t("blog.article3.date")}</div>
+                                <h3 className="card-title">{t("blog.article3.title")}</h3>
                                 <p className="card-desc">
-                                    Discover how subtle animations and feedback mechanisms can dramatically improve user experience and
-                                    product delight.
+                                    {t("blog.article3.desc")}
                                 </p>
                                 <a href="#" target="_blank" rel="noopener noreferrer" className="read-more">
-                                    Read More →
+                                    {t("blog.readMore")}
                                 </a>
                             </div>
                         </article>

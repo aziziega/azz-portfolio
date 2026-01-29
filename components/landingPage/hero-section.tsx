@@ -1,9 +1,10 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import { useLanguage } from "@/contexts/language-contexts"
 
 export default function HeroSection() {
-
+    const { t } = useLanguage()
     const [typedText, setTypedText] = useState("")
     const [isDeleting, setIsDeleting] = useState(false)
     const fullText = "Azizi E. M."
@@ -52,7 +53,7 @@ export default function HeroSection() {
                                     Prambanan, Klaten, Jawa Tengah Indonesia
                                 </div>
                                 <p className="hero-bio">
-                                    I am a Front-End Web Developer focused on building clean, responsive, and user-friendly interfaces. I enjoy turning ideas into intuitive digital experiences that look professional and feel smooth to use. I’m highly responsible, detail-oriented, and deeply curious about new technologies to continuously grow and improve my work.
+                                    {t("hero.bio")}    
                                 </p>
                             </div>
                         </div>

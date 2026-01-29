@@ -1,15 +1,17 @@
 import { InfiniteSlider } from '@/components/ui/infinite-slider'
 import { ProgressiveBlur } from '@/components/ui/progressive-blur'
+import { useLanguage } from '@/contexts/language-contexts'
 
 export default function TechStack() {
+    const { t } = useLanguage()
     return (
         <section className="bg-background overflow-hidden py-16">
             <div className="group relative">
                 <div className="flex flex-col items-center">
                     <div className="text-center mb-8">
-                        <h2 className="section-title">Tech Stack</h2>
+                        <h2 className="section-title">{t("techStack.title")}</h2>
                         <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-                            All projects here are based on this tech stack.
+                            {t("techStack.subtitle")}
                         </p>
                         <p className="text-white">/</p>
                         <p className="text-white">/</p>

@@ -1,15 +1,20 @@
+"use client"
+
+import { useLanguage } from "@/contexts/language-contexts"
+
 export default function Newsletter() {
+    const { t } = useLanguage()
     return (
         <>
             <section className="newsletter animate-on-scroll">
                 <div className="container">
                     <div className="newsletter-inner">
-                        <h2>Stay Updated</h2>
-                        <p>Get insights on design, development, and product thinking delivered to your inbox.</p>
+                        <h2>{t("newsletter.title")}</h2>
+                        <p>{t("newsletter.subtitle")}</p>
                         <form className="form-group">
-                            <input type="email" placeholder="Enter your email" aria-label="Email address" />
+                            <input type="email" placeholder={t("newsletter.placeholder")} aria-label="Email address" />
                             <button type="submit" className="btn-subscribe">
-                                Subscribe
+                                {t("newsletter.button")}
                             </button>
                         </form>
                     </div>

@@ -8,6 +8,7 @@ import Newsletter from "@/components/landingPage/newletter"
 import Work from "@/components/landingPage/work"
 import Footer from "@/components/landingPage/footer"
 import TechStack from "@/components/landingPage/tech-stack"
+import Header from "@/components/landingPage/header"
 import { useEffect, useState } from "react"
 
 
@@ -68,6 +69,7 @@ export default function Portfolio() {
   return (
     <>
       <main>
+        <Header />
         <HeroSection />
         <LineAvailable />
         <Work />
