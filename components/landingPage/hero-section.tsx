@@ -53,7 +53,7 @@ export default function HeroSection() {
                                     Prambanan, Klaten, Jawa Tengah Indonesia
                                 </div>
                                 <p className="hero-bio">
-                                    {t("hero.bio")}    
+                                    {t("hero.bio")}
                                 </p>
                             </div>
                         </div>
