@@ -13,85 +13,83 @@ export default function TechStack() {
                         <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
                             {t("techStack.subtitle")}
                         </p>
-                        <p className="text-white">/</p>
-                        <p className="text-white">/</p>
                     </div>
                     <div className="relative py-6 w-full max-w-5xl">
                         <InfiniteSlider
                             speedOnHover={20}
                             speed={40}
-                            gap={112}>
+                            gap={160}>
                             <div className="flex">
                                 <img
-                                    className="mx-auto h-5 w-fit dark:invert"
-                                    src="https://html.tailus.io/blocks/customers/nvidia.svg"
-                                    alt="Nvidia Logo"
-                                    height="20"
+                                    className="mx-auto h-12 w-fit"
+                                    src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg"
+                                    alt="React"
+                                    height="48"
                                     width="auto"
                                 />
                             </div>
 
                             <div className="flex">
                                 <img
-                                    className="mx-auto h-4 w-fit dark:invert"
-                                    src="https://html.tailus.io/blocks/customers/column.svg"
-                                    alt="Column Logo"
-                                    height="16"
+                                    className="mx-auto h-12 w-fit dark:invert"
+                                    src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg"
+                                    alt="Next.js"
+                                    height="48"
                                     width="auto"
                                 />
                             </div>
                             <div className="flex">
                                 <img
-                                    className="mx-auto h-4 w-fit dark:invert"
-                                    src="https://html.tailus.io/blocks/customers/github.svg"
-                                    alt="GitHub Logo"
-                                    height="16"
+                                    className="mx-auto h-12 w-fit"
+                                    src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg"
+                                    alt="TypeScript"
+                                    height="48"
                                     width="auto"
                                 />
                             </div>
                             <div className="flex">
                                 <img
-                                    className="mx-auto h-5 w-fit dark:invert"
-                                    src="https://html.tailus.io/blocks/customers/nike.svg"
-                                    alt="Nike Logo"
-                                    height="20"
+                                    className="mx-auto h-12 w-fit"
+                                    src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg"
+                                    alt="Tailwind CSS"
+                                    height="48"
                                     width="auto"
                                 />
                             </div>
                             <div className="flex">
                                 <img
-                                    className="mx-auto h-5 w-fit dark:invert"
-                                    src="https://html.tailus.io/blocks/customers/lemonsqueezy.svg"
-                                    alt="Lemon Squeezy Logo"
-                                    height="20"
+                                    className="mx-auto h-12 w-fit"
+                                    src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg"
+                                    alt="Node.js"
+                                    height="48"
                                     width="auto"
                                 />
                             </div>
                             <div className="flex">
                                 <img
-                                    className="mx-auto h-4 w-fit dark:invert"
-                                    src="https://html.tailus.io/blocks/customers/laravel.svg"
-                                    alt="Laravel Logo"
-                                    height="16"
+                                    className="mx-auto h-12 w-fit"
+                                    src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg"
+                                    alt="Python"
+                                    height="48"
                                     width="auto"
                                 />
                             </div>
                             <div className="flex">
                                 <img
-                                    className="mx-auto h-7 w-fit dark:invert"
-                                    src="https://html.tailus.io/blocks/customers/lilly.svg"
-                                    alt="Lilly Logo"
-                                    height="28"
+                                    className="mx-auto h-12 w-fit"
+                                    src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg"
+                                    alt="PostgreSQL"
+                                    height="48"
                                     width="auto"
                                 />
                             </div>
 
                             <div className="flex">
                                 <img
-                                    className="mx-auto h-6 w-fit dark:invert"
-                                    src="https://html.tailus.io/blocks/customers/openai.svg"
-                                    alt="OpenAI Logo"
-                                    height="24"
+                                    className="mx-auto h-12 w-fit"
+                                    src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg"
+                                    alt="Git"
+                                    height="48"
                                     width="auto"
                                 />
                             </div>

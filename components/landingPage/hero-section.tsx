@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { useLanguage } from "@/contexts/language-contexts"
+import LanyardWithControls from "@/components/lanyard-with-control"
 
 export default function HeroSection() {
     const { t } = useLanguage()
@@ -56,6 +57,18 @@ export default function HeroSection() {
                                     {t("hero.bio")}
                                 </p>
                             </div>
+                        </div>
+                    </div>
+                    
+                    {/* Interactive 3D Lanyard Overlay - Right Side */}
+                    <div className="absolute inset-0 pointer-events-none z-50">
+                        <div className="relative w-full h-full pointer-events-auto">
+                            <LanyardWithControls
+                                position={[0, 0, 20]}
+                                containerClassName="absolute top-1/2 right-0 lg:right-8 -translate-y-1/2 w-full max-w-lg h-[600px] lg:h-[700px]"
+                                defaultName="Azizi E. M."
+                                defaultVariant="dark"
+                            />
                         </div>
                     </div>
                 </div>
