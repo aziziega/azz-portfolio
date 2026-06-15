@@ -62,6 +62,26 @@ const CardTemplate = forwardRef<CardTemplateRef, CardTemplateProps>(
             const textY = CANVAS_SIZE - 400;
             ctx.fillText(displayName.toUpperCase(), textX, textY);
 
+            // Cover original V0 branding area with solid background
+            const brandBgColor = variant === "dark" ? "#000000" : "#ffffff";
+            ctx.fillStyle = brandBgColor;
+            ctx.fillRect(50, 100, 600, 220); // Cover V0 branding area (increased height)
+
+            // Render custom branding - Line 1: "DEV"
+            ctx.fillStyle = textColor;
+            ctx.font = 'bold 72px "Geist Mono", monospace';
+            ctx.textAlign = "left";
+            ctx.textBaseline = "top";
+            const brandLine1X = 100;
+            const brandLine1Y = 150;
+            ctx.fillText("DEV", brandLine1X, brandLine1Y);
+
+            // Render custom branding - Line 2: "Fullstack Developer"
+            ctx.font = 'normal 42px "Geist Mono", monospace';
+            const brandLine2X = 100;
+            const brandLine2Y = 270; // Moved down from 240
+            ctx.fillText("Fullstack Developer", brandLine2X, brandLine2Y);
+
             // Render city label
             if (city) {
                 const cityRender = canvas.getContext("2d");
@@ -130,6 +150,26 @@ const CardTemplate = forwardRef<CardTemplateRef, CardTemplateProps>(
             const textX = (CANVAS_SIZE / 2) - 55;
             const textY = CANVAS_SIZE - 400;
             fullCtx.fillText(displayName.toUpperCase(), textX, textY);
+
+            // Cover original V0 branding area with solid background
+            const brandBgColor = variant === "dark" ? "#000000" : "#ffffff";
+            fullCtx.fillStyle = brandBgColor;
+            fullCtx.fillRect(50, 100, 600, 220); // Cover V0 branding area (increased height)
+
+            // Render custom branding - Line 1: "DEV"
+            fullCtx.fillStyle = textColor;
+            fullCtx.font = 'bold 72px "Geist Mono", monospace';
+            fullCtx.textAlign = "left";
+            fullCtx.textBaseline = "top";
+            const brandLine1X = 100;
+            const brandLine1Y = 150;
+            fullCtx.fillText("DEV", brandLine1X, brandLine1Y);
+
+            // Render custom branding - Line 2: "Fullstack Developer"
+            fullCtx.font = 'normal 42px "Geist Mono", monospace';
+            const brandLine2X = 100;
+            const brandLine2Y = 270; // Moved down from 240
+            fullCtx.fillText("Fullstack Developer", brandLine2X, brandLine2Y);
 
             // Render city label
             if (city) {
