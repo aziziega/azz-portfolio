@@ -254,6 +254,7 @@ function Band({maxSpeed = 50, minSpeed = 0, isMobile = false, cardTextureUrl}: B
                                 clearcoatRoughness={0.15}
                                 roughness={0.9}
                                 metalness={0.8}
+                                side={THREE.DoubleSide}
                             />
                         </mesh>
                         <mesh geometry={nodes.clip.geometry} material={materials.metal} material-roughness={0.3}/>

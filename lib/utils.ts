@@ -22,7 +22,7 @@ function base64ToUtf8(base64: string): string {
   return new TextDecoder().decode(bytes);
 }
 
-export type CardVariant = "dark" | "light";
+export type CardVariant = "dark" | "light" | "plain" | "cosmic";
 
 export interface LanyardData {
   username: string;

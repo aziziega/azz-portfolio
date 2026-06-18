@@ -8,7 +8,7 @@ export default function HeroSection() {
     const { t } = useLanguage()
     const [typedText, setTypedText] = useState("")
     const [isDeleting, setIsDeleting] = useState(false)
-    const fullText = "Azizi E. M."
+    const fullText = "Azizi E.M."
 
     useEffect(() => {
         const typingSpeed = isDeleting ? 80 : 150
@@ -45,7 +45,7 @@ export default function HeroSection() {
                                 <img src="/images/azizi_photo1-rmbg.png" alt="Profile" className="hero-image" />
                             </div>
                             <div className="hero-content">
-                                <span className="hero-role">Front - End Web Developer</span>
+                                <span className="hero-role">Fullstack Web Developer</span>
                                 <div className="hero-location">
                                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                                         <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
@@ -59,15 +59,15 @@ export default function HeroSection() {
                             </div>
                         </div>
                     </div>
-                    
-                    {/* Interactive 3D Lanyard Overlay - Right Side */}
-                    <div className="absolute inset-0 pointer-events-none z-50">
+
+                    {/* Interactive 3D Lanyard - Desktop only (hidden on mobile) */}
+                    <div className="hidden lg:block absolute inset-0 pointer-events-none z-10">
                         <div className="relative w-full h-full pointer-events-auto">
                             <LanyardWithControls
                                 position={[0, 0, 20]}
-                                containerClassName="absolute top-1/2 right-0 lg:right-8 -translate-y-1/2 w-full max-w-lg h-[600px] lg:h-[700px]"
-                                defaultName="Azizi E. M."
-                                defaultVariant="dark"
+                                containerClassName="absolute bottom-8 lg:bottom-12 -left-8 lg:-left-12 w-full max-w-sm lg:max-w-md h-[600px] lg:h-[700px]"
+                                defaultName="Azizi E.M."
+                                defaultVariant="plain"
                             />
                         </div>
                     </div>

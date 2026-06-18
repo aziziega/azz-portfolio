@@ -1,7 +1,7 @@
 "use client"
 import { useEffect, useState } from "react"
 // import { ModeToggle } from "@/components/theme-toggle"
-import { LanguageToggle } from "@/components/language-toggle"
+// import { LanguageToggle } from "@/components/language-toggle"
 import { useLanguage } from "@/contexts/language-contexts"
 import { Globe } from "lucide-react"
 

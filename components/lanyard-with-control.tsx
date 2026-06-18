@@ -9,9 +9,9 @@ import {
     TooltipProvider,
     TooltipTrigger,
 } from "@/components/ui/tooltip";
-import CardTemplate, { type CardTemplateRef, type CardVariant } from "@/components/card-template";
-import { Download, Link, Check } from "lucide-react";
-import { encryptLanyardData } from "@/lib/utils";
+import CardTemplate, { type CardTemplateRef } from "@/components/card-template";
+import { Link, Check } from "lucide-react";
+import { encryptLanyardData, type CardVariant } from "@/lib/utils";
 
 // X (Twitter) icon component
 function XIcon({ className }: { className?: string }) {
@@ -64,8 +64,14 @@ export default function LanyardWithControls({
     const [textureKey, setTextureKey] = useState(0);
     const [copied, setCopied] = useState(false);
     const [isInitialized, setIsInitialized] = useState(false);
+    const [mounted, setMounted] = useState(false);
     const cardTemplateRef = useRef<CardTemplateRef>(null);
     const canvasRef = useRef<HTMLCanvasElement>(null);
+
+    // Fix hydration: only render after client mount
+    useEffect(() => {
+        setMounted(true);
+    }, []);
 
     // Auto-capture texture when component mounts with a defaultName from URL
     useEffect(() => {
@@ -159,6 +165,11 @@ export default function LanyardWithControls({
         }
     };
 
+    // Prevent hydration mismatch: don't render until mounted on client
+    if (!mounted) {
+        return null;
+    }
+
     // Show loading spinner while waiting for initialization
     if (!isInitialized) {
         return (
@@ -196,7 +207,6 @@ export default function LanyardWithControls({
                 cardTextureUrl={cardTextureUrl}
                 canvasRef={canvasRef}
             />
-
         </div>
     );
 }

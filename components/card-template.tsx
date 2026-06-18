@@ -1,8 +1,7 @@
 "use client";
 
 import { forwardRef, useImperativeHandle, useEffect, useState } from "react";
-
-export type CardVariant = "dark" | "light";
+import type { CardVariant } from "@/lib/utils";
 
 interface CardTemplateProps {
     userName: string;
@@ -23,8 +22,8 @@ const CardTemplate = forwardRef<CardTemplateRef, CardTemplateProps>(
     ({ userName, variant, onTextureReady, city, date }, ref) => {
         const [baseImage, setBaseImage] = useState<HTMLImageElement | null>(null);
 
-        const imageSrc = variant === "dark" ? "/card-base-dark.png" : "/card-base-light.png";
-        const textColor = variant === "dark" ? "#ffffff" : "#000000";
+        const imageSrc = variant === "plain" ? "" : (variant === "dark" ? "/card-base-dark.png" : "/card-base-light.png");
+        const textColor = variant === "light" ? "#000000" : "#ffffff";
 
         // Preload the base card image
         useEffect(() => {
@@ -63,7 +62,7 @@ const CardTemplate = forwardRef<CardTemplateRef, CardTemplateProps>(
             ctx.fillText(displayName.toUpperCase(), textX, textY);
 
             // Cover original V0 branding area with solid background
-            const brandBgColor = variant === "dark" ? "#000000" : "#ffffff";
+            const brandBgColor = variant === "light" ? "#ffffff" : "#000000";
             ctx.fillStyle = brandBgColor;
             ctx.fillRect(50, 100, 600, 220); // Cover V0 branding area (increased height)
 
@@ -74,7 +73,7 @@ const CardTemplate = forwardRef<CardTemplateRef, CardTemplateProps>(
             ctx.textBaseline = "top";
             const brandLine1X = 100;
             const brandLine1Y = 150;
-            ctx.fillText("DEV", brandLine1X, brandLine1Y);
+            ctx.fillText("DEV.", brandLine1X, brandLine1Y);
 
             // Render custom branding - Line 2: "Fullstack Developer"
             ctx.font = 'normal 42px "Geist Mono", monospace';
@@ -152,7 +151,7 @@ const CardTemplate = forwardRef<CardTemplateRef, CardTemplateProps>(
             fullCtx.fillText(displayName.toUpperCase(), textX, textY);
 
             // Cover original V0 branding area with solid background
-            const brandBgColor = variant === "dark" ? "#000000" : "#ffffff";
+            const brandBgColor = variant === "light" ? "#ffffff" : "#000000";
             fullCtx.fillStyle = brandBgColor;
             fullCtx.fillRect(50, 100, 600, 220); // Cover V0 branding area (increased height)
 
@@ -163,7 +162,7 @@ const CardTemplate = forwardRef<CardTemplateRef, CardTemplateProps>(
             fullCtx.textBaseline = "top";
             const brandLine1X = 100;
             const brandLine1Y = 150;
-            fullCtx.fillText("DEV", brandLine1X, brandLine1Y);
+            fullCtx.fillText("DEV.", brandLine1X, brandLine1Y);
 
             // Render custom branding - Line 2: "Fullstack Developer"
             fullCtx.font = 'normal 42px "Geist Mono", monospace';
