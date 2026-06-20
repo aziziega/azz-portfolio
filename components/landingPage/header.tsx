@@ -83,7 +83,7 @@ export default function Header() {
                             <div className="flex flex-col items-center gap-1">
                                 <button
                                     onClick={toggleLanguage}
-                                    className="inline-flex items-center gap-2 px-4 py-2 !bg-black hover:!bg-gray-900 !rounded-full text-sm font-semibold text-white transition-all cursor-pointer"
+                                    className="inline-flex items-center gap-2 px-4 py-2 !bg-black hover:!bg-gray-800 !rounded-full text-sm font-semibold text-white transition-all cursor-pointer"
                                     aria-label={`Switch to ${language === "en" ? "Indonesian" : "English"} language`}
                                     title={`Current language: ${language === "en" ? "English" : "Indonesian"}`}
                                 >
@@ -100,7 +100,7 @@ export default function Header() {
 
                             {/* Live Clock - Asia/Jakarta */}
                             {mounted && (
-                                <div className="inline-flex flex-col items-center justify-center px-4 py-2 !bg-black !rounded-full text-white transition-all">
+                                <div className="inline-flex flex-col items-center justify-center px-4 py-2 transition-all">
                                     <span className="text-sm font-mono font-semibold">
                                         {formatTime()}
                                     </span>
@@ -111,7 +111,7 @@ export default function Header() {
                             )}
                         </div>
 
-                            {/* <ModeToggle /> */}
+                        {/* <ModeToggle /> */}
                     </nav>
                 </div>
                 {mobileMenuOpen && (
