@@ -186,6 +186,7 @@ body {
   color: var(--text-primary);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
 }
 
 a {
@@ -347,7 +348,7 @@ nav {
 }
 
 .hero-role {
-  font-size: 18px;
+  font-size: 26px;
   font-weight: 600;
   margin-bottom: 10px;
   display: block;
@@ -424,6 +425,98 @@ nav {
 .hero-bio span span {
   color: var(--text-primary);
   font-weight: 400;
+}
+
+/* Hero social links - Icon buttons with glass effect */
+.hero-social-links {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.hero-social-links a {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  color: white;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.hero-social-links a:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  background: rgba(0, 0, 0, 0.5);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Hero image badges - Timezone & Language */
+.hero-image-badges {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 16px;
+  z-index: 10;
+}
+
+.hero-image-badges .badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  white-space: nowrap;
+}
+
+.hero-image-badges .badge-icon {
+  font-size: 14px;
+  line-height: 1;
+}
+
+/* Schedule a Call button - Floating */
+.schedule-call-btn {
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.875rem 1.75rem;
+  background: #16a34a;
+  color: white;
+  border-radius: 9999px;
+  font-weight: 600;
+  font-size: 15px;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 12px rgba(22, 163, 74, 0.2);
+  z-index: 20;
+}
+
+.schedule-call-btn:hover {
+  transform: scale(1.05) translateY(-2px);
+  box-shadow: 0 12px 30px rgba(22, 163, 74, 0.35);
+  background: #15803d;
+}
+
+.schedule-call-btn .arrow-icon {
+  transition: transform 0.3s;
+}
+
+.schedule-call-btn:hover .arrow-icon {
+  transform: translateX(4px);
 }
 
 .section {
