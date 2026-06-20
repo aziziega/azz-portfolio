@@ -71,9 +71,9 @@ export default function Portfolio() {
       <main>
         <Header />
         <HeroSection />
+        {/* <TechStack /> */}
         <LineAvailable />
         <Work />
-        <TechStack />
         <Blog />
         <Newsletter />
         <Contact />

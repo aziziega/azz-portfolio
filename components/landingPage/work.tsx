@@ -1,5 +1,6 @@
 "use client"
 
+import { LogoCloud } from "./logo-cloud";
 import TechStack from "./tech-stack";
 import { useLanguage } from "@/contexts/language-contexts";
 
@@ -48,6 +49,7 @@ export default function Work() {
                                 </p>
                             </div>
                         </article>
+                        {/* <TechStack /> */}
                     </div>
                     {/* <TechStack /> */}
                 </div>

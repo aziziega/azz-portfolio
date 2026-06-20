@@ -8,10 +8,37 @@ import { Globe } from "lucide-react"
 export default function Header() {
 
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+    const [currentTime, setCurrentTime] = useState(new Date())
+    const [mounted, setMounted] = useState(false)
     const { language, setLanguage, t } = useLanguage()
+
+    // Set mounted to true on client-side to prevent hydration mismatch
+    useEffect(() => {
+        setMounted(true)
+    }, [])
+
+    // Update time every second
+    useEffect(() => {
+        const timer = setInterval(() => {
+            setCurrentTime(new Date())
+        }, 1000)
+
+        return () => clearInterval(timer)
+    }, [])
 
     const toggleLanguage = () => {
         setLanguage(language === "en" ? "id" : "en")
+    }
+
+    // Format time for Asia/Jakarta timezone
+    const formatTime = () => {
+        return currentTime.toLocaleTimeString('en-US', {
+            timeZone: 'Asia/Jakarta',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: false
+        })
     }
 
     const handleLinkClick = () => {
@@ -68,13 +95,27 @@ export default function Header() {
 
                             <button
                                 onClick={toggleLanguage}
-                                className="flex items-center gap-2 px-3 py-2 rounded-md bg-[#2d3748] hover:bg-[#3d4758] transition-colors"
+                                className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-[#2d3748] hover:bg-[#3d4758] transition-colors cursor-pointer"
                                 aria-label={`Switch to ${language === "en" ? "Indonesian" : "English"} language`}
                                 title={`Current language: ${language === "en" ? "English" : "Indonesian"}`}
                             >
                                 <Globe size={18} className="text-white" />
                                 <span className="text-sm font-semibold text-white uppercase">{language.toUpperCase()}</span>
                             </button>
+
+
+                            {/* Live Clock - Asia/Jakarta */}
+                            {mounted && (
+                                <div className="flex flex-col items-end">
+                                    <span className="text-sm font-mono font-semibold">
+                                        {formatTime()}
+                                    </span>
+                                    <span className="text-xs text-gray-400">
+                                        Asia/Jakarta
+                                    </span>
+                                </div>
+                            )}
+
                             {/* <ModeToggle /> */}
                         </div>
                     </nav>

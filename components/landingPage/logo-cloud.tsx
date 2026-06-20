@@ -1,15 +1,5 @@
-import { InfiniteSlider } from '@/components/motion-primitives/infinite-slider'
-import { ProgressiveBlur } from '@/components/motion-primitives/progressive-blur'
-import { Spotify } from '@/components/ui/svgs/spotify'
-import { VercelFull } from '@/components/ui/svgs/vercel'
-import { SupabaseFull } from '@/components/ui/svgs/supabase'
-import { Hulu } from '@/components/ui/svgs/hulu'
-import { Bolt } from '@/components/ui/svgs/bolt'
-import { FirebaseFull } from '@/components/ui/svgs/firebase'
-import { Beacon } from '@/components/ui/svgs/beacon'
-import { Claude } from '@/components/ui/svgs/claude'
-import { Cisco } from '@/components/ui/svgs/cisco'
-import { Figma } from '@/components/ui/svgs/figma'
+import { InfiniteSlider } from '@/components/ui/infinite-slider'
+import { ProgressiveBlur } from '@/components/ui/progressive-blur'
 
 export const LogoCloud = () => {
     return (
@@ -24,42 +14,55 @@ export const LogoCloud = () => {
                             speedOnHover={20}
                             speed={40}
                             gap={112}>
-                            <Bolt
-                                height={22}
-                                width={56}
+                            <img
+                                className="h-6 w-auto"
+                                src="https://cdn.simpleicons.org/bolt/000000"
+                                alt="Bolt"
                             />
-                            <VercelFull
-                                height={22}
-                                width={84}
+                            <img
+                                className="h-6 w-auto dark:invert"
+                                src="https://cdn.simpleicons.org/vercel/000000"
+                                alt="Vercel"
                             />
-                            <SupabaseFull className="h-6" />
-                            <Hulu
-                                height={18}
-                                width={56}
+                            <img
+                                className="h-6 w-auto"
+                                src="https://cdn.simpleicons.org/supabase/3FCF8E"
+                                alt="Supabase"
                             />
-                            <Spotify
-                                height={24}
-                                width={80}
+                            <img
+                                className="h-5 w-auto"
+                                src="https://cdn.simpleicons.org/hulu/1CE783"
+                                alt="Hulu"
                             />
-                            <FirebaseFull
-                                height={24}
-                                width={80}
+                            <img
+                                className="h-6 w-auto"
+                                src="https://cdn.simpleicons.org/spotify/1DB954"
+                                alt="Spotify"
                             />
-                            <Beacon
-                                height={24}
-                                width={80}
+                            <img
+                                className="h-6 w-auto"
+                                src="https://cdn.simpleicons.org/firebase/FFCA28"
+                                alt="Firebase"
                             />
-                            <Claude
-                                height={26}
-                                width={90}
+                            <img
+                                className="h-6 w-auto"
+                                src="https://cdn.simpleicons.org/beacon/4A90E2"
+                                alt="Beacon"
                             />
-                            <Figma
-                                height={24}
-                                width={24}
+                            <img
+                                className="h-7 w-auto"
+                                src="https://cdn.simpleicons.org/anthropic/000000"
+                                alt="Claude"
                             />
-                            <Cisco
-                                height={30}
-                                width={60}
+                            <img
+                                className="h-6 w-auto"
+                                src="https://cdn.simpleicons.org/figma/F24E1E"
+                                alt="Figma"
+                            />
+                            <img
+                                className="h-8 w-auto"
+                                src="https://cdn.simpleicons.org/cisco/1BA0D7"
+                                alt="Cisco"
                             />
                         </InfiniteSlider>
 
