@@ -1,5 +1,6 @@
 "use client"
 import { useEffect, useState } from "react"
+import Link from "next/link"
 // import { ModeToggle } from "@/components/theme-toggle"
 // import { LanguageToggle } from "@/components/language-toggle"
 import { useLanguage } from "@/contexts/language-contexts"
@@ -49,12 +50,12 @@ export default function Header() {
             <header>
                 <div className="container">
                     <nav>
-                        <div className="logo">Azizi Egatri M.</div>
+                        <Link href="/" className="logo">Azizi Egatri M.</Link>
                         <div className="nav-links">
-                            <a href="#about">{t("nav.about")}</a>
-                            <a href="#work">{t("nav.work")}</a>
-                            <a href="#blog">{t("nav.blog")}</a>
-                            <a href="#contact">{t("nav.contact")}</a>
+                            <Link href="/">{t("nav.about")}</Link>
+                            <Link href="/work">{t("nav.work")}</Link>
+                            <Link href="/blog">{t("nav.blog")}</Link>
+                            <a href="/#contact">{t("nav.contact")}</a>
                         </div>
                         <button
                             className="mobile-menu-btn"
@@ -117,16 +118,16 @@ export default function Header() {
                 {mobileMenuOpen && (
                     <div className="mobile-menu">
                         <div className="mobile-menu-links">
-                            <a href="#about" onClick={handleLinkClick}>
+                            <Link href="/" onClick={handleLinkClick}>
                                 {t("nav.about")}
-                            </a>
-                            <a href="#work" onClick={handleLinkClick}>
+                            </Link>
+                            <Link href="/work" onClick={handleLinkClick}>
                                 {t("nav.work")}
-                            </a>
-                            <a href="#blog" onClick={handleLinkClick}>
+                            </Link>
+                            <Link href="/blog" onClick={handleLinkClick}>
                                 {t("nav.blog")}
-                            </a>
-                            <a href="#contact" onClick={handleLinkClick}>
+                            </Link>
+                            <a href="/#contact" onClick={handleLinkClick}>
                                 {t("nav.contact")}
                             </a>
                             <div className="mobile-menu-social">

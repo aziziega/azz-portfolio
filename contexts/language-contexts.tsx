@@ -21,9 +21,9 @@ const translations = {
     "nav.contact": "Contact",
 
     // Hero Section
-    "hero.role": "Front-End Web Developer",
-    "hero.location": "Prambanan, Klaten, Central Java Indonesia",
-    "hero.bio": "I am a Front-End Web Developer focused on building clean, responsive, and user-friendly interfaces. I enjoy turning ideas into intuitive digital experiences that look professional and feel smooth to use. I’m highly responsible, detail-oriented, and deeply curious about new technologies to continuously grow and improve my work.",
+    "hero.role": "Fullstack Web Developer",
+    "hero.location": "Prambanan, Klaten, Central Java Indonesia.",
+    "hero.bio": "Fullstack Web Developer delivering scalable, end-to-end web solutions with Next.js, React, Supabase, and Node.js. I transform complex requirements into clean, intuitive digital experiences. Reliable, continuously learning, and committed to modern best practices.",
     // Line Available
     "lineAvailable.available": "Available for New Projects",
     "lineAvailable.services": "Design & Development",
@@ -72,7 +72,7 @@ const translations = {
     "contact.title": "Let's Work Together",
     "contact.subtitle": "I'm always interested in hearing about new projects and opportunities. Whether you have a question or just want to say hi, feel free to reach out.",
     "contact.email": "aziziegatrim@gmail.com",
-    "contact.location": "Prambanan, Klaten, Jawa Tengah Indonesia",
+    "contact.location": "Prambanan, Klaten, Jawa Tengah Indonesia.",
     "contact.form.name": "Name",
     "contact.form.namePlaceholder": "Your name",
     "contact.form.email": "Email",
@@ -82,6 +82,28 @@ const translations = {
     "contact.form.message": "Message",
     "contact.form.messagePlaceholder": "Tell me more...",
     "contact.form.submit": "Send Message",
+
+    // Work Page
+    "work.page.title": "Featured Work",
+    "work.page.subtitle": "A collection of projects showcasing my expertise in fullstack web development. From CRM systems to healthcare solutions, each project demonstrates scalable architecture, clean code, and modern best practices.",
+    
+    // Project Detail
+    "project.challenge": "The Challenge",
+    "project.solution": "The Solution",
+    "project.features": "Key Features",
+    "project.techStack": "Technologies Used",
+    "project.gallery": "Project Gallery",
+    "project.challenges": "Challenges & Solutions",
+    "project.outcomes": "Results & Impact",
+    "project.designProcess": "Design Process",
+    "project.lessonsLearned": "Lessons Learned",
+    
+    // Project Navigation
+    "project.nav.back": "Back to All Projects",
+    "project.nav.previous": "Previous",
+    "project.nav.next": "Next",
+    "project.viewLive": "View Live Demo",
+    "project.viewCode": "View Code",
 
     // Footer
     "footer.copyright": "© 2026 Azizi Egatri M. All rights reserved.",
@@ -100,9 +122,9 @@ const translations = {
     "nav.contact": "Kontak",
 
     // Hero Section
-    "hero.role": "Pengembang Web Front-End",
-    "hero.location": "Prambanan, Klaten, Jawa Tengah Indonesia",
-    "hero.bio": "Saya adalah seorang Pengembang Web Front-End yang fokus pada pembuatan antarmuka yang bersih, responsif, dan ramah pengguna. Saya senang mengubah ide menjadi pengalaman digital intuitif yang terlihat profesional dan terasa nyaman digunakan. Saya sangat bertanggung jawap, berorientasi pada detail, dan sangat ingin tahu tentang teknologi baru untuk terus berkembang dan meningkatkan pekerjaan saya.",
+    "hero.role": "Fullstack Web Developer",
+    "hero.location": "Prambanan, Klaten, Jawa Tengah Indonesia.",
+    "hero.bio": "Fullstack Web Developer yang menghadirkan solusi web scalable dan end-to-end dengan Next.js, React, Supabase, dan Node.js. Saya mengubah requirement kompleks menjadi pengalaman digital yang clean dan intuitif. Dapat diandalkan, terus belajar, dan berkomitmen pada best practices modern.",
 
     // Line Available
     "lineAvailable.available": "Tersedia untuk Proyek Baru",
@@ -153,7 +175,7 @@ const translations = {
     "contact.title": "Mari Bekerja Sama",
     "contact.subtitle": "Saya selalu tertarik mendengar tentang proyek dan peluang baru. Baik Anda memiliki pertanyaan atau hanya ingin menyapa, jangan ragu untuk menghubungi.",
     "contact.email": "aziziegatrim@gmail.com",
-    "contact.location": "Prambanan, Klaten, Jawa Tengah Indonesia",
+    "contact.location": "Prambanan, Klaten, Jawa Tengah Indonesia.",
     "contact.form.name": "Nama",
     "contact.form.namePlaceholder": "Nama Anda",
     "contact.form.email": "Email",
@@ -163,6 +185,28 @@ const translations = {
     "contact.form.message": "Pesan",
     "contact.form.messagePlaceholder": "Ceritakan lebih lanjut...",
     "contact.form.submit": "Kirim Pesan",
+
+    // Work Page
+    "work.page.title": "Karya Unggulan",
+    "work.page.subtitle": "Koleksi proyek yang menunjukkan keahlian saya dalam pengembangan web fullstack. Dari sistem CRM hingga solusi healthcare, setiap proyek mendemonstrasikan arsitektur yang scalable, clean code, dan best practices modern.",
+    
+    // Project Detail
+    "project.challenge": "Tantangan",
+    "project.solution": "Solusi",
+    "project.features": "Fitur Utama",
+    "project.techStack": "Teknologi yang Digunakan",
+    "project.gallery": "Galeri Proyek",
+    "project.challenges": "Tantangan & Solusi",
+    "project.outcomes": "Hasil & Dampak",
+    "project.designProcess": "Proses Desain",
+    "project.lessonsLearned": "Pelajaran yang Dipetik",
+    
+    // Project Navigation
+    "project.nav.back": "Kembali ke Semua Proyek",
+    "project.nav.previous": "Sebelumnya",
+    "project.nav.next": "Berikutnya",
+    "project.viewLive": "Lihat Demo Live",
+    "project.viewCode": "Lihat Kode",
 
     // Footer
     "footer.copyright": "© 2026 Azizi Egatri M. Hak cipta dilindungi.",
