@@ -16,8 +16,9 @@ export async function generateStaticParams() {
   }))
 }
 
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
-  const project = getProjectBySlug(params.slug, "en")
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params
+  const project = getProjectBySlug(slug, "en")
 
   if (!project) {
     return {
@@ -37,9 +38,9 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   }
 }
 
-export default function ProjectDetailPage({ params }: { params: { slug: string } }) {
-  // Get project data (default to English for now)
-  const project = getProjectBySlug(params.slug, "en")
+export default async function ProjectDetailPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params
+  const project = getProjectBySlug(slug, "en")
   const allSlugs = getAllProjectSlugs()
 
   if (!project) {
@@ -136,7 +137,7 @@ export default function ProjectDetailPage({ params }: { params: { slug: string }
         )}
 
         {/* Project Navigation */}
-        <ProjectNavigation currentSlug={params.slug} allSlugs={allSlugs} />
+        <ProjectNavigation currentSlug={slug} allSlugs={allSlugs} />
       </main>
     </>
   )

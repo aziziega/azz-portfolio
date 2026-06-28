@@ -2,6 +2,7 @@
 @import "tw-animate-css";
 @import './showcase.css';
 @import './bento.css';
+@import './work-list.css';
 
 @custom-variant dark (&:is(.dark *));
 

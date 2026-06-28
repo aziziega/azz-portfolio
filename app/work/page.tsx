@@ -1,7 +1,6 @@
 import { Metadata } from "next"
-import { getAllProjects, getFeaturedProjects } from "@/data/projects"
-import BentoGrid from "@/components/work/showcase/bento-grid"
-import ProjectCard from "@/components/work/project-card"
+import { getAllProjects } from "@/data/projects"
+import ProjectListItem from "@/components/work/project-list-item"
 
 export const metadata: Metadata = {
   title: "Work - Portfolio Projects | Azizi E.M.",
@@ -14,78 +13,91 @@ export const metadata: Metadata = {
 }
 
 export default function WorkPage() {
-  // Get featured and all projects
-  const featuredProjects = getFeaturedProjects("en")
-  const allProjects = getAllProjects("en")
-  
-  // Get non-featured projects for regular grid
-  const regularProjects = allProjects.filter(p => !p.featured)
+  const allProjects = getAllProjects("en").sort((a, b) => a.order - b.order)
 
   return (
-    <>
-      <main className="work-hybrid-main">
-        {/* Hero Section */}
-        <section className="work-hero">
-          <div className="container">
-            <div className="work-hero-content">
-              <h1 className="work-hero-title">
-                Selected Works
-              </h1>
-              <p className="work-hero-subtitle">
-                A curated collection of projects that showcase my expertise in fullstack web development.
-                From enterprise systems to consumer applications, each project represents a unique 
-                challenge solved with modern technologies and best practices.
-              </p>
+    <main className="work-list-main">
+      {/* Hero with Geometric Background */}
+      <section className="work-list-hero">
+        <div className="geometric-bg">
+          <div className="geo-circle geo-circle-1" />
+          <div className="geo-circle geo-circle-2" />
+          <div className="geo-circle geo-circle-3" />
+          <div className="geo-circle geo-circle-4" />
+          <div className="geo-line geo-line-1" />
+          <div className="geo-line geo-line-2" />
+          <div className="geo-line geo-line-3" />
+        </div>
+        <div className="work-list-hero-content">
+          <h1 className="work-list-hero-title">Selected Works</h1>
+          <p className="work-list-hero-subtitle">
+            A curated collection of projects that showcase my expertise in
+            fullstack web development, from enterprise systems to consumer
+            applications.
+          </p>
+        </div>
+      </section>
+
+      {/* Stacked List */}
+      <section className="work-list-section">
+        {allProjects.map((project, index) => (
+          <ProjectListItem
+            key={project.id}
+            project={project}
+            index={index}
+          />
+        ))}
+      </section>
+
+      {/* CTA Footer Section */}
+      <section className="work-footer">
+        <div className="work-footer-geo">
+          <div className="work-footer-circle work-footer-circle-1" />
+          <div className="work-footer-circle work-footer-circle-2" />
+          <div className="work-footer-line work-footer-line-1" />
+          <div className="work-footer-line work-footer-line-2" />
+        </div>
+
+        <div className="work-footer-inner">
+          <span className="work-footer-label">Got a project?</span>
+          <h2 className="work-footer-title">
+            Let's Build Something<br />
+            <span className="work-footer-title-accent">Amazing Together</span>
+          </h2>
+          <p className="work-footer-text">
+            I'm always open to discussing new opportunities, interesting
+            challenges, and creative collaborations.
+          </p>
+          <div className="work-footer-actions">
+            <a href="/#contact" className="work-footer-btn-primary">
+              Get In Touch
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M5 12h14" /><path d="m12 5 7 7-7 7" />
+              </svg>
+            </a>
+            <a href="/" className="work-footer-btn-secondary">
+              Back to Home
+            </a>
+          </div>
+
+          <div className="work-footer-stats">
+            <div className="work-footer-stat">
+              <span className="work-footer-stat-number">{allProjects.length}</span>
+              <span className="work-footer-stat-label">Projects</span>
+            </div>
+            <div className="work-footer-stat-divider" />
+            <div className="work-footer-stat">
+              <span className="work-footer-stat-number">{allProjects.filter(p => p.featured).length}</span>
+              <span className="work-footer-stat-label">Featured</span>
+            </div>
+            <div className="work-footer-stat-divider" />
+            <div className="work-footer-stat">
+              <span className="work-footer-stat-number">{new Set(allProjects.flatMap(p => p.techStack)).size}+</span>
+              <span className="work-footer-stat-label">Technologies</span>
             </div>
           </div>
-        </section>
-
-        {/* Bento Grid - Featured Projects */}
-        {featuredProjects.length > 0 && (
-          <BentoGrid projects={featuredProjects} />
-        )}
-
-        {/* Regular Grid - Remaining Projects */}
-        {regularProjects.length > 0 && (
-          <section className="work-regular-section">
-            <div className="container">
-              <div className="work-regular-header">
-                <h2 className="work-regular-title">More Projects</h2>
-                <p className="work-regular-subtitle">
-                  Additional work and side projects
-                </p>
-              </div>
-              
-              <div className="work-regular-grid">
-                {regularProjects.map((project) => (
-                  <ProjectCard
-                    key={project.id}
-                    project={project}
-                  />
-                ))}
-              </div>
-            </div>
-          </section>
-        )}
-
-        {/* CTA Section */}
-        <section className="work-cta-section">
-          <div className="container">
-            <div className="work-cta-content">
-              <h2 className="work-cta-title">
-                Let's Build Something Amazing Together
-              </h2>
-              <p className="work-cta-text">
-                Have a project in mind? I'm always open to discussing new opportunities 
-                and interesting challenges.
-              </p>
-              <a href="/#contact" className="work-cta-button">
-                Get In Touch
-              </a>
-            </div>
-          </div>
-        </section>
-      </main>
-    </>
+        </div>
+      </section>
+    </main>
   )
 }

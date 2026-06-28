@@ -23,6 +23,13 @@ const cardGLB = '/card.glb';
 
 extend({MeshLineGeometry, MeshLineMaterial});
 
+declare module '@react-three/fiber' {
+    interface ThreeElements {
+        meshLineGeometry: any;
+        meshLineMaterial: any;
+    }
+}
+
 interface LanyardProps {
     position?: [number, number, number];
     gravity?: [number, number, number];
