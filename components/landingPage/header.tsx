@@ -81,22 +81,24 @@ export default function Header() {
 
                         <div className="flex items-center gap-4">
                             {/* Language Toggle with Dots */}
-                            <div className="flex flex-col items-center gap-1">
-                                <button
-                                    onClick={toggleLanguage}
-                                    className="inline-flex items-center gap-2 px-4 py-2 !bg-black hover:!bg-gray-800 !rounded-full text-sm font-semibold text-white transition-all cursor-pointer"
-                                    aria-label={`Switch to ${language === "en" ? "Indonesian" : "English"} language`}
-                                    title={`Current language: ${language === "en" ? "English" : "Indonesian"}`}
-                                >
-                                    <Globe size={18} className="text-white" />
-                                    <span className="uppercase">{language.toUpperCase()}</span>
-                                </button>
-                                {/* Dot Indicators: 1 dot = EN, 2 dots = ID */}
-                                <div className="flex items-center gap-1">
-                                    <div className={`w-1.5 h-1.5 rounded-full transition-colors ${language === "en" ? "bg-white" : "bg-gray-600"}`}></div>
-                                    <div className={`w-1.5 h-1.5 rounded-full transition-colors ${language === "id" ? "bg-white" : "bg-gray-600"}`}></div>
+                            {mounted && (
+                                <div className="flex flex-col items-center gap-1">
+                                    <button
+                                        onClick={toggleLanguage}
+                                        className="inline-flex items-center gap-2 px-4 py-2 !bg-black hover:!bg-gray-800 !rounded-full text-sm font-semibold text-white transition-all cursor-pointer"
+                                        aria-label={`Switch to ${language === "en" ? "Indonesian" : "English"} language`}
+                                        title={`Current language: ${language === "en" ? "English" : "Indonesian"}`}
+                                    >
+                                        <Globe size={18} className="text-white" />
+                                        <span className="uppercase">{language.toUpperCase()}</span>
+                                    </button>
+                                    {/* Dot Indicators: 1 dot = EN, 2 dots = ID */}
+                                    <div className="flex items-center gap-1">
+                                        <div className={`w-1.5 h-1.5 rounded-full transition-colors ${language === "en" ? "bg-white" : "bg-gray-600"}`}></div>
+                                        <div className={`w-1.5 h-1.5 rounded-full transition-colors ${language === "id" ? "bg-white" : "bg-gray-600"}`}></div>
+                                    </div>
                                 </div>
-                            </div>
+                            )}
 
 
                             {/* Live Clock - Asia/Jakarta */}

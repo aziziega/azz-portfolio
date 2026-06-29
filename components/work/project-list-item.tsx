@@ -3,6 +3,7 @@
 import Link from "next/link"
 import { ArrowRight, ExternalLink, Github } from "lucide-react"
 import { Project } from "@/data/projects"
+import { useLanguage } from "@/contexts/language-contexts"
 
 interface ProjectListItemProps {
   project: Project
@@ -11,6 +12,7 @@ interface ProjectListItemProps {
 
 export default function ProjectListItem({ project, index }: ProjectListItemProps) {
   const number = String(index + 1).padStart(2, "0")
+  const { t } = useLanguage()
 
   return (
     <Link href={`/work/${project.slug}`} className="project-list-item">
@@ -26,7 +28,7 @@ export default function ProjectListItem({ project, index }: ProjectListItemProps
           {project.featured && (
             <>
               <span className="project-list-meta-separator">/</span>
-              <span className="project-list-featured">Featured</span>
+              <span className="project-list-featured">{t("work.featured")}</span>
             </>
           )}
         </div>
