@@ -3,6 +3,7 @@
 @import './showcase.css';
 @import './bento.css';
 @import './work-list.css';
+@import './project-detail.css';
 
 @custom-variant dark (&:is(.dark *));
 

@@ -12,81 +12,60 @@ export default function ImageGallery({ images, title }: ImageGalleryProps) {
 
   return (
     <>
-      <section className="py-16 bg-gray-50">
-        <div className="container">
-          <h2 className="text-2xl font-bold mb-8">Project Gallery</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {images.map((image, index) => (
-              <button
-                key={index}
-                onClick={() => setSelectedImage(index)}
-                className="relative aspect-video overflow-hidden rounded-lg group cursor-pointer"
-              >
-                <img
-                  src={image}
-                  alt={`${title} - Image ${index + 1}`}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
-                  <svg
-                    className="w-12 h-12 text-white opacity-0 group-hover:opacity-100 transition-opacity"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"
-                    />
-                  </svg>
-                </div>
-              </button>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Lightbox Modal */}
-      {selectedImage !== null && (
-        <div
-          className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center p-4"
-          onClick={() => setSelectedImage(null)}
-        >
+      <div className="detail-gallery-grid">
+        {images.map((image, index) => (
           <button
-            className="absolute top-4 right-4 text-white text-4xl hover:text-gray-300 transition-colors"
-            onClick={() => setSelectedImage(null)}
+            key={index}
+            onClick={() => setSelectedImage(index)}
+            className="detail-gallery-item"
           >
-            ×
+            <img
+              src={image}
+              alt={`${title} - Image ${index + 1}`}
+            />
+            <div className="detail-gallery-overlay">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="11" cy="11" r="8" />
+                <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                <line x1="11" y1="8" x2="11" y2="14" />
+                <line x1="8" y1="11" x2="14" y2="11" />
+              </svg>
+            </div>
+          </button>
+        ))}
+      </div>
+
+      {selectedImage !== null && (
+        <div className="detail-lightbox" onClick={() => setSelectedImage(null)}>
+          <button className="detail-lightbox-close" onClick={() => setSelectedImage(null)}>
+            &times;
           </button>
           <button
-            className="absolute left-4 text-white text-4xl hover:text-gray-300 transition-colors disabled:opacity-30"
+            className="detail-lightbox-nav detail-lightbox-prev"
             onClick={(e) => {
               e.stopPropagation()
               setSelectedImage(Math.max(0, selectedImage - 1))
             }}
             disabled={selectedImage === 0}
           >
-            ‹
+            &lsaquo;
           </button>
           <button
-            className="absolute right-4 text-white text-4xl hover:text-gray-300 transition-colors disabled:opacity-30"
+            className="detail-lightbox-nav detail-lightbox-next"
             onClick={(e) => {
               e.stopPropagation()
               setSelectedImage(Math.min(images.length - 1, selectedImage + 1))
             }}
             disabled={selectedImage === images.length - 1}
           >
-            ›
+            &rsaquo;
           </button>
           <img
             src={images[selectedImage]}
             alt={`${title} - Image ${selectedImage + 1}`}
-            className="max-w-full max-h-full object-contain"
             onClick={(e) => e.stopPropagation()}
           />
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-white text-sm">
+          <div className="detail-lightbox-counter">
             {selectedImage + 1} / {images.length}
           </div>
         </div>
