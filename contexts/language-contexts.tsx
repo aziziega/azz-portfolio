@@ -61,6 +61,13 @@ const translations = {
     "blog.article3.date": "December 28, 2025",
     "blog.article3.title": "The Art of Micro-Interactions",
     "blog.article3.desc": "Discover how subtle animations and feedback mechanisms can dramatically improve user experience and product delight.",
+    "blog.comingSoon.badge": "Coming Soon",
+    "blog.comingSoon.title": "Insights & Ideas",
+    "blog.comingSoon.description": "I am writing articles about Next.js, React, TypeScript, system architecture, and modern fullstack development. Something awesome is in the works!",
+    "blog.comingSoon.placeholder": "Enter your email address",
+    "blog.comingSoon.btnNotify": "Notify Me",
+    "blog.comingSoon.btnBack": "Back to Home",
+    "blog.comingSoon.success": "Thank you! I will keep you updated.",
 
     // Newsletter Section
     "newsletter.title": "Stay Updated",
@@ -185,6 +192,13 @@ const translations = {
     "blog.article3.date": "28 Desember 2025",
     "blog.article3.title": "Seni Mikro-Interaksi",
     "blog.article3.desc": "Temukan bagaimana animasi halus dan mekanisme umpan balik dapat secara dramatis meningkatkan pengalaman pengguna dan kepuasan produk.",
+    "blog.comingSoon.badge": "Segera Hadir",
+    "blog.comingSoon.title": "Wawasan & Ide",
+    "blog.comingSoon.description": "Saya sedang menulis artikel seputar Next.js, React, TypeScript, arsitektur sistem, dan pengembangan fullstack modern. Sesuatu yang luar biasa sedang dipersiapkan!",
+    "blog.comingSoon.placeholder": "Masukkan alamat email Anda",
+    "blog.comingSoon.btnNotify": "Beri Tahu Saya",
+    "blog.comingSoon.btnBack": "Kembali ke Beranda",
+    "blog.comingSoon.success": "Terima kasih! Saya akan memberi tahu Anda.",
 
     // Newsletter Section
     "newsletter.title": "Tetap Update",
