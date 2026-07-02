@@ -2,11 +2,11 @@ import { Metadata } from "next"
 import BlogPageClient from "@/components/blog/blog-page-client"
 
 export const metadata: Metadata = {
-  title: "Blog - Thoughts & Tutorials | Azizi E.M.",
-  description: "Technical articles, tutorials, and insights about web development, fullstack engineering, and software best practices.",
+  title: "Writing Hub - External Notes & Articles | Azizi E.M.",
+  description: "Curated external writing, technical notes, build logs, and implementation references from Azizi E.M.",
   openGraph: {
-    title: "Blog - Thoughts & Tutorials | Azizi E.M.",
-    description: "Technical articles, tutorials, and insights about web development, fullstack engineering, and software best practices.",
+    title: "Writing Hub - External Notes & Articles | Azizi E.M.",
+    description: "Curated external writing, technical notes, build logs, and implementation references from Azizi E.M.",
     type: "website",
   },
 }

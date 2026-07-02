@@ -46,9 +46,9 @@ const translations = {
     "techStack.subtitle": "All projects here are based on this tech stack",
 
     // Blog Section
-    "blog.title": "Latest Articles",
+    "blog.title": "External Writing",
     "blog.viewAll": "View All",
-    "blog.readMore": "Read More →",
+    "blog.readMore": "Read Externally →",
     "blog.article1.tag": "Design Systems",
     "blog.article1.date": "January 15, 2026",
     "blog.article1.title": "Building Scalable Component Libraries",
@@ -177,9 +177,9 @@ const translations = {
     "techStack.subtitle": "Semua proyek di sini dibuat dengan teknologi ini",
 
     // Blog Section
-    "blog.title": "Artikel Terbaru",
+    "blog.title": "Tulisan Eksternal",
     "blog.viewAll": "Lihat Semua",
-    "blog.readMore": "Baca Selengkapnya →",
+    "blog.readMore": "Baca Eksternal →",
     "blog.article1.tag": "Sistem Desain",
     "blog.article1.date": "15 Januari 2026",
     "blog.article1.title": "Membangun Pustaka Komponen yang Dapat Diskalakan",

@@ -1,221 +1,233 @@
 "use client"
 
-import { useEffect, useRef } from "react"
 import Link from "next/link"
+import { ArrowUpRight, BookOpen, Github, Linkedin, MessagesSquare, PenLine } from "lucide-react"
+import { getExternalWritingItems, getWritingChannels } from "@/data/blogs"
 import { useLanguage } from "@/contexts/language-contexts"
-import { motion } from "motion/react"
-import { ArrowLeft, PenLine } from "lucide-react"
 
-// --- Animation variants ---
-const fadeUp = (delay: number) => ({
-  initial: { opacity: 0, y: 16 },
-  animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1], delay },
-})
+const pageCopy = {
+  en: {
+    eyebrow: "External Writing Hub",
+    title: "Notes, articles, and build logs.",
+    description:
+      "A curated index of technical writing, implementation notes, and short-form updates I publish outside this portfolio.",
+    featuredLabel: "Featured Channel",
+    collectionLabel: "Curated Reads",
+    channelsLabel: "Writing Channels",
+    visit: "Read externally",
+    backHome: "Back to home",
+    contactTitle: "Want a deeper write-up on a project?",
+    contactText:
+      "I can turn selected portfolio work into practical engineering case studies, architecture breakdowns, or implementation notes.",
+    contactCta: "Start a conversation",
+    sources: "sources",
+  },
+  id: {
+    eyebrow: "Hub Tulisan Eksternal",
+    title: "Catatan, artikel, dan build log.",
+    description:
+      "Indeks kurasi untuk technical writing, catatan implementasi, dan update singkat yang saya publikasikan di luar portfolio ini.",
+    featuredLabel: "Kanal Utama",
+    collectionLabel: "Bacaan Terkurasi",
+    channelsLabel: "Kanal Tulisan",
+    visit: "Baca eksternal",
+    backHome: "Kembali ke home",
+    contactTitle: "Butuh write-up yang lebih mendalam?",
+    contactText:
+      "Saya bisa mengubah project portfolio terpilih menjadi case study engineering, breakdown arsitektur, atau catatan implementasi praktis.",
+    contactCta: "Mulai diskusi",
+    sources: "sumber",
+  },
+}
 
-const fadeIn = (delay: number) => ({
-  initial: { opacity: 0 },
-  animate: { opacity: 1 },
-  transition: { duration: 0.5, ease: "easeOut", delay },
-})
+function PlatformIcon({ platform }: { platform: string }) {
+  if (platform === "LinkedIn") return <Linkedin size={19} strokeWidth={1.8} />
+  if (platform === "GitHub") return <Github size={19} strokeWidth={1.8} />
+  return <MessagesSquare size={19} strokeWidth={1.8} />
+}
 
 export default function BlogPageClient() {
-  const { t } = useLanguage()
-  const canvasRef = useRef<HTMLCanvasElement>(null)
+  const { language } = useLanguage()
+  const copy = pageCopy[language]
+  const writings = getExternalWritingItems(language)
+  const channels = getWritingChannels(language)
+  const featured = writings.find((item) => item.featured) ?? writings[0]
+  const remaining = writings.filter((item) => item.id !== featured.id)
 
-  // ── Canvas particle system ──────────────────────────────────────────────────
-  useEffect(() => {
-    const canvasElement = canvasRef.current
-    if (!canvasElement) return
-    const canvas = canvasElement
-
-    const ctx = canvas.getContext("2d")
-    if (!ctx) return
-
-    let animationFrameId: number
-    let particles: Particle[] = []
-    const mouse = { x: 0, y: 0, radius: 150, isActive: false }
-
-    const resizeCanvas = () => {
-      canvas.width = window.innerWidth
-      canvas.height = window.innerHeight
-      initParticles()
-    }
-
-    class Particle {
-      x: number; y: number; baseX: number; baseY: number
-      size: number; vx: number; vy: number; density: number; color: string
-
-      constructor(x: number, y: number) {
-        this.x = x; this.y = y; this.baseX = x; this.baseY = y
-        this.size = Math.random() * 2 + 1
-        this.vx = (Math.random() - 0.5) * 0.8
-        this.vy = (Math.random() - 0.5) * 0.8
-        this.density = Math.random() * 30 + 10
-        this.color = ""
-      }
-
-      draw(isDark: boolean) {
-        if (!ctx) return
-        ctx.beginPath()
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2)
-        ctx.fillStyle = isDark
-          ? `rgba(255,255,255,${0.12 + this.size * 0.04})`
-          : `rgba(0,0,0,${0.06 + this.size * 0.03})`
-        ctx.fill()
-      }
-
-      update(isDark: boolean) {
-        this.x += this.vx
-        this.y += this.vy
-        if (this.x < 0 || this.x > canvas.width) this.vx = -this.vx
-        if (this.y < 0 || this.y > canvas.height) this.vy = -this.vy
-
-        if (mouse.isActive) {
-          const dx = mouse.x - this.x
-          const dy = mouse.y - this.y
-          const distance = Math.sqrt(dx * dx + dy * dy)
-          if (distance < mouse.radius) {
-            const force = (mouse.radius - distance) / mouse.radius
-            const dirX = dx / distance
-            const dirY = dy / distance
-            this.x += dirX * force * 1.5
-            this.y += dirY * force * 1.5
-            this.x += -dirY * force * 1.0
-            this.y += dirX * force * 1.0
-          }
-        }
-      }
-    }
-
-    const initParticles = () => {
-      particles = []
-      const n = Math.min(Math.floor((canvas.width * canvas.height) / 9000), 120)
-      for (let i = 0; i < n; i++) {
-        particles.push(new Particle(Math.random() * canvas.width, Math.random() * canvas.height))
-      }
-    }
-
-    const connectParticles = (isDark: boolean) => {
-      const maxDist = 120
-      for (let a = 0; a < particles.length; a++) {
-        for (let b = a + 1; b < particles.length; b++) {
-          const dx = particles[a].x - particles[b].x
-          const dy = particles[a].y - particles[b].y
-          const dist = Math.sqrt(dx * dx + dy * dy)
-          if (dist < maxDist && ctx) {
-            const opacity = (1 - dist / maxDist) * 0.1
-            ctx.strokeStyle = isDark ? `rgba(255,255,255,${opacity})` : `rgba(0,0,0,${opacity})`
-            ctx.lineWidth = 0.7
-            ctx.beginPath()
-            ctx.moveTo(particles[a].x, particles[a].y)
-            ctx.lineTo(particles[b].x, particles[b].y)
-            ctx.stroke()
-          }
-        }
-      }
-    }
-
-    const animate = () => {
-      if (!ctx || !canvas) return
-      const isDark =
-        document.documentElement.classList.contains("dark") ||
-        (typeof window !== "undefined" && window.matchMedia("(prefers-color-scheme: dark)").matches)
-      ctx.clearRect(0, 0, canvas.width, canvas.height)
-      particles.forEach((p) => { p.update(isDark); p.draw(isDark) })
-      connectParticles(isDark)
-      animationFrameId = requestAnimationFrame(animate)
-    }
-
-    const handleMouseMove = (e: MouseEvent) => {
-      mouse.x = e.clientX; mouse.y = e.clientY; mouse.isActive = true
-    }
-    const handleMouseLeave = () => { mouse.isActive = false }
-
-    window.addEventListener("resize", resizeCanvas)
-    window.addEventListener("mousemove", handleMouseMove)
-    document.addEventListener("mouseleave", handleMouseLeave)
-    resizeCanvas()
-    animate()
-
-    return () => {
-      window.removeEventListener("resize", resizeCanvas)
-      window.removeEventListener("mousemove", handleMouseMove)
-      document.removeEventListener("mouseleave", handleMouseLeave)
-      cancelAnimationFrame(animationFrameId)
-    }
-  }, [])
-
-  // ── JSX ─────────────────────────────────────────────────────────────────────
   return (
-    <div className="relative min-h-screen w-full flex items-center justify-center overflow-hidden px-4 bg-white dark:bg-neutral-950">
-
-      {/* Particle canvas */}
-      <canvas
-        ref={canvasRef}
-        className="fixed inset-0 w-full h-full pointer-events-none z-0"
-      />
-
-      {/* Subtle radial glow — neutral, not colored */}
-      <div className="absolute inset-0 z-0 pointer-events-none bg-[radial-gradient(ellipse_60%_50%_at_50%_40%,rgba(0,0,0,0.04)_0%,transparent_100%)] dark:bg-[radial-gradient(ellipse_60%_50%_at_50%_40%,rgba(255,255,255,0.04)_0%,transparent_100%)]" />
-
-      {/* ── Glass card ── */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-        className="relative z-10 w-full max-w-lg"
-      >
-        {/* Outer border ring */}
-        <div className="absolute -inset-px rounded-[28px] bg-gradient-to-b from-neutral-200/80 to-neutral-100/30 dark:from-white/10 dark:to-white/0 pointer-events-none" />
-
-        <div className="relative rounded-[28px] bg-white/70 dark:bg-neutral-900/70 backdrop-blur-2xl shadow-[0_8px_48px_rgba(0,0,0,0.08)] dark:shadow-[0_8px_48px_rgba(0,0,0,0.5)] p-12 md:p-16 flex flex-col items-center justify-center text-center gap-6 overflow-hidden">
-
-          {/* Subtle inner highlight at top */}
-          <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-neutral-300/60 to-transparent dark:via-white/10" />
-
-          {/* Icon */}
-          <div className="flex items-center justify-center w-16 h-16 rounded-2xl bg-neutral-100 dark:bg-neutral-800 border border-neutral-200/80 dark:border-neutral-700/60 shadow-xs">
-            <PenLine size={28} strokeWidth={1.5} className="text-neutral-700 dark:text-neutral-200" />
-          </div>
-
-          {/* Status pill */}
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-neutral-200/80 dark:border-neutral-700/60 bg-neutral-50/80 dark:bg-neutral-800/60 text-[11px] font-semibold uppercase tracking-widest text-neutral-500 dark:text-neutral-400">
-            <span className="relative flex h-1.5 w-1.5">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-neutral-400 dark:bg-neutral-500 opacity-60" />
-              <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-neutral-500 dark:bg-neutral-400" />
+    <main style={{ paddingTop: "80px" }}>
+      {/* Hero Section */}
+      <section className="section" style={{ paddingBottom: "40px", borderBottom: "1px solid var(--border)" }}>
+        <div className="container">
+          <div className="animate-on-scroll animate-in">
+            <span className="card-tag" style={{ marginBottom: "20px", display: "inline-flex", alignItems: "center", gap: "6px" }}>
+              <PenLine size={14} />
+              {copy.eyebrow}
             </span>
-            {t("blog.comingSoon.badge")}
-          </div>
-
-          {/* Heading */}
-          <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-neutral-900 dark:text-white leading-snug">
-            {t("blog.comingSoon.title")}
-          </h1>
-
-          {/* Divider */}
-          <div className="w-12 h-px bg-neutral-300 dark:bg-neutral-700" />
-
-          {/* Description */}
-          <p className="text-sm md:text-base text-neutral-500 dark:text-neutral-400 leading-relaxed max-w-sm">
-            {t("blog.comingSoon.description")}
-          </p>
-
-          {/* Back button */}
-          <div className="pt-2">
-            <Link
-              href="/"
-              className="group inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-medium border border-neutral-200 dark:border-neutral-700/80 bg-neutral-50/80 dark:bg-neutral-800/60 text-neutral-600 dark:text-neutral-300 hover:border-neutral-400 dark:hover:border-neutral-500 hover:text-neutral-900 dark:hover:text-white hover:bg-white dark:hover:bg-neutral-800 transition-all duration-200 shadow-xs"
-            >
-              <ArrowLeft
-                size={15}
-                className="transition-transform duration-200 group-hover:-translate-x-0.5"
-              />
-              {t("blog.comingSoon.btnBack")}
-            </Link>
+            <h1 style={{ fontSize: "clamp(40px, 5vw, 64px)", fontWeight: 800, letterSpacing: "-2px", lineHeight: 1.1, maxWidth: "800px", marginBottom: "24px", color: "var(--text-primary)" }}>
+              {copy.title}
+            </h1>
+            <p style={{ fontSize: "18px", color: "var(--text-secondary)", maxWidth: "600px", marginBottom: "32px", lineHeight: 1.6 }}>
+              {copy.description}
+            </p>
+            <div style={{ display: "flex", gap: "16px", flexWrap: "wrap" }}>
+              <Link
+                href="/"
+                style={{ padding: "12px 24px", border: "1px solid var(--border)", borderRadius: "4px", fontSize: "14px", fontWeight: 600, transition: "0.3s", color: "var(--text-primary)", background: "var(--bg)" }}
+                onMouseOver={(e) => e.currentTarget.style.borderColor = "var(--text-primary)"}
+                onMouseOut={(e) => e.currentTarget.style.borderColor = "var(--border)"}
+              >
+                {copy.backHome}
+              </Link>
+              <a
+                href={featured.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ padding: "12px 24px", background: "var(--accent)", color: "white", borderRadius: "4px", fontSize: "14px", fontWeight: 600, display: "flex", alignItems: "center", gap: "8px", transition: "0.3s" }}
+                onMouseOver={(e) => e.currentTarget.style.opacity = "0.9"}
+                onMouseOut={(e) => e.currentTarget.style.opacity = "1"}
+              >
+                {copy.visit}
+                <ArrowUpRight size={16} />
+              </a>
+            </div>
           </div>
         </div>
-      </motion.div>
-    </div>
+      </section>
+
+      {/* Featured & Channels Section */}
+      <section className="section blog-section">
+        <div className="container">
+          <div style={{ display: "grid", gridTemplateColumns: "1.3fr 1fr", gap: "30px" }} className="featured-grid">
+            {/* Featured Article */}
+            <article className="card animate-on-scroll animate-in" style={{ height: "100%" }}>
+              <div className="card-content" style={{ padding: "40px", display: "flex", flexDirection: "column", height: "100%" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "30px" }}>
+                  <span className="card-tag" style={{ margin: 0, padding: "6px 12px", background: "var(--border)", borderRadius: "4px", color: "var(--text-primary)" }}>
+                    {copy.featuredLabel}
+                  </span>
+                  <div style={{ padding: "12px", background: "var(--gray-light)", borderRadius: "12px", color: "var(--text-primary)" }}>
+                    <PlatformIcon platform={featured.platform} />
+                  </div>
+                </div>
+                <div className="blog-date">{featured.platform} · {featured.category} · {featured.readTime}</div>
+                <h2 style={{ fontSize: "clamp(24px, 3vw, 36px)", fontWeight: 700, marginBottom: "20px", letterSpacing: "-1px", lineHeight: 1.2, color: "var(--text-primary)" }}>
+                  {featured.title}
+                </h2>
+                <p className="card-desc" style={{ fontSize: "16px", marginBottom: "40px" }}>
+                  {featured.excerpt}
+                </p>
+                <a href={featured.url} target="_blank" rel="noopener noreferrer" className="read-more" style={{ marginTop: "auto", fontSize: "15px", display: "inline-flex", alignItems: "center", gap: "6px" }}>
+                  {copy.visit}
+                  <ArrowUpRight size={16} />
+                </a>
+              </div>
+            </article>
+
+            {/* Channels */}
+            <div className="card animate-on-scroll animate-in" style={{ background: "var(--text-primary)", color: "white", borderColor: "var(--text-primary)", height: "100%" }}>
+              <div className="card-content" style={{ padding: "40px" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "30px" }}>
+                  <BookOpen size={20} />
+                  <h3 style={{ fontSize: "14px", textTransform: "uppercase", letterSpacing: "2px", fontWeight: 700 }}>
+                    {copy.channelsLabel}
+                  </h3>
+                </div>
+                <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+                  {channels.map((channel) => (
+                    <a
+                      key={channel.id}
+                      href={channel.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{ padding: "24px", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "8px", transition: "0.3s", display: "block" }}
+                      onMouseOver={(e) => { e.currentTarget.style.background = "rgba(255,255,255,0.05)"; e.currentTarget.style.borderColor = "rgba(255,255,255,0.2)" }}
+                      onMouseOut={(e) => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.borderColor = "rgba(255,255,255,0.1)" }}
+                    >
+                      <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "12px", fontWeight: 600, fontSize: "16px", color: "white" }}>
+                        <span>{channel.name}</span>
+                        <ArrowUpRight size={16} style={{ color: "rgba(255,255,255,0.5)" }} />
+                      </div>
+                      <p style={{ fontSize: "14px", color: "rgba(255,255,255,0.6)", marginBottom: "16px", lineHeight: 1.5 }}>
+                        {channel.description}
+                      </p>
+                      <span style={{ fontSize: "11px", textTransform: "uppercase", letterSpacing: "1px", fontWeight: 700, color: "rgba(255,255,255,0.9)" }}>
+                        {channel.label}
+                      </span>
+                    </a>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Curated Reads (Grid) */}
+      <section className="section">
+        <div className="container">
+          <div className="section-header animate-on-scroll animate-in">
+            <h2 className="section-title">{copy.collectionLabel}</h2>
+            <span style={{ color: "var(--text-secondary)", fontSize: "14px", fontWeight: 500 }}>
+              {writings.length} {copy.sources}
+            </span>
+          </div>
+          <div className="grid">
+            {remaining.map((item) => (
+              <article key={item.id} className="card animate-on-scroll animate-in" style={{ display: "flex", flexDirection: "column" }}>
+                <div className="card-content" style={{ display: "flex", flexDirection: "column", height: "100%", flex: 1 }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "16px" }}>
+                    <span className="card-tag" style={{ margin: 0 }}>{item.platform}</span>
+                    <span className="blog-date" style={{ margin: 0 }}>{item.date}</span>
+                  </div>
+                  <h3 className="card-title">{item.title}</h3>
+                  <p className="card-desc" style={{ marginBottom: "24px" }}>{item.excerpt}</p>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "auto", paddingTop: "20px" }}>
+                    <span className="card-tag" style={{ margin: 0, padding: "4px 8px", background: "var(--gray-light)", borderRadius: "4px" }}>
+                      {item.category}
+                    </span>
+                    <a href={item.url} target="_blank" rel="noopener noreferrer" className="read-more" style={{ margin: 0, display: "flex", alignItems: "center", gap: "4px" }}>
+                      {copy.visit}
+                      <ArrowUpRight size={14} />
+                    </a>
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Section */}
+      <section className="section" style={{ paddingBottom: "120px" }}>
+        <div className="container">
+          <div className="newsletter animate-on-scroll animate-in" style={{ margin: 0, background: "var(--gray-light)", border: "1px solid var(--border)", padding: "80px 40px" }}>
+            <div className="newsletter-inner">
+              <h2 style={{ fontSize: "clamp(24px, 4vw, 32px)", fontWeight: 700, letterSpacing: "-1px", marginBottom: "16px", color: "var(--text-primary)" }}>
+                {copy.contactTitle}
+              </h2>
+              <p style={{ color: "var(--text-secondary)", fontSize: "16px", marginBottom: "32px", lineHeight: 1.6 }}>
+                {copy.contactText}
+              </p>
+              <Link
+                href="/#contact"
+                className="btn-submit"
+                style={{ display: "inline-flex", alignItems: "center", gap: "8px", width: "auto", borderRadius: "4px", padding: "14px 28px", background: "var(--accent)", color: "white" }}
+              >
+                {copy.contactCta}
+                <ArrowUpRight size={16} />
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+      <style dangerouslySetInnerHTML={{__html: `
+        @media (max-width: 1024px) {
+          .featured-grid {
+            grid-template-columns: 1fr !important;
+          }
+        }
+      `}} />
+    </main>
   )
 }
