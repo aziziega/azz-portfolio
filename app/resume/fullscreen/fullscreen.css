@@ -1,0 +1,66 @@
+/* ══════════════════════════════════════════
+   Resume Fullscreen Page Styles
+   /app/resume/fullscreen/fullscreen.css
+══════════════════════════════════════════ */
+
+.fullscreen-root {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #1a1a1a;
+  overflow: hidden;
+}
+
+.fullscreen-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 20px;
+  background: #111111;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  flex-shrink: 0;
+  z-index: 10;
+}
+
+.fullscreen-title {
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.6);
+  font-family: 'Geist', Inter, -apple-system, sans-serif;
+}
+
+@media (max-width: 640px) {
+  .fullscreen-title { display: none; }
+}
+
+/* Override btn styles for dark bg */
+.fullscreen-bar .resume-btn-ghost {
+  color: rgba(255,255,255,0.75);
+  border-color: rgba(255,255,255,0.15);
+  background: transparent;
+}
+.fullscreen-bar .resume-btn-ghost:hover {
+  background: rgba(255,255,255,0.08);
+  border-color: rgba(255,255,255,0.25);
+  color: #fff;
+}
+
+.fullscreen-viewer {
+  flex: 1;
+  width: 100%;
+  overflow: hidden;
+}
+
+.fullscreen-iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
+
+@media print {
+  .fullscreen-bar { display: none; }
+  .fullscreen-root { height: auto; }
+  .fullscreen-viewer { height: 100vh; }
+}

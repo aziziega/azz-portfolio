@@ -1,6 +1,7 @@
 "use client"
 import { useEffect, useState } from "react"
 import Link from "next/link"
+import { usePathname } from "next/navigation"
 // import { ModeToggle } from "@/components/theme-toggle"
 // import { LanguageToggle } from "@/components/language-toggle"
 import { useLanguage } from "@/contexts/language-contexts"
@@ -12,6 +13,7 @@ export default function Header() {
     const [currentTime, setCurrentTime] = useState(new Date())
     const [mounted, setMounted] = useState(false)
     const { language, setLanguage, t } = useLanguage()
+    const pathname = usePathname()
 
     // Set mounted to true on client-side to prevent hydration mismatch
     useEffect(() => {
@@ -26,6 +28,9 @@ export default function Header() {
 
         return () => clearInterval(timer)
     }, [])
+
+    // Hide header on standalone resume pages (placed after hooks to avoid hook order mismatch)
+    if (pathname?.startsWith("/resume")) return null
 
     const toggleLanguage = () => {
         setLanguage(language === "en" ? "id" : "en")
