@@ -1,11 +1,42 @@
 "use client"
 
-import { getFeaturedExternalWriting } from "@/data/blogs"
+import { useEffect, useState } from "react"
 import { useLanguage } from "@/contexts/language-contexts"
 
+interface Article {
+  id: string
+  title: string
+  excerpt: string
+  url: string
+  date: string
+  readTime: string
+  platform: string
+  category: string
+}
+
 export default function Blog() {
-    const { language, t } = useLanguage()
-    const writings = getFeaturedExternalWriting(language, 3)
+    const { t } = useLanguage()
+    
+    const [articles, setArticles] = useState<Article[]>([])
+    const [loading, setLoading] = useState(true)
+
+    useEffect(() => {
+        async function fetchArticles() {
+            try {
+                const res = await fetch('/api/medium')
+                if (res.ok) {
+                    const data = await res.json()
+                    // Ambil maksimal 3 artikel terbaru untuk landing page
+                    setArticles((data.articles || []).slice(0, 3))
+                }
+            } catch (err) {
+                console.error('Failed to fetch articles:', err)
+            } finally {
+                setLoading(false)
+            }
+        }
+        fetchArticles()
+    }, [])
 
     return (
         <>
@@ -17,21 +48,34 @@ export default function Blog() {
                             {t("blog.viewAll")}
                         </a>
                     </div>
-                    <div className="grid">
-                        {writings.map((writing) => (
-                            <article key={writing.id} className="card animate-on-scroll">
-                                <div className="card-content">
-                                    <span className="card-tag">{writing.platform} / {writing.category}</span>
-                                    <div className="blog-date">{writing.date} · {writing.readTime}</div>
-                                    <h3 className="card-title">{writing.title}</h3>
-                                    <p className="card-desc">{writing.excerpt}</p>
-                                    <a href={writing.url} target="_blank" rel="noopener noreferrer" className="read-more">
-                                        {t("blog.readMore")}
-                                    </a>
-                                </div>
-                            </article>
-                        ))}
-                    </div>
+                    {loading ? (
+                        <div style={{ padding: "40px 0", textAlign: "center", color: "var(--text-secondary)" }}>
+                            Loading articles...
+                        </div>
+                    ) : (
+                        <div className="grid">
+                            {articles.map((writing) => (
+                                <article key={writing.id} className="card animate-on-scroll animate-in" style={{ display: "flex", flexDirection: "column" }}>
+                                    <div className="card-content" style={{ display: "flex", flexDirection: "column", height: "100%", flex: 1 }}>
+                                        <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "16px" }}>
+                                            <span className="card-tag" style={{ margin: 0 }}>{writing.platform}</span>
+                                            <span className="blog-date" style={{ margin: 0 }}>{writing.date}</span>
+                                        </div>
+                                        <h3 className="card-title">{writing.title}</h3>
+                                        <p className="card-desc" style={{ marginBottom: "24px" }}>{writing.excerpt}</p>
+                                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "auto", paddingTop: "20px" }}>
+                                            <span className="card-tag" style={{ margin: 0, padding: "4px 8px", background: "var(--gray-light)", borderRadius: "4px", maxWidth: "150px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                                                {writing.category}
+                                            </span>
+                                            <a href={writing.url} target="_blank" rel="noopener noreferrer" className="read-more" style={{ margin: 0 }}>
+                                                {t("blog.readMore")}
+                                            </a>
+                                        </div>
+                                    </div>
+                                </article>
+                            ))}
+                        </div>
+                    )}
                 </div>
             </section>
         </>
