@@ -23,11 +23,21 @@ export default function Blog() {
     useEffect(() => {
         async function fetchArticles() {
             try {
-                const res = await fetch('/api/medium')
+                const res = await fetch('/api/writings')
                 if (res.ok) {
                     const data = await res.json()
+                    const resolved = (data.writings || []).map((w: any) => ({
+                        id: w.id,
+                        title: w.title,
+                        excerpt: w.excerpt || "",
+                        url: w.url,
+                        date: w.published_date || "",
+                        readTime: w.read_time || "",
+                        platform: w.platform,
+                        category: w.category || "Article"
+                    }))
                     // Ambil maksimal 3 artikel terbaru untuk landing page
-                    setArticles((data.articles || []).slice(0, 3))
+                    setArticles(resolved.slice(0, 3))
                 }
             } catch (err) {
                 console.error('Failed to fetch articles:', err)
@@ -37,6 +47,30 @@ export default function Blog() {
         }
         fetchArticles()
     }, [])
+
+    // Handle scroll-in animation for dynamically loaded articles
+    useEffect(() => {
+        if (loading || articles.length === 0) return
+
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: "0px 0px -100px 0px",
+        }
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("animate-in")
+                }
+            })
+        }, observerOptions)
+
+        const section = document.getElementById("blog")
+        const animatedElements = section?.querySelectorAll(".animate-on-scroll")
+        animatedElements?.forEach((el) => observer.observe(el))
+
+        return () => observer.disconnect()
+    }, [loading, articles])
 
     return (
         <>

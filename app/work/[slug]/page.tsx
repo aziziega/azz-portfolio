@@ -1,49 +1,51 @@
-import { Metadata } from "next"
-import { getProjectBySlug, getAllProjectSlugs } from "@/data/projects"
-import { notFound } from "next/navigation"
-import ProjectDetailClient from "@/components/work/project-detail-client"
+export const dynamic = "force-dynamic"
 
-export async function generateStaticParams() {
-  const slugs = getAllProjectSlugs()
-  return slugs.map((slug) => ({ slug }))
-}
+import { Metadata } from "next"
+import { notFound } from "next/navigation"
+import { getRawProjectBySlug, getAllPublicSlugs } from "@/lib/cms/projects"
+import ProjectDetailClient from "@/components/work/project-detail-client"
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params
-  const project = getProjectBySlug(slug, "en")
+  const project = await getRawProjectBySlug(slug)
 
   if (!project) {
     return { title: "Project Not Found" }
   }
 
+  const titleText = project.title?.en || ""
+  const taglineText = project.tagline?.en || ""
+  const descriptionText = project.description?.en || ""
+  const thumbnailUrl = project.thumbnail_url || ""
+
   return {
-    title: `${project.title} - Portfolio Project | Azizi E.M.`,
-    description: project.description,
+    title: `${titleText} - Portfolio Project | Azizi E.M.`,
+    description: descriptionText,
     openGraph: {
-      title: project.title,
-      description: project.tagline,
+      title: titleText,
+      description: taglineText,
       type: "website",
-      images: [{ url: project.thumbnail }],
+      images: [{ url: thumbnailUrl }],
     },
   }
 }
 
 export default async function ProjectDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
-  const project = getProjectBySlug(slug, "en")
+  const project = await getRawProjectBySlug(slug)
 
   if (!project) {
     notFound()
   }
 
-  const allSlugs = getAllProjectSlugs()
+  const allSlugs = await getAllPublicSlugs()
   const currentIndex = allSlugs.indexOf(slug)
   const previousSlug = currentIndex > 0 ? allSlugs[currentIndex - 1] : null
   const nextSlug = currentIndex < allSlugs.length - 1 ? allSlugs[currentIndex + 1] : null
 
   return (
     <ProjectDetailClient 
-      slug={slug} 
+      project={project} 
       previousSlug={previousSlug} 
       nextSlug={nextSlug} 
     />

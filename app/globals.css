@@ -571,6 +571,12 @@ nav {
   gap: 30px;
 }
 
+.grid > a {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
 .card {
   background: white;
   border: 1px solid var(--border);
@@ -578,6 +584,8 @@ nav {
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  height: 100%;
+  flex: 1;
 }
 
 .card:hover {
@@ -600,6 +608,9 @@ nav {
 
 .card-content {
   padding: 24px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 }
 
 .card-tag {

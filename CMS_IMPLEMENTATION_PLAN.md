@@ -504,6 +504,31 @@ Konten dashboard:
 - Artikel external published.
 - Quick action: `New Project`, `View Messages`, `Edit Site Copy`.
 
+Opsi desain dashboard yang bisa dipilih:
+
+- **Option A: Minimal Editorial Admin**
+  - Cocok untuk CMS pribadi yang fokus ke konten dan kecepatan edit.
+  - Layout: sidebar kiri sederhana, top bar tipis, card statistik clean, table recent activity.
+  - Visual: banyak whitespace, typography tegas, border halus, warna netral dengan satu accent color.
+  - Prioritas: mudah dibaca, ringan, cepat dibuat, konsisten dengan portfolio yang minimal.
+- **Option B: Portfolio Command Center**
+  - Cocok jika dashboard ingin terasa seperti control room personal brand.
+  - Layout: hero summary di atas, KPI cards, quick actions besar, recent messages, project health/status.
+  - Visual: dark mode first, gradient subtle, cards glass/soft shadow, accent hijau/biru.
+  - Prioritas: lebih standout dan cocok untuk admin yang juga terasa branded.
+- **Option C: Content Kanban Dashboard**
+  - Cocok jika workflow project sering berpindah dari draft ke published.
+  - Layout: kolom `Draft`, `Ready`, `Published`, `Archived`, plus quick metrics di atas.
+  - Visual: compact cards, status badges, drag-friendly spacing.
+  - Prioritas: memantau pipeline konten dan status project secara visual.
+- **Option D: Analytics-Light Dashboard**
+  - Cocok jika nanti ingin membaca performa tanpa setup analytics kompleks dari awal.
+  - Layout: KPI cards, chart sederhana opsional, top projects, latest messages, subscriber growth.
+  - Visual: data-focused, table rapi, chart minimal.
+  - Prioritas: insight cepat, tetapi beberapa data seperti views/traffic perlu integrasi analytics tambahan.
+
+Rekomendasi awal: pilih **Option A: Minimal Editorial Admin** untuk versi pertama karena paling cepat diimplementasikan, mudah dirawat, dan cukup untuk kebutuhan CMS pribadi. Jika ingin admin panel terasa lebih unik dan branded, pilih **Option B: Portfolio Command Center**.
+
 ### Projects List
 
 Fitur:
@@ -845,6 +870,7 @@ Sebelum mulai coding, jawab keputusan berikut agar implementasi tidak salah arah
 8. Gambar project wajib upload ke Supabase Storage, atau masih boleh pakai path dari `public/`?
 9. Project detail tetap format fixed seperti sekarang, atau ingin section custom per project?
 10. Perlu preview draft dengan URL khusus atau cukup preview di admin form?
+11. Desain dashboard admin mau pakai Option A Minimal Editorial Admin, Option B Portfolio Command Center, Option C Content Kanban Dashboard, atau Option D Analytics-Light Dashboard?
 
 ## 17. Rekomendasi Eksekusi Pertama
 

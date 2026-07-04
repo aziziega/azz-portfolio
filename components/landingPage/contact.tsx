@@ -1,9 +1,50 @@
 "use client"
 
 import { useLanguage } from "@/contexts/language-contexts"
+import { useState } from "react"
 
 export default function Contact() {
     const { t } = useLanguage()
+    const [name, setName] = useState("")
+    const [email, setEmail] = useState("")
+    const [subject, setSubject] = useState("")
+    const [message, setMessage] = useState("")
+    
+    const [loading, setLoading] = useState(false)
+    const [success, setSuccess] = useState(false)
+    const [error, setError] = useState("")
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault()
+        setLoading(true)
+        setError("")
+        setSuccess(false)
+
+        try {
+            const response = await fetch("/api/contact", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ name, email, subject, message }),
+            })
+
+            const data = await response.json()
+            if (!response.ok) {
+                throw new Error(data.message || "Failed to send message")
+            }
+
+            setSuccess(true)
+            setName("")
+            setEmail("")
+            setSubject("")
+            setMessage("")
+        } catch (err: any) {
+            console.error(err)
+            setError(err.message || "Something went wrong")
+        } finally {
+            setLoading(false)
+        }
+    }
+
     return (
         <>
             <section id="contact" className="section contact-section">
@@ -31,27 +72,37 @@ export default function Contact() {
                                 </div>
                             </div>
                         </div>
-                        <form className="contact-form">
+                        <form onSubmit={handleSubmit} className="contact-form">
+                            {success && (
+                                <div style={{ background: "rgba(16,185,129,0.1)", border: "1px solid rgba(16,185,129,0.3)", color: "#34d399", padding: "12px", borderRadius: "6px", marginBottom: "16px", fontSize: "14px" }}>
+                                    Message sent successfully! Thank you.
+                                </div>
+                            )}
+                            {error && (
+                                <div style={{ background: "rgba(239,68,68,0.1)", border: "1px solid rgba(239,68,68,0.3)", color: "#f87171", padding: "12px", borderRadius: "6px", marginBottom: "16px", fontSize: "14px" }}>
+                                    {error}
+                                </div>
+                            )}
                             <div className="form-row">
                                 <div className="form-field">
                                     <label htmlFor="name">{t("contact.form.name")}</label>
-                                    <input type="text" id="name" name="name" placeholder={t("contact.form.namePlaceholder")} required />
+                                    <input type="text" id="name" value={name} onChange={(e) => setName(e.target.value)} placeholder={t("contact.form.namePlaceholder")} required disabled={loading} />
                                 </div>
                                 <div className="form-field">
                                     <label htmlFor="email">{t("contact.form.email")}</label>
-                                    <input type="email" id="email" name="email" placeholder={t("contact.form.emailPlaceholder")} required />
+                                    <input type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder={t("contact.form.emailPlaceholder")} required disabled={loading} />
                                 </div>
                             </div>
                             <div className="form-field">
                                 <label htmlFor="subject">{t("contact.form.subject")}</label>
-                                <input type="text" id="subject" name="subject" placeholder={t("contact.form.subjectPlaceholder")} required />
+                                <input type="text" id="subject" value={subject} onChange={(e) => setSubject(e.target.value)} placeholder={t("contact.form.subjectPlaceholder")} required disabled={loading} />
                             </div>
                             <div className="form-field">
                                 <label htmlFor="message">{t("contact.form.message")}</label>
-                                <textarea id="message" name="message" rows={5} placeholder={t("contact.form.messagePlaceholder")} required></textarea>
+                                <textarea id="message" value={message} onChange={(e) => setMessage(e.target.value)} rows={5} placeholder={t("contact.form.messagePlaceholder")} required disabled={loading}></textarea>
                             </div>
-                            <button type="submit" className="btn-submit">
-                                {t("contact.form.submit")}
+                            <button type="submit" className="btn-submit" disabled={loading}>
+                                {loading ? "Sending..." : t("contact.form.submit")}
                             </button>
                         </form>
                     </div>

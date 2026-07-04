@@ -62,10 +62,20 @@ export default function BlogPageClient() {
   useEffect(() => {
     async function fetchArticles() {
       try {
-        const res = await fetch('/api/medium')
+        const res = await fetch('/api/writings')
         if (!res.ok) throw new Error('Network error')
         const data = await res.json()
-        setArticles(data.articles || [])
+        const resolved = (data.writings || []).map((w: any) => ({
+          id: w.id,
+          title: w.title,
+          excerpt: w.excerpt || "",
+          url: w.url,
+          date: w.published_date || "",
+          readTime: w.read_time || "",
+          platform: w.platform,
+          category: w.category || "Article"
+        }))
+        setArticles(resolved)
       } catch (err) {
         console.error('Failed to fetch articles:', err)
         setError(true)

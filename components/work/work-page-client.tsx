@@ -1,12 +1,30 @@
 "use client"
 
-import { getAllProjects } from "@/data/projects"
+import { useEffect, useState } from "react"
 import ProjectListItem from "@/components/work/project-list-item"
 import { useLanguage } from "@/contexts/language-contexts"
 
 export default function WorkPageClient() {
   const { language, t } = useLanguage()
-  const allProjects = getAllProjects(language).sort((a, b) => a.order - b.order)
+  const [projects, setProjects] = useState<any[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    async function fetchProjects() {
+      try {
+        const res = await fetch(`/api/projects?lang=${language}`)
+        if (res.ok) {
+          const data = await res.json()
+          setProjects(data.projects || [])
+        }
+      } catch (err) {
+        console.error("Failed to fetch projects:", err)
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchProjects()
+  }, [language])
 
   return (
     <main className="work-list-main">
@@ -31,13 +49,23 @@ export default function WorkPageClient() {
 
       {/* Stacked List */}
       <section className="work-list-section">
-        {allProjects.map((project, index) => (
-          <ProjectListItem
-            key={project.id}
-            project={project}
-            index={index}
-          />
-        ))}
+        {loading ? (
+          <div style={{ padding: "80px 0", textAlign: "center", color: "rgba(255,255,255,0.4)" }}>
+            Loading projects...
+          </div>
+        ) : projects.length === 0 ? (
+          <div style={{ padding: "80px 0", textAlign: "center", color: "rgba(255,255,255,0.4)" }}>
+            No projects found.
+          </div>
+        ) : (
+          projects.map((project, index) => (
+            <ProjectListItem
+              key={project.id}
+              project={project}
+              index={index}
+            />
+          ))
+        )}
       </section>
 
       {/* CTA Footer Section */}
@@ -72,17 +100,17 @@ export default function WorkPageClient() {
 
           <div className="work-footer-stats">
             <div className="work-footer-stat">
-              <span className="work-footer-stat-number">{allProjects.length}</span>
+              <span className="work-footer-stat-number">{projects.length}</span>
               <span className="work-footer-stat-label">{t("work.footer.stat.projects")}</span>
             </div>
             <div className="work-footer-stat-divider" />
             <div className="work-footer-stat">
-              <span className="work-footer-stat-number">{allProjects.filter(p => p.featured).length}</span>
+              <span className="work-footer-stat-number">{projects.filter(p => p.featured).length}</span>
               <span className="work-footer-stat-label">{t("work.footer.stat.featured")}</span>
             </div>
             <div className="work-footer-stat-divider" />
             <div className="work-footer-stat">
-              <span className="work-footer-stat-number">{new Set(allProjects.flatMap(p => p.techStack)).size}+</span>
+              <span className="work-footer-stat-number">{new Set(projects.flatMap(p => p.techStack || [])).size}+</span>
               <span className="work-footer-stat-label">{t("work.footer.stat.tech")}</span>
             </div>
           </div>

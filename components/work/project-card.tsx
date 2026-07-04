@@ -48,7 +48,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
           </div>
 
           {/* Client & Year */}
-          <div className="mt-4 pt-4 border-t border-gray-100 flex justify-between items-center text-sm text-gray-500">
+          <div className="mt-auto pt-4 border-t border-gray-100 flex justify-between items-center text-sm text-gray-500">
             <span>{project.client}</span>
             <span>{project.year}</span>
           </div>

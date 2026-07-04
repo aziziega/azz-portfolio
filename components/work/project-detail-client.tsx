@@ -1,22 +1,58 @@
 "use client"
 
 import Link from "next/link"
-import { getProjectBySlug } from "@/data/projects"
 import ImageGallery from "@/components/work/project-detail/image-gallery"
 import { useLanguage } from "@/contexts/language-contexts"
 
 interface ProjectDetailClientProps {
-  slug: string
+  project: any
   previousSlug: string | null
   nextSlug: string | null
 }
 
-export default function ProjectDetailClient({ slug, previousSlug, nextSlug }: ProjectDetailClientProps) {
+export default function ProjectDetailClient({ project: rawProject, previousSlug, nextSlug }: ProjectDetailClientProps) {
   const { language, t } = useLanguage()
-  const project = getProjectBySlug(slug, language)
 
-  if (!project) {
+  if (!rawProject) {
     return null
+  }
+
+  const getField = (field: any) => {
+    if (!field) return ""
+    if (typeof field === "string") return field
+    return field[language] || field["en"] || ""
+  }
+
+  const getList = (list: any[]) => {
+    return (list || []).map(item => {
+      if (!item) return ""
+      if (typeof item === "string") return item
+      return item[language] || item["en"] || ""
+    })
+  }
+
+  const project = {
+    title: getField(rawProject.title),
+    tagline: getField(rawProject.tagline),
+    description: getField(rawProject.description),
+    category: getField(rawProject.category),
+    year: rawProject.year,
+    duration: getField(rawProject.duration),
+    role: getField(rawProject.role),
+    client: getField(rawProject.client),
+    teamSize: getField(rawProject.team_size),
+    liveUrl: rawProject.live_url,
+    githubUrl: rawProject.github_url,
+    problem: getField(rawProject.problem),
+    solution: getField(rawProject.solution),
+    features: getList(rawProject.features),
+    challenges: getList(rawProject.challenges),
+    outcomes: getList(rawProject.outcomes),
+    designProcess: getList(rawProject.design_process),
+    lessonsLearned: getList(rawProject.lessons_learned),
+    techStack: rawProject.tech_stack || [],
+    images: rawProject.images || [],
+    featured: rawProject.featured
   }
 
   return (

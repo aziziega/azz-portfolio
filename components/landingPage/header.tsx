@@ -29,8 +29,8 @@ export default function Header() {
         return () => clearInterval(timer)
     }, [])
 
-    // Hide header on standalone resume pages (placed after hooks to avoid hook order mismatch)
-    if (pathname?.startsWith("/resume")) return null
+    // Hide header on standalone resume pages and admin pages (placed after hooks to avoid hook order mismatch)
+    if (pathname?.startsWith("/resume") || pathname?.startsWith("/admin")) return null
 
     const toggleLanguage = () => {
         setLanguage(language === "en" ? "id" : "en")
