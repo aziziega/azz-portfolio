@@ -289,11 +289,20 @@ nav {
   align-items: flex-start;
 }
 
+@media (min-width: 1024px) {
+  .hero-layout {
+    padding-left: 200px;
+  }
+}
+
 .hero-content-wrapper {
   display: flex;
   gap: 60px;
   align-items: flex-start;
   flex: 1;
+  position: relative;
+  z-index: 10;
+  pointer-events: auto;
 }
 
 /* Added creative profile image styling with circular crop and background accent */
@@ -344,6 +353,9 @@ nav {
   padding-right: 20px;
   /* Added minimum height to prevent layout shift during typing */
   min-height: 600px;
+  position: relative;
+  z-index: 10;
+  pointer-events: auto;
 }
 
 .hero-content {
@@ -1060,8 +1072,10 @@ footer {
     border-right: none;
     border-bottom: 1px solid var(--border);
     padding: 0px 0px 20px;
-    font-size: 60px;
+    font-size: 40px;
+    letter-spacing: -1.5px;
     text-align: center;
+    width: 100%;
     min-height: auto; /* Revert min-height for mobile to avoid excessive space */
   }
 
@@ -1069,10 +1083,17 @@ footer {
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 100%;
   }
 
   .hero-location {
     justify-content: center;
+  }
+
+  .hero-social-links {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
   }
 
   .hero-bio {
@@ -1224,6 +1245,10 @@ footer {
 @media (max-width: 480px) {
   .container {
     padding: 0px 16px;
+  }
+
+  .hero-vertical-name {
+    font-size: 32px;
   }
 
   nav {

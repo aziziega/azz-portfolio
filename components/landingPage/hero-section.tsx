@@ -46,23 +46,24 @@ export default function HeroSection() {
                                 <img src="/images/azizi_photo1-rmbg.png" alt="Profile" className="hero-image" />
                                 <div className="hero-image-badges">
                                     <div className="badge">
-                                        <span>Bahasa</span>
+                                        <span className="badge-icon">🇮🇩</span>
+                                        <span>Indonesia</span>
                                     </div>
                                     <div className="badge">
-                                        {/* <span className="badge-icon">{language === "en" ? "🇬🇧" : "🇮🇩"}</span> */}
+                                        <span className="badge-icon">🇬🇧</span>
                                         <span>English</span>
                                     </div>
                                 </div>
                             </div>
                             {/* Language Badges - Below Profile */}
                             <div className="hero-content">
-                                <span className="hero-role">Fullstack Web Developer</span>
+                                <span className="hero-role">{t("hero.role")}</span>
                                 <div className="hero-location">
                                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                                         <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
                                         <circle cx="12" cy="10" r="3" />
                                     </svg>
-                                    Prambanan, Klaten, Jawa Tengah Indonesia
+                                    {t("hero.location")}
                                 </div>
                                 {/* Social Links */}
                                 <div className="hero-social-links">
@@ -112,11 +113,12 @@ export default function HeroSection() {
 
 
                     {/* Interactive 3D Lanyard - Desktop only (hidden on mobile) */}
-                    <div className="hidden lg:block absolute inset-0 pointer-events-none z-10">
+                    <div className="hidden lg:block absolute inset-0 pointer-events-none z-1">
                         <div className="relative w-full h-full">
                             <LanyardWithControls
                                 position={[0, 0, 20]}
-                                containerClassName="absolute top-0 lg:top-0 -left-8 lg:-left-12 w-full max-w-[16rem] lg:max-w-xs h-[500px] lg:h-[600px]"
+                                anchorPosition={[-5, 4, 0]}
+                                containerClassName="absolute inset-0 w-full h-full pointer-events-auto"
                                 defaultName="Azizi E.M."
                                 defaultVariant="plain"
                             />

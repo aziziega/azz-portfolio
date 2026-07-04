@@ -48,6 +48,7 @@ interface LanyardWithControlsProps {
     containerClassName?: string;
     defaultName?: string;
     defaultVariant?: CardVariant;
+    anchorPosition?: [number, number, number];
 }
 
 export default function LanyardWithControls({
@@ -55,6 +56,7 @@ export default function LanyardWithControls({
     containerClassName,
     defaultName = "",
     defaultVariant = "dark",
+    anchorPosition,
 }: LanyardWithControlsProps) {
     const [inputValue, setInputValue] = useState(defaultName);
     const [appliedName, setAppliedName] = useState(defaultName);
@@ -206,6 +208,7 @@ export default function LanyardWithControls({
                 containerClassName={containerClassName}
                 cardTextureUrl={cardTextureUrl}
                 canvasRef={canvasRef}
+                anchorPosition={anchorPosition}
             />
         </div>
     );

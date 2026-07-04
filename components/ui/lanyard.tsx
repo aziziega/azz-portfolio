@@ -38,6 +38,7 @@ interface LanyardProps {
     containerClassName?: string;
     cardTextureUrl?: string;
     canvasRef?: React.RefObject<HTMLCanvasElement | null>;
+    anchorPosition?: [number, number, number];
 }
 
 export default function Lanyard({
@@ -47,7 +48,8 @@ export default function Lanyard({
                                     transparent = true,
                                     containerClassName,
                                     cardTextureUrl,
-                                    canvasRef
+                                    canvasRef,
+                                    anchorPosition
                                 }: LanyardProps) {
     const [isMobile, setIsMobile] = useState<boolean>(() => typeof window !== 'undefined' && window.innerWidth < 768);
 
@@ -69,7 +71,7 @@ export default function Lanyard({
             >
                 <ambientLight intensity={Math.PI}/>
                 <Physics gravity={gravity} timeStep={isMobile ? 1 / 30 : 1 / 60}>
-                    <Band isMobile={isMobile} cardTextureUrl={cardTextureUrl}/>
+                    <Band isMobile={isMobile} cardTextureUrl={cardTextureUrl} anchorPosition={anchorPosition}/>
                 </Physics>
                 <Environment blur={0.75}>
                     <Lightformer
@@ -111,9 +113,10 @@ interface BandProps {
     minSpeed?: number;
     isMobile?: boolean;
     cardTextureUrl?: string;
+    anchorPosition?: [number, number, number];
 }
 
-function Band({maxSpeed = 50, minSpeed = 0, isMobile = false, cardTextureUrl}: BandProps) {
+function Band({maxSpeed = 50, minSpeed = 0, isMobile = false, cardTextureUrl, anchorPosition}: BandProps) {
     // Using "any" for refs since the exact types depend on Rapier's internals
     const band = useRef<any>(null);
     const fixed = useRef<any>(null);
@@ -221,7 +224,7 @@ function Band({maxSpeed = 50, minSpeed = 0, isMobile = false, cardTextureUrl}: B
 
     return (
         <>
-            <group position={[0, 4, 0]}>
+            <group position={anchorPosition || [0, 4, 0]}>
                 <RigidBody ref={fixed} {...segmentProps} type={'fixed' as RigidBodyProps['type']}/>
                 <RigidBody position={[0.5, 0, 0]} ref={j1} {...segmentProps} type={'dynamic' as RigidBodyProps['type']}>
                     <BallCollider args={[0.1]}/>
