@@ -260,6 +260,86 @@ const translations = {
     "work.footer.text": "Saya selalu terbuka untuk mendiskusikan peluang baru, tantangan menarik, dan kolaborasi kreatif.",
     "work.footer.btn.primary": "Hubungi Saya",
     "work.footer.btn.secondary": "Kembali ke Beranda",
+    "blog.article1.tag": "Sistem Desain",
+    "blog.article1.date": "15 Januari 2026",
+    "blog.article1.title": "Membangun Pustaka Komponen yang Dapat Diskalakan",
+    "blog.article1.desc": "Pelajari cara membuat sistem desain yang dapat dipelihara dan tumbuh bersama produk dan tim Anda. Panduan komprehensif tentang token, komponen, dan dokumentasi.",
+    "blog.article2.tag": "Pengembangan",
+    "blog.article2.date": "8 Januari 2026",
+    "blog.article2.title": "Pola React Modern untuk 2026",
+    "blog.article2.desc": "Menjelajahi pola terbaru dan praktik terbaik dalam pengembangan React, dari komponen server hingga teknik manajemen state lanjutan.",
+    "blog.article3.tag": "Desain Produk",
+    "blog.article3.date": "28 Desember 2025",
+    "blog.article3.title": "Seni Mikro-Interaksi",
+    "blog.article3.desc": "Temukan bagaimana animasi halus dan mekanisme umpan balik dapat secara dramatis meningkatkan pengalaman pengguna dan kepuasan produk.",
+    "blog.comingSoon.badge": "Segera Hadir",
+    "blog.comingSoon.title": "Wawasan & Ide",
+    "blog.comingSoon.description": "Saya sedang menulis artikel seputar Next.js, React, TypeScript, arsitektur sistem, dan pengembangan fullstack modern. Sesuatu yang luar biasa sedang dipersiapkan!",
+    "blog.comingSoon.placeholder": "Masukkan alamat email Anda",
+    "blog.comingSoon.btnNotify": "Beri Tahu Saya",
+    "blog.comingSoon.btnBack": "Kembali ke Beranda",
+    "blog.comingSoon.success": "Terima kasih! Saya akan memberi tahu Anda.",
+
+    // Newsletter Section
+    "newsletter.title": "Tetap Update",
+    "newsletter.subtitle": "Dapatkan wawasan tentang desain, pengembangan, dan pemikiran produk yang dikirim ke inbox Anda.",
+    "newsletter.placeholder": "Masukkan email Anda",
+    "newsletter.button": "Berlangganan",
+
+    // Contact Section
+    "contact.title": "Mari Bekerja Sama",
+    "contact.subtitle": "Saya selalu tertarik mendengar tentang proyek dan peluang baru. Baik Anda memiliki pertanyaan atau hanya ingin menyapa, jangan ragu untuk menghubungi.",
+    "contact.email": "aziziegatrim@gmail.com",
+    "contact.location": "Prambanan, Klaten, Jawa Tengah Indonesia.",
+    "contact.form.name": "Nama",
+    "contact.form.namePlaceholder": "Nama Anda",
+    "contact.form.email": "Email",
+    "contact.form.emailPlaceholder": "email@anda.com",
+    "contact.form.subject": "Subjek",
+    "contact.form.subjectPlaceholder": "Tentang apa ini?",
+    "contact.form.message": "Pesan",
+    "contact.form.messagePlaceholder": "Ceritakan lebih lanjut...",
+    "contact.form.submit": "Kirim Pesan",
+
+    // Work Page
+    "work.page.title": "Karya Unggulan",
+    "work.page.subtitle": "Koleksi proyek yang menunjukkan keahlian saya dalam pengembangan web fullstack. Dari sistem CRM hingga solusi healthcare, setiap proyek mendemonstrasikan arsitektur yang scalable, clean code, dan best practices modern.",
+    
+    // Project Detail
+    "project.challenge": "Tantangan",
+    "project.solution": "Solusi",
+    "project.features": "Fitur Utama",
+    "project.techStack": "Teknologi yang Digunakan",
+    "project.gallery": "Galeri Proyek",
+    "project.challenges": "Tantangan & Solusi",
+    "project.outcomes": "Hasil & Dampak",
+    "project.designProcess": "Proses Desain",
+    "project.lessonsLearned": "Pelajaran yang Dipetik",
+    
+    // Project Navigation
+    "project.nav.back": "Kembali ke Semua Proyek",
+    "project.nav.previous": "Sebelumnya",
+    "project.nav.next": "Berikutnya",
+    "project.viewLive": "Lihat Demo Live",
+    "project.viewCode": "Lihat Kode",
+    "project.featured": "Sorotan",
+    "project.liveDemo": "Demo Live",
+    "project.info.client": "Klien",
+    "project.info.role": "Peran",
+    "project.info.duration": "Durasi",
+    "project.info.team": "Tim",
+    "project.info.year": "Tahun",
+
+    // Work Page specific translations
+    "work.featured": "Sorotan",
+    "work.selectedWorks": "Karya Pilihan",
+    "work.page.description": "Koleksi kurasi proyek yang menunjukkan keahlian saya dalam pengembangan web fullstack, dari sistem perusahaan hingga aplikasi konsumen.",
+    "work.footer.label": "Punya proyek?",
+    "work.footer.title1": "Mari Membangun Sesuatu",
+    "work.footer.title2": "Luar Biasa Bersama",
+    "work.footer.text": "Saya selalu terbuka untuk mendiskusikan peluang baru, tantangan menarik, dan kolaborasi kreatif.",
+    "work.footer.btn.primary": "Hubungi Saya",
+    "work.footer.btn.secondary": "Kembali ke Beranda",
     "work.footer.stat.projects": "Proyek",
     "work.footer.stat.featured": "Unggulan",
     "work.footer.stat.tech": "Teknologi",
@@ -274,8 +354,65 @@ const translations = {
   },
 }
 
-export function LanguageProvider({ children }: { children: ReactNode }) {
+interface LanguageContextType {
+  language: Language
+  setLanguage: (lang: Language) => void
+  t: (key: string) => string
+  settings: Record<string, any>
+}
+
+const LanguageContext = createContext<LanguageContextType | undefined>(undefined)
+
+export function LanguageProvider({ 
+  children,
+  initialSettings = {}
+}: { 
+  children: ReactNode
+  initialSettings?: Record<string, any>
+}) {
   const [language, setLanguage] = useState<Language>("en")
+  const [settings, setSettings] = useState<Record<string, any>>({
+    hero: {
+      en: {
+        role: "Fullstack Web Developer",
+        location: "Prambanan, Klaten, Central Java Indonesia.",
+        bio: "Fullstack Web Developer delivering scalable, end-to-end web solutions with Next.js, React, Supabase, and Node.js. I transform complex requirements into clean, intuitive digital experiences. Reliable, continuously learning, and committed to modern best practices."
+      },
+      id: {
+        role: "Fullstack Web Developer",
+        location: "Prambanan, Klaten, Jawa Tengah Indonesia.",
+        bio: "Fullstack Web Developer yang menghadirkan solusi web scalable dan end-to-end dengan Next.js, React, Supabase, dan Node.js. Saya mengubah requirement kompleks menjadi pengalaman digital yang clean dan intuitif. Dapat diandalkan, terus belajar, dan berkomitmen pada best practices modern."
+      }
+    },
+    social_links: {
+      resume: "/resume",
+      github: "https://github.com/aziziega",
+      linkedin: "https://linkedin.com/in/aziziegatri",
+      x: "https://x.com/aziziegatri",
+      email: "aziziegatrim@gmail.com"
+    },
+    contact: {
+      en: {
+        email: "aziziegatrim@gmail.com",
+        location: "Prambanan, Klaten, Jawa Tengah Indonesia."
+      },
+      id: {
+        email: "aziziegatrim@gmail.com",
+        location: "Prambanan, Klaten, Jawa Tengah Indonesia."
+      }
+    },
+    seo_home: {
+      en: {
+        title: "Azizi Egatri M. — Fullstack Web Developer",
+        description: "Portfolio of Azizi Egatri M., a Fullstack Web Developer specializing in Next.js, React, Supabase, and Node.js."
+      },
+      id: {
+        title: "Azizi Egatri M. — Fullstack Web Developer",
+        description: "Portfolio Azizi Egatri M., Fullstack Web Developer spesialis Next.js, React, Supabase, dan Node.js."
+      }
+    },
+    ...initialSettings
+  })
 
   useEffect(() => {
     const savedLanguage = localStorage.getItem("language") as Language
@@ -284,17 +421,34 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     }
   }, [])
 
+  useEffect(() => {
+    if (initialSettings && Object.keys(initialSettings).length > 0) {
+      setSettings(prev => ({
+        ...prev,
+        ...initialSettings
+      }))
+    }
+  }, [initialSettings])
+
   const handleSetLanguage = (lang: Language) => {
     setLanguage(lang)
     localStorage.setItem("language", lang)
   }
 
   const t = (key: string): string => {
+    if (key.startsWith("hero.")) {
+      const field = key.split(".")[1]
+      return settings.hero?.[language]?.[field] ?? translations[language][key as keyof typeof translations[Language]] ?? key
+    }
+    if (key.startsWith("contact.")) {
+      const field = key.split(".")[1]
+      return settings.contact?.[language]?.[field] ?? translations[language][key as keyof typeof translations[Language]] ?? key
+    }
     return translations[language][key as keyof (typeof translations)[typeof language]] || key
   }
 
   return (
-    <LanguageContext.Provider value={{ language, setLanguage: handleSetLanguage, t }}>
+    <LanguageContext.Provider value={{ language, setLanguage: handleSetLanguage, t, settings }}>
       {children}
     </LanguageContext.Provider>
   )
