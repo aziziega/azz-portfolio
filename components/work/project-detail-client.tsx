@@ -163,7 +163,7 @@ export default function ProjectDetailClient({ project: rawProject, previousSlug,
           <div>
             <span className="detail-section-title">{t("project.techStack")}</span>
             <div className="detail-tech-list">
-              {project.techStack.map((tech) => (
+              {project.techStack.map((tech: string) => (
                 <span key={tech} className="detail-tech-tag">{tech}</span>
               ))}
             </div>

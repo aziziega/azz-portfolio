@@ -16,6 +16,7 @@ export default function ProjectForm({ initialData, id }: ProjectFormProps) {
   const router = useRouter()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
+  const [success, setSuccess] = useState(false)
 
   // Form Fields
   const [slug, setSlug] = useState(initialData?.slug || "")
@@ -23,6 +24,8 @@ export default function ProjectForm({ initialData, id }: ProjectFormProps) {
   const [featured, setFeatured] = useState(initialData?.featured || false)
   const [sortOrder, setSortOrder] = useState(initialData?.sort_order || 0)
   const [year, setYear] = useState<number>(initialData?.year || new Date().getFullYear())
+  const [liveUrl, setLiveUrl] = useState(initialData?.live_url || "")
+  const [githubUrl, setGithubUrl] = useState(initialData?.github_url || "")
 
   // Bilingual Fields
   const [title, setTitle] = useState(initialData?.title || { en: "", id: "" })
@@ -76,6 +79,10 @@ export default function ProjectForm({ initialData, id }: ProjectFormProps) {
     setError("")
 
     try {
+      if (!thumbnailUrl || thumbnailUrl.trim() === "") {
+        throw new Error("Project Main Thumbnail is required. Please upload or specify a thumbnail image.")
+      }
+
       const payload: ProjectInput = {
         slug,
         status,
@@ -99,6 +106,8 @@ export default function ProjectForm({ initialData, id }: ProjectFormProps) {
         lessons_learned: lessonsLearned,
         tech_stack: techStack,
         thumbnail_url: thumbnailUrl,
+        live_url: liveUrl || null,
+        github_url: githubUrl || null,
         seo_title: seoTitle,
         seo_description: seoDescription,
       }
@@ -116,8 +125,14 @@ export default function ProjectForm({ initialData, id }: ProjectFormProps) {
         throw new Error(resData.message || "Failed to save project")
       }
 
-      router.push("/admin/projects")
-      router.refresh()
+      if (id) {
+        setSuccess(true)
+        setTimeout(() => setSuccess(false), 3000)
+        router.refresh()
+      } else {
+        router.push("/admin/projects")
+        router.refresh()
+      }
     } catch (err: any) {
       console.error(err)
       setError(err.message || "Something went wrong")
@@ -128,6 +143,7 @@ export default function ProjectForm({ initialData, id }: ProjectFormProps) {
 
   return (
     <form onSubmit={handleFormSubmit} className="admin-form">
+      {success && <div className="admin-toast success">⚙️ Project configurations saved successfully!</div>}
       {error && <div className="admin-login-error">{error}</div>}
 
       {/* Meta Controls */}
@@ -287,6 +303,45 @@ export default function ProjectForm({ initialData, id }: ProjectFormProps) {
         projectSlug={slug || "thumbnail"}
       />
 
+      {/* Project Gallery */}
+      <div className="admin-form-group">
+        <label className="admin-form-label">Project Gallery (Showcase Images)</label>
+        <p style={{ fontSize: "12px", color: "#64748b", marginTop: "-4px", marginBottom: "12px" }}>
+          Upload screenshots or graphics to display in the project's image gallery section.
+        </p>
+
+        {galleryImages.length > 0 && (
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(120px, 1fr))", gap: "12px", marginBottom: "12px" }}>
+            {galleryImages.map((imgUrl, idx) => (
+              <div key={idx} className="admin-image-preview" style={{ margin: 0, position: "relative" }}>
+                <img src={imgUrl} alt={`Gallery ${idx + 1}`} style={{ width: "100%", height: "80px", objectFit: "cover", borderRadius: "8px" }} />
+                <div className="admin-image-preview-actions" style={{ position: "absolute", bottom: "4px", right: "4px" }}>
+                  <button
+                    type="button"
+                    onClick={() => setGalleryImages(galleryImages.filter((_, i) => i !== idx))}
+                    className="admin-btn admin-btn-danger admin-btn-sm"
+                    style={{ padding: "2px 6px", fontSize: "10px" }}
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        <ImageUploader
+          label="Add Image to Gallery"
+          value=""
+          onChange={(url) => {
+            if (url && !galleryImages.includes(url)) {
+              setGalleryImages([...galleryImages, url])
+            }
+          }}
+          projectSlug={slug || "gallery"}
+        />
+      </div>
+
       {/* Tech Stack Input */}
       <div className="admin-form-group">
         <label className="admin-form-label">Tech Stack (Type tag name and hit Enter)</label>
@@ -320,7 +375,8 @@ export default function ProjectForm({ initialData, id }: ProjectFormProps) {
           <input
             type="url"
             className="admin-form-input"
-            value={initialData?.live_url || ""}
+            value={liveUrl}
+            onChange={(e) => setLiveUrl(e.target.value)}
             name="live_url"
             placeholder="https://..."
           />
@@ -330,7 +386,8 @@ export default function ProjectForm({ initialData, id }: ProjectFormProps) {
           <input
             type="url"
             className="admin-form-input"
-            value={initialData?.github_url || ""}
+            value={githubUrl}
+            onChange={(e) => setGithubUrl(e.target.value)}
             name="github_url"
             placeholder="https://github.com/..."
           />

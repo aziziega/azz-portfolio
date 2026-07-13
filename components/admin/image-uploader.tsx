@@ -21,15 +21,12 @@ export default function ImageUploader({
   const [uploading, setUploading] = useState(false)
   const [error, setError] = useState("")
   const [mode, setMode] = useState<"upload" | "url">("upload")
+  const [isDragActive, setIsDragActive] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
-  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const uploadFile = async (file: File) => {
     try {
       setError("")
-      const files = e.target.files
-      if (!files || files.length === 0) return
-
-      const file = files[0]
       const fileExt = file.name.split(".").pop()
       const fileName = `${projectSlug}/${Date.now()}.${fileExt}`
 
@@ -56,6 +53,37 @@ export default function ImageUploader({
       setError(err.message || "Failed to upload image")
     } finally {
       setUploading(false)
+    }
+  }
+
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files
+    if (!files || files.length === 0) return
+    await uploadFile(files[0])
+  }
+
+  const handleDrag = (e: React.DragEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    if (e.type === "dragenter" || e.type === "dragover") {
+      setIsDragActive(true)
+    } else if (e.type === "dragleave") {
+      setIsDragActive(false)
+    }
+  }
+
+  const handleDrop = async (e: React.DragEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    setIsDragActive(false)
+
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      const file = e.dataTransfer.files[0]
+      if (!file.type.startsWith("image/")) {
+        setError("Only image files are allowed")
+        return
+      }
+      await uploadFile(file)
     }
   }
 
@@ -122,12 +150,21 @@ export default function ImageUploader({
             </div>
           ) : (
             <div
-              className="admin-image-upload"
+              className={`admin-image-upload ${isDragActive ? "drag-active" : ""}`}
               onClick={() => fileInputRef.current?.click()}
+              onDragEnter={handleDrag}
+              onDragOver={handleDrag}
+              onDragLeave={handleDrag}
+              onDrop={handleDrop}
+              style={isDragActive ? { borderColor: "var(--admin-blue)", backgroundColor: "#f0f9ff" } : undefined}
             >
               <div className="admin-image-upload-icon">📤</div>
               <p className="admin-image-upload-text">
-                {uploading ? "Uploading..." : "Click to browse and upload image"}
+                {uploading 
+                  ? "Uploading..." 
+                  : isDragActive 
+                    ? "Drop image file here..." 
+                    : "Click to browse or drag & drop image here"}
               </p>
               <input
                 type="file"

@@ -26,7 +26,6 @@ export default function SettingsForm({ initialSettings }: SettingsFormProps) {
       resume: "",
       github: "",
       linkedin: "",
-      x: "",
       email: "",
     }
   )
@@ -152,16 +151,6 @@ export default function SettingsForm({ initialSettings }: SettingsFormProps) {
               value={socials.linkedin}
               onChange={(e) => setSocials({ ...socials, linkedin: e.target.value })}
               placeholder="https://linkedin.com/in/..."
-            />
-          </div>
-          <div className="admin-form-group">
-            <label className="admin-form-label">X / Twitter URL</label>
-            <input
-              type="url"
-              className="admin-form-input"
-              value={socials.x}
-              onChange={(e) => setSocials({ ...socials, x: e.target.value })}
-              placeholder="https://x.com/..."
             />
           </div>
         </div>
