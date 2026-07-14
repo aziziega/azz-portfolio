@@ -5,8 +5,9 @@ import { useState } from "react"
 interface DBSubscriber {
   id: string
   email: string
-  status: 'active' | 'unsubscribed' | 'bounced'
+  status: 'pending' | 'active' | 'unsubscribed' | 'bounced'
   source: string
+  confirm_token?: string | null
   created_at: string
 }
 
@@ -18,20 +19,27 @@ export default function NewsletterList({ initialSubscribers }: NewsletterListPro
   const [subscribers, setSubscribers] = useState<DBSubscriber[]>(initialSubscribers)
   const [search, setSearch] = useState("")
   const [statusFilter, setStatusFilter] = useState("all")
+  const [deleteTarget, setDeleteTarget] = useState<{ id: string; email: string } | null>(null)
+  const [toastMsg, setToastMsg] = useState("")
+  const [toastError, setToastError] = useState(false)
 
-  const handleDelete = async (id: string, email: string) => {
-    if (!confirm(`Are you sure you want to permanently delete subscriber: "${email}"?`)) return
-    
+  const handleDelete = async (id: string) => {
     try {
       const response = await fetch(`/api/admin/newsletter/${id}`, {
         method: "DELETE",
       })
-      if (!response.ok) throw new Error()
-      
+      if (!response.ok) throw new Error("Failed to delete subscriber")
       setSubscribers(subscribers.filter(s => s.id !== id))
-    } catch (err) {
+      setToastMsg("Subscriber deleted successfully!")
+      setToastError(false)
+      setTimeout(() => setToastMsg(""), 3000)
+    } catch (err: any) {
       console.error(err)
-      alert("Failed to delete subscriber")
+      setToastMsg(err.message || "Failed to delete subscriber")
+      setToastError(true)
+      setTimeout(() => setToastMsg(""), 3000)
+    } finally {
+      setDeleteTarget(null)
     }
   }
 
@@ -58,6 +66,13 @@ export default function NewsletterList({ initialSubscribers }: NewsletterListPro
     return matchesSearch && matchesStatus
   })
 
+  const badgeColor = (status: string) => {
+    if (status === "active") return "active"
+    if (status === "pending") return "pending"
+    if (status === "unsubscribed") return "unsubscribed"
+    return "bounced"
+  }
+
   return (
     <div>
       {/* Toolbar */}
@@ -76,6 +91,7 @@ export default function NewsletterList({ initialSubscribers }: NewsletterListPro
           onChange={(e) => setStatusFilter(e.target.value)}
         >
           <option value="all">All Status</option>
+          <option value="pending">Pending</option>
           <option value="active">Active</option>
           <option value="unsubscribed">Unsubscribed</option>
           <option value="bounced">Bounced</option>
@@ -115,7 +131,9 @@ export default function NewsletterList({ initialSubscribers }: NewsletterListPro
                 <tr key={sub.id}>
                   <td style={{ fontWeight: 600 }}>{sub.email}</td>
                   <td>
-                    <span className={`admin-badge ${sub.status}`}>
+                    <span className={`admin-badge ${badgeColor(sub.status)}`} style={
+                      sub.status === "pending" ? { background: "#fef3c7", color: "#b45309", border: "1px solid #fcd34d" } : {}
+                    }>
                       {sub.status}
                     </span>
                   </td>
@@ -124,7 +142,7 @@ export default function NewsletterList({ initialSubscribers }: NewsletterListPro
                   <td style={{ textAlign: "right" }}>
                     <button
                       type="button"
-                      onClick={() => handleDelete(sub.id, sub.email)}
+                      onClick={() => setDeleteTarget({ id: sub.id, email: sub.email })}
                       className="admin-btn admin-btn-danger admin-btn-sm"
                     >
                       Delete
@@ -136,6 +154,53 @@ export default function NewsletterList({ initialSubscribers }: NewsletterListPro
           </table>
         </div>
       )}
+
+      {/* Toast */}
+      {toastMsg && (
+        <div className={`admin-toast ${toastError ? "error" : "success"}`}>
+          {toastError ? "❌" : "✅"} {toastMsg}
+        </div>
+      )}
+
+      {/* Delete Confirmation Modal */}
+      {deleteTarget && (
+        <div style={{
+          position: "fixed", inset: 0,
+          background: "rgba(15, 23, 42, 0.4)",
+          backdropFilter: "blur(4px)",
+          display: "flex", alignItems: "center", justifyContent: "center",
+          zIndex: 1100,
+          animation: "fadeIn 0.2s ease-out"
+        }}>
+          <div style={{
+            background: "#ffffff", padding: "24px", borderRadius: "16px",
+            boxShadow: "0 20px 25px -5px rgba(0,0,0,0.1)",
+            width: "100%", maxWidth: "400px",
+            animation: "scaleIn 0.2s ease-out"
+          }}>
+            <h3 style={{ fontSize: "16px", fontWeight: 800, color: "#0f172a", marginBottom: "8px" }}>
+              ⚠️ Delete Subscriber?
+            </h3>
+            <p style={{ fontSize: "14px", color: "#64748b", lineHeight: 1.5, marginBottom: "20px" }}>
+              Are you sure you want to permanently remove <strong>{deleteTarget.email}</strong> from the subscriber list?
+            </p>
+            <div style={{ display: "flex", justifyContent: "flex-end", gap: "10px" }}>
+              <button type="button" className="admin-btn admin-btn-secondary"
+                onClick={() => setDeleteTarget(null)}>
+                Cancel
+              </button>
+              <button type="button" className="admin-btn admin-btn-danger"
+                onClick={() => handleDelete(deleteTarget.id)}>
+                Yes, Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      <style>{`
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes scaleIn { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+      `}</style>
     </div>
   )
 }

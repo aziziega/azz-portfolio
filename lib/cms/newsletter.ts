@@ -3,8 +3,9 @@ import { createClient } from "@/lib/supabase/server"
 export interface DBSubscriber {
   id: string
   email: string
-  status: 'active' | 'unsubscribed' | 'bounced'
+  status: 'pending' | 'active' | 'unsubscribed' | 'bounced'
   source: string
+  confirm_token?: string | null
   created_at: string
 }
 

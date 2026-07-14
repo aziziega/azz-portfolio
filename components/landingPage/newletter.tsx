@@ -2,6 +2,7 @@
 
 import { useLanguage } from "@/contexts/language-contexts"
 import { useEffect, useState } from "react"
+import { useSearchParams } from "next/navigation"
 
 export default function Newsletter() {
     const { t } = useLanguage()
@@ -10,9 +11,25 @@ export default function Newsletter() {
     const [loading, setLoading] = useState(false)
     const [message, setMessage] = useState("")
     const [isError, setIsError] = useState(false)
+    const [submitted, setSubmitted] = useState(false)
+    const searchParams = useSearchParams()
 
     useEffect(() => {
         setMounted(true)
+        // Handle redirect back from email verification
+        const newsletterStatus = searchParams.get("newsletter")
+        if (newsletterStatus === "confirmed") {
+            setMessage("🎉 Email confirmed! You're now subscribed. Welcome aboard!")
+            setIsError(false)
+            setSubmitted(true)
+        } else if (newsletterStatus === "already_confirmed") {
+            setMessage("✅ Your email is already confirmed and you're subscribed!")
+            setIsError(false)
+            setSubmitted(true)
+        } else if (newsletterStatus === "invalid" || newsletterStatus === "error") {
+            setMessage("❌ This confirmation link is invalid or has expired. Please try subscribing again.")
+            setIsError(true)
+        }
     }, [])
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -33,7 +50,10 @@ export default function Newsletter() {
                 throw new Error(data.message || "Failed to subscribe")
             }
 
-            setMessage(data.message || "Successfully subscribed!")
+            setMessage(data.message || "Almost there! Check your inbox and confirm your subscription.")
+            if (data.code !== "pending_confirmation" && !data.code?.includes("duplicate")) {
+                setSubmitted(true)
+            }
             setEmail("")
         } catch (err: any) {
             console.error(err)
@@ -54,20 +74,28 @@ export default function Newsletter() {
                         
                         {message && (
                             <div style={{
-                                padding: "12px",
-                                borderRadius: "6px",
+                                padding: "14px 16px",
+                                borderRadius: "10px",
                                 background: isError ? "rgba(239,68,68,0.1)" : "rgba(16,185,129,0.1)",
                                 border: `1px solid ${isError ? "rgba(239,68,68,0.3)" : "rgba(16,185,129,0.3)"}`,
                                 color: isError ? "#f87171" : "#34d399",
                                 fontSize: "14px",
                                 marginBottom: "16px",
-                                textAlign: "center"
+                                textAlign: "center",
+                                lineHeight: 1.6
                             }}>
                                 {message}
                             </div>
                         )}
 
-                        <form onSubmit={handleSubmit} className="form-group mt-8 flex flex-col sm:flex-row gap-4 items-stretch sm:items-center">
+                        {submitted ? (
+                            <div style={{ textAlign: "center", padding: "16px 0" }}>
+                                <p style={{ fontSize: "40px", margin: "0 0 8px" }}>📬</p>
+                                <p style={{ fontSize: "14px", color: "#64748b", margin: 0 }}>
+                                    Check your inbox to complete subscription.
+                                </p>
+                            </div>
+                        ) : (<form onSubmit={handleSubmit} className="form-group mt-8 flex flex-col sm:flex-row gap-4 items-stretch sm:items-center">
                             <input
                                 type="email"
                                 placeholder={t("newsletter.placeholder")}
@@ -84,8 +112,9 @@ export default function Newsletter() {
                                 className="btn-subscribe px-6 py-3 rounded-md bg-primary text-primary-foreground hover:bg-primary/90 transition-colors whitespace-nowrap"
                             >
                                 {loading ? "Subscribing..." : t("newsletter.button")}
-                            </button>
-                        </form>
+                                </button>
+                            </form>
+                        )}
                     </div>
                 </div>
             </section>
