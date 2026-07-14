@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
 interface ImageGalleryProps {
   images: string[]
@@ -9,6 +9,25 @@ interface ImageGalleryProps {
 
 export default function ImageGallery({ images, title }: ImageGalleryProps) {
   const [selectedImage, setSelectedImage] = useState<number | null>(null)
+
+  useEffect(() => {
+    if (selectedImage === null) return
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "ArrowLeft") {
+        setSelectedImage((prev) => (prev !== null && prev > 0 ? prev - 1 : prev))
+      } else if (e.key === "ArrowRight") {
+        setSelectedImage((prev) => (prev !== null && prev < images.length - 1 ? prev + 1 : prev))
+      } else if (e.key === "Escape") {
+        setSelectedImage(null)
+      }
+    }
+
+    window.addEventListener("keydown", handleKeyDown)
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown)
+    }
+  }, [selectedImage, images.length])
 
   return (
     <>

@@ -17,6 +17,8 @@ export default function ProjectForm({ initialData, id }: ProjectFormProps) {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
   const [success, setSuccess] = useState(false)
+  const [deleteGalleryIdx, setDeleteGalleryIdx] = useState<number | null>(null)
+  const [deleteTag, setDeleteTag] = useState<string | null>(null)
 
   // Form Fields
   const [slug, setSlug] = useState(initialData?.slug || "")
@@ -136,6 +138,7 @@ export default function ProjectForm({ initialData, id }: ProjectFormProps) {
     } catch (err: any) {
       console.error(err)
       setError(err.message || "Something went wrong")
+      setTimeout(() => setError(""), 3000)
     } finally {
       setLoading(false)
     }
@@ -144,7 +147,7 @@ export default function ProjectForm({ initialData, id }: ProjectFormProps) {
   return (
     <form onSubmit={handleFormSubmit} className="admin-form">
       {success && <div className="admin-toast success">⚙️ Project configurations saved successfully!</div>}
-      {error && <div className="admin-login-error">{error}</div>}
+      {error && <div className="admin-toast error">❌ {error}</div>}
 
       {/* Meta Controls */}
       <div className="admin-form-row">
@@ -318,7 +321,7 @@ export default function ProjectForm({ initialData, id }: ProjectFormProps) {
                 <div className="admin-image-preview-actions" style={{ position: "absolute", bottom: "4px", right: "4px" }}>
                   <button
                     type="button"
-                    onClick={() => setGalleryImages(galleryImages.filter((_, i) => i !== idx))}
+                    onClick={() => setDeleteGalleryIdx(idx)}
                     className="admin-btn admin-btn-danger admin-btn-sm"
                     style={{ padding: "2px 6px", fontSize: "10px" }}
                   >
@@ -349,10 +352,10 @@ export default function ProjectForm({ initialData, id }: ProjectFormProps) {
           {techStack.map((tag) => (
             <span key={tag} className="admin-tag">
               {tag}
-              <button
+               <button
                 type="button"
                 className="admin-tag-remove"
-                onClick={() => handleRemoveTag(tag)}
+                onClick={() => setDeleteTag(tag)}
               >
                 ×
               </button>
@@ -497,6 +500,118 @@ export default function ProjectForm({ initialData, id }: ProjectFormProps) {
           Cancel
         </button>
       </div>
+
+      {deleteGalleryIdx !== null && (
+        <div style={{
+          position: "fixed",
+          inset: 0,
+          background: "rgba(15, 23, 42, 0.4)",
+          backdropFilter: "blur(4px)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          zIndex: 1100,
+          animation: "fadeIn 0.2s ease-out"
+        }}>
+          <div style={{
+            background: "#ffffff",
+            padding: "24px",
+            borderRadius: "16px",
+            boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+            width: "100%",
+            maxWidth: "400px",
+            animation: "scaleIn 0.2s ease-out",
+            textAlign: "left"
+          }}>
+            <h3 style={{ fontSize: "16px", fontWeight: 800, color: "#0f172a", marginBottom: "8px" }}>
+              ⚠️ Remove Gallery Image?
+            </h3>
+            <p style={{ fontSize: "14px", color: "#64748b", lineHeight: 1.5, marginBottom: "20px" }}>
+              Are you sure you want to remove this image from the gallery?
+            </p>
+            <div style={{ display: "flex", justifyContent: "flex-end", gap: "10px" }}>
+              <button
+                type="button"
+                className="admin-btn admin-btn-secondary"
+                onClick={() => setDeleteGalleryIdx(null)}
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                className="admin-btn admin-btn-danger"
+                onClick={() => {
+                  setGalleryImages(galleryImages.filter((_, i) => i !== deleteGalleryIdx))
+                  setDeleteGalleryIdx(null)
+                }}
+              >
+                Yes, Remove
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {deleteTag !== null && (
+        <div style={{
+          position: "fixed",
+          inset: 0,
+          background: "rgba(15, 23, 42, 0.4)",
+          backdropFilter: "blur(4px)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          zIndex: 1100,
+          animation: "fadeIn 0.2s ease-out"
+        }}>
+          <div style={{
+            background: "#ffffff",
+            padding: "24px",
+            borderRadius: "16px",
+            boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+            width: "100%",
+            maxWidth: "400px",
+            animation: "scaleIn 0.2s ease-out",
+            textAlign: "left"
+          }}>
+            <h3 style={{ fontSize: "16px", fontWeight: 800, color: "#0f172a", marginBottom: "8px" }}>
+              ⚠️ Remove Technology Tag?
+            </h3>
+            <p style={{ fontSize: "14px", color: "#64748b", lineHeight: 1.5, marginBottom: "20px" }}>
+              Are you sure you want to remove the tag <strong>"{deleteTag}"</strong> from the tech stack?
+            </p>
+            <div style={{ display: "flex", justifyContent: "flex-end", gap: "10px" }}>
+              <button
+                type="button"
+                className="admin-btn admin-btn-secondary"
+                onClick={() => setDeleteTag(null)}
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                className="admin-btn admin-btn-danger"
+                onClick={() => {
+                  handleRemoveTag(deleteTag)
+                  setDeleteTag(null)
+                }}
+              >
+                Yes, Remove
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      <style>{`
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        @keyframes scaleIn {
+          from { transform: scale(0.95); opacity: 0; }
+          to { transform: scale(1); opacity: 1; }
+        }
+      `}</style>
     </form>
   )
 }

@@ -13,6 +13,8 @@ export default function ProjectsList({ initialProjects }: ProjectsListProps) {
   const [projects, setProjects] = useState(initialProjects)
   const [search, setSearch] = useState("")
   const [statusFilter, setStatusFilter] = useState("all")
+  const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null)
+  const [deleteConfirmTitle, setDeleteConfirmTitle] = useState<string>("")
 
   const handleToggleFeatured = async (id: string, current: boolean) => {
     try {
@@ -32,9 +34,12 @@ export default function ProjectsList({ initialProjects }: ProjectsListProps) {
     }
   }
 
-  const handleDelete = async (id: string, title: string) => {
-    if (!confirm(`Are you sure you want to delete project: "${title}"?`)) return
-    
+  const handleDeleteClick = (id: string, title: string) => {
+    setDeleteConfirmId(id)
+    setDeleteConfirmTitle(title)
+  }
+
+  const executeDelete = async (id: string) => {
     try {
       const response = await fetch(`/api/admin/projects/${id}`, {
         method: "DELETE",
@@ -151,7 +156,7 @@ export default function ProjectsList({ initialProjects }: ProjectsListProps) {
                       </Link>
                       <button
                         type="button"
-                        onClick={() => handleDelete(project.id, project.title.en)}
+                        onClick={() => handleDeleteClick(project.id, project.title.en)}
                         className="admin-btn admin-btn-danger admin-btn-sm"
                       >
                         Delete
@@ -164,6 +169,70 @@ export default function ProjectsList({ initialProjects }: ProjectsListProps) {
           </table>
         </div>
       )}
+      {deleteConfirmId && (
+        <div style={{
+          position: "fixed",
+          inset: 0,
+          background: "rgba(15, 23, 42, 0.4)",
+          backdropFilter: "blur(4px)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          zIndex: 1100,
+          animation: "fadeIn 0.2s ease-out"
+        }}>
+          <div style={{
+            background: "#ffffff",
+            padding: "24px",
+            borderRadius: "16px",
+            boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+            width: "100%",
+            maxWidth: "400px",
+            animation: "scaleIn 0.2s ease-out"
+          }}>
+            <h3 style={{ fontSize: "16px", fontWeight: 800, color: "#0f172a", marginBottom: "8px" }}>
+              ⚠️ Delete Project?
+            </h3>
+            <p style={{ fontSize: "14px", color: "#64748b", lineHeight: 1.5, marginBottom: "20px" }}>
+              Are you sure you want to delete project <strong>"{deleteConfirmTitle}"</strong>? This action is permanent and cannot be undone.
+            </p>
+            <div style={{ display: "flex", justifyContent: "flex-end", gap: "10px" }}>
+              <button
+                type="button"
+                className="admin-btn admin-btn-secondary"
+                onClick={() => {
+                  setDeleteConfirmId(null)
+                  setDeleteConfirmTitle("")
+                }}
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                className="admin-btn admin-btn-danger"
+                onClick={async () => {
+                  const id = deleteConfirmId
+                  setDeleteConfirmId(null)
+                  setDeleteConfirmTitle("")
+                  await executeDelete(id)
+                }}
+              >
+                Yes, Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      <style>{`
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        @keyframes scaleIn {
+          from { transform: scale(0.95); opacity: 0; }
+          to { transform: scale(1); opacity: 1; }
+        }
+      `}</style>
     </div>
   )
 }
