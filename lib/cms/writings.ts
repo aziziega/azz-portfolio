@@ -1,5 +1,6 @@
 import { createClient } from "@/lib/supabase/server"
 import { createAdminClient } from "@/lib/supabase/admin"
+import { getSettingByKey } from "./site-settings"
 
 export interface DBWriting {
   id: string
@@ -70,7 +71,9 @@ export async function deleteWriting(id: string): Promise<void> {
 // Service role sync from Medium (ignores RLS since it's an automated background sync)
 export async function syncFromMedium(): Promise<{ synced: number; failed: number }> {
   try {
-    const rssUrl = 'https://medium.com/feed/@aziziegatrimuthi16_89459'
+    const mediumUsername = await getSettingByKey("medium_username") || "@aziziegatrimuthi16_89459"
+    const cleanUsername = mediumUsername.startsWith("@") ? mediumUsername : `@${mediumUsername}`
+    const rssUrl = `https://medium.com/feed/${cleanUsername}`
     const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`
     
     const response = await fetch(apiUrl)
@@ -79,6 +82,10 @@ export async function syncFromMedium(): Promise<{ synced: number; failed: number
     }
     
     const data = await response.json()
+    if (data.status !== "ok") {
+      throw new Error(data.message || "Invalid Medium username or feed not found.")
+    }
+
     if (!data.items || data.items.length === 0) {
       return { synced: 0, failed: 0 }
     }

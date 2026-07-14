@@ -1,8 +1,11 @@
 import { NextResponse } from 'next/server';
+import { getSettingByKey } from '@/lib/cms/site-settings';
 
 export async function GET() {
   try {
-    const rssUrl = 'https://medium.com/feed/@aziziegatrimuthi16_89459';
+    const mediumUsername = await getSettingByKey("medium_username") || "@aziziegatrimuthi16_89459";
+    const cleanUsername = mediumUsername.startsWith("@") ? mediumUsername : `@${mediumUsername}`;
+    const rssUrl = `https://medium.com/feed/${cleanUsername}`;
     const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`;
     
     // Fetch data, caching it for 1 hour to prevent hitting rate limits
@@ -14,7 +17,7 @@ export async function GET() {
     
     const data = await response.json();
     
-    if (!data.items) {
+    if (data.status !== "ok" || !data.items) {
       return NextResponse.json({ articles: [] });
     }
     

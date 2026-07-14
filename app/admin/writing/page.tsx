@@ -1,6 +1,7 @@
 export const dynamic = "force-dynamic"
 
 import { getWritings } from "@/lib/cms/writings"
+import { getSettingByKey } from "@/lib/cms/site-settings"
 import WritingsList from "@/components/admin/writings-list"
 
 export const metadata = {
@@ -9,9 +10,11 @@ export const metadata = {
 
 export default async function AdminWritingPage() {
   let writings: any[] = []
+  let mediumUsername = "@aziziegatrimuthi16_89459"
 
   try {
     writings = await getWritings("all")
+    mediumUsername = await getSettingByKey("medium_username") || "@aziziegatrimuthi16_89459"
   } catch (e) {
     console.error("Error loading writings:", e)
   }
@@ -25,7 +28,7 @@ export default async function AdminWritingPage() {
         </p>
       </div>
 
-      <WritingsList initialWritings={writings} />
+      <WritingsList initialWritings={writings} initialUsername={mediumUsername} />
     </div>
   )
 }
