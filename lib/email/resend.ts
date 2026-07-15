@@ -5,6 +5,7 @@ const resend = new Resend(process.env.RESEND_API)
 const FROM_EMAIL = "onboarding@resend.dev"
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"
 const OWNER_NAME = "Azizi Egatri M."
+const OWNER_EMAIL = process.env.ADMIN_ALLOWED_EMAIL || "aziziegatrim@gmail.com"
 
 /**
  * Kirim email konfirmasi Double Opt-in ke subscriber baru.
@@ -156,6 +157,74 @@ export async function sendWelcomeEmail(email: string) {
                       <p style="margin:0;color:#94a3b8;font-size:12px;line-height:1.5;">
                         ${OWNER_NAME} · Portfolio Newsletter<br />
                         You can unsubscribe at any time by contacting us.
+                      </p>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        </body>
+      </html>
+    `,
+  })
+
+  if (error) throw new Error(`Resend error: ${JSON.stringify(error)}`)
+  return data
+}
+
+/**
+ * Kirim email broadcast ke banyak email sekaligus menggunakan BCC.
+ */
+export async function sendBroadcastEmail(emails: string[], subject: string, bodyText: string) {
+  // Convert newlines to HTML br tags, and markdown ** to <strong>
+  const formattedHtml = bodyText
+    .replace(/\r\n/g, "<br />")
+    .replace(/\n/g, "<br />")
+    .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+
+  const { data, error } = await resend.emails.send({
+    from: FROM_EMAIL,
+    to: OWNER_EMAIL,
+    bcc: emails,
+    subject: subject,
+    html: `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <meta charset="utf-8" />
+          <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        </head>
+        <body style="margin:0;padding:0;background:#f8fafc;font-family:'Segoe UI',Arial,sans-serif;">
+          <table width="100%" cellpadding="0" cellspacing="0" style="background:#f8fafc;padding:40px 0;">
+            <tr>
+              <td align="center">
+                <table width="560" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.07);">
+                  <!-- Header -->
+                  <tr>
+                    <td style="background:linear-gradient(135deg,#1e293b 0%,#334155 100%);padding:32px 40px;text-align:center;">
+                      <p style="margin:0;font-size:28px;">📢</p>
+                      <h1 style="margin:12px 0 0;color:#ffffff;font-size:22px;font-weight:700;letter-spacing:-0.3px;">
+                        Portfolio Update
+                      </h1>
+                    </td>
+                  </tr>
+                  <!-- Body -->
+                  <tr>
+                    <td style="padding:36px 40px;text-align:left;">
+                      <div style="color:#475569;font-size:15px;line-height:1.6;">
+                        ${formattedHtml}
+                      </div>
+                    </td>
+                  </tr>
+                  <!-- Footer -->
+                  <tr>
+                    <td style="background:#f8fafc;padding:20px 40px;border-top:1px solid #e2e8f0;text-align:center;">
+                      <p style="margin:0 0 8px;color:#94a3b8;font-size:11px;line-height:1.5;">
+                        You received this email because you subscribed to updates from ${OWNER_NAME}'s portfolio.
+                      </p>
+                      <p style="margin:0;color:#94a3b8;font-size:11px;line-height:1.5;">
+                        To unsubscribe, please contact us directly at ${OWNER_EMAIL}.
                       </p>
                     </td>
                   </tr>

@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { type ProjectInput } from "@/lib/validations/project"
 import LocalizedField from "./localized-field"
@@ -19,6 +19,14 @@ export default function ProjectForm({ initialData, id }: ProjectFormProps) {
   const [success, setSuccess] = useState(false)
   const [deleteGalleryIdx, setDeleteGalleryIdx] = useState<number | null>(null)
   const [deleteTag, setDeleteTag] = useState<string | null>(null)
+
+  // Email Broadcast States
+  const [broadcastSubject, setBroadcastSubject] = useState("")
+  const [broadcastBody, setBroadcastBody] = useState("")
+  const [sendingBroadcast, setSendingBroadcast] = useState(false)
+  const [showBroadcastConfirm, setShowBroadcastConfirm] = useState(false)
+  const [broadcastToast, setBroadcastToast] = useState<string | null>(null)
+  const [broadcastToastError, setBroadcastToastError] = useState(false)
 
   // Form Fields
   const [slug, setSlug] = useState(initialData?.slug || "")
@@ -73,6 +81,77 @@ export default function ProjectForm({ initialData, id }: ProjectFormProps) {
 
   const handleRemoveTag = (tag: string) => {
     setTechStack(techStack.filter(t => t !== tag))
+  }
+
+  const handleResetBroadcastTemplate = () => {
+    const projectTitle = title.en || "New Project"
+    const projectTagline = tagline.en || ""
+    const projectSlug = slug || ""
+    const origin = typeof window !== "undefined" ? window.location.origin : "http://localhost:3000"
+
+    setBroadcastSubject(`🚀 New Project Launch: ${projectTitle}`)
+    setBroadcastBody(
+      `Hi there! 👋\n\n` +
+      `I just published a new project on my portfolio: **${projectTitle}**.\n\n` +
+      `"${projectTagline}"\n\n` +
+      `You can view the full case study, screenshots, and live demo here:\n` +
+      `${origin}/work/${projectSlug}\n\n` +
+      `Best regards,\n` +
+      `Azizi Egatri M.`
+    )
+  }
+
+  useEffect(() => {
+    if (initialData) {
+      const projectTitle = title.en || initialData.title?.en || "New Project"
+      const projectTagline = tagline.en || initialData.tagline?.en || ""
+      const projectSlug = slug || initialData.slug || ""
+      const origin = typeof window !== "undefined" ? window.location.origin : "http://localhost:3000"
+      
+      setBroadcastSubject(`🚀 New Project Launch: ${projectTitle}`)
+      setBroadcastBody(
+        `Hi there! 👋\n\n` +
+        `I just published a new project on my portfolio: **${projectTitle}**.\n\n` +
+        `"${projectTagline}"\n\n` +
+        `You can view the full case study, screenshots, and live demo here:\n` +
+        `${origin}/work/${projectSlug}\n\n` +
+        `Best regards,\n` +
+        `Azizi Egatri M.`
+      )
+    }
+  }, [initialData, title.en, tagline.en, slug])
+
+  const handleSendBroadcast = async () => {
+    setSendingBroadcast(true)
+    setBroadcastToast(null)
+    try {
+      const response = await fetch("/api/admin/projects/broadcast", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          subject: broadcastSubject,
+          body: broadcastBody,
+          projectId: id,
+        }),
+      })
+
+      const data = await response.json()
+      if (!response.ok) {
+        throw new Error(data.message || "Failed to send email broadcast")
+      }
+
+      setBroadcastToast(`Broadcast email sent to ${data.sentCount} active subscribers!`)
+      setBroadcastToastError(false)
+      setTimeout(() => setBroadcastToast(null), 4000)
+    } catch (err: any) {
+      console.error(err)
+      setBroadcastToast(err.message || "Failed to send email broadcast")
+      setBroadcastToastError(true)
+      setTimeout(() => setBroadcastToast(null), 4000)
+    } finally {
+      setSendingBroadcast(false)
+      setShowBroadcastConfirm(false)
+    }
   }
 
   const handleFormSubmit = async (e: React.FormEvent) => {
@@ -148,6 +227,11 @@ export default function ProjectForm({ initialData, id }: ProjectFormProps) {
     <form onSubmit={handleFormSubmit} className="admin-form">
       {success && <div className="admin-toast success">⚙️ Project configurations saved successfully!</div>}
       {error && <div className="admin-toast error">❌ {error}</div>}
+      {broadcastToast && (
+        <div className={`admin-toast ${broadcastToastError ? "error" : "success"}`}>
+          {broadcastToastError ? "❌" : "⚙️"} {broadcastToast}
+        </div>
+      )}
 
       {/* Meta Controls */}
       <div className="admin-form-row">
@@ -483,6 +567,70 @@ export default function ProjectForm({ initialData, id }: ProjectFormProps) {
         />
       </div>
 
+      {/* Email Broadcast Section (Only when editing an existing project) */}
+      {id && (
+        <div style={{
+          marginTop: "32px",
+          paddingTop: "24px",
+          borderTop: "1px solid #e2e8f0",
+          background: "#f8fafc",
+          borderRadius: "16px",
+          padding: "24px",
+          border: "1px solid #e2e8f0",
+          boxShadow: "inset 0 1px 2px rgba(0, 0, 0, 0.02)"
+        }}>
+          <h3 className="admin-section-title" style={{ marginTop: 0, fontSize: "15px", fontWeight: 700 }}>
+            📢 Email Broadcast to Subscribers
+          </h3>
+          <p style={{ fontSize: "13px", color: "#64748b", marginBottom: "16px", lineHeight: 1.5 }}>
+            Send a manual email update about this project to all verified newsletter subscribers. You can edit the subject and message body below.
+          </p>
+
+          <div className="admin-form-group" style={{ marginBottom: "16px" }}>
+            <label className="admin-form-label" style={{ fontSize: "12px", fontWeight: 600 }}>Email Subject</label>
+            <input
+              type="text"
+              className="admin-form-input"
+              value={broadcastSubject}
+              onChange={(e) => setBroadcastSubject(e.target.value)}
+              placeholder="e.g. New Project Launch!"
+              style={{ background: "#ffffff" }}
+            />
+          </div>
+
+          <div className="admin-form-group" style={{ marginBottom: "16px" }}>
+            <label className="admin-form-label" style={{ fontSize: "12px", fontWeight: 600 }}>Email Message (Markdown / Plain Text)</label>
+            <textarea
+              className="admin-form-input"
+              value={broadcastBody}
+              onChange={(e) => setBroadcastBody(e.target.value)}
+              rows={8}
+              style={{ minHeight: "180px", fontFamily: "monospace", fontSize: "13px", background: "#ffffff", lineHeight: 1.6 }}
+              placeholder="Write your newsletter message..."
+            />
+          </div>
+
+          <div style={{ display: "flex", gap: "10px" }}>
+            <button
+              type="button"
+              disabled={sendingBroadcast || !broadcastSubject.trim() || !broadcastBody.trim()}
+              onClick={() => setShowBroadcastConfirm(true)}
+              className="admin-btn admin-btn-secondary"
+              style={{ background: "#0f172a", color: "#ffffff", border: "none" }}
+            >
+              {sendingBroadcast ? "Sending Email..." : "📧 Send Update to Subscribers"}
+            </button>
+            <button
+              type="button"
+              onClick={handleResetBroadcastTemplate}
+              className="admin-btn admin-btn-secondary"
+            >
+              Reset to Default
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* Submit Controls */}
       <div className="admin-form-actions">
         <button
@@ -597,6 +745,55 @@ export default function ProjectForm({ initialData, id }: ProjectFormProps) {
                 }}
               >
                 Yes, Remove
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showBroadcastConfirm && (
+        <div style={{
+          position: "fixed",
+          inset: 0,
+          background: "rgba(15, 23, 42, 0.4)",
+          backdropFilter: "blur(4px)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          zIndex: 1100,
+          animation: "fadeIn 0.2s ease-out"
+        }}>
+          <div style={{
+            background: "#ffffff",
+            padding: "24px",
+            borderRadius: "16px",
+            boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+            width: "100%",
+            maxWidth: "400px",
+            animation: "scaleIn 0.2s ease-out",
+            textAlign: "left"
+          }}>
+            <h3 style={{ fontSize: "16px", fontWeight: 800, color: "#0f172a", marginBottom: "8px" }}>
+              ⚠️ Confirm Email Broadcast?
+            </h3>
+            <p style={{ fontSize: "14px", color: "#64748b", lineHeight: 1.5, marginBottom: "20px" }}>
+              Are you sure you want to send this project update email to all active newsletter subscribers? This will trigger real emails.
+            </p>
+            <div style={{ display: "flex", justifyContent: "flex-end", gap: "10px" }}>
+              <button
+                type="button"
+                className="admin-btn admin-btn-secondary"
+                onClick={() => setShowBroadcastConfirm(false)}
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                className="admin-btn admin-btn-primary"
+                style={{ background: "#0f172a", color: "#ffffff", border: "none" }}
+                onClick={handleSendBroadcast}
+              >
+                Yes, Send Broadcast
               </button>
             </div>
           </div>
