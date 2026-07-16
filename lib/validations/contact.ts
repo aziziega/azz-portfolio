@@ -5,6 +5,7 @@ export const contactSchema = z.object({
   email: z.string().email("Invalid email address"),
   subject: z.string().min(1, "Subject is required").max(200),
   message: z.string().min(10, "Message must be at least 10 characters").max(5000),
+  name_honey: z.string().optional(),
 })
 
 export type ContactInput = z.infer<typeof contactSchema>

@@ -33,7 +33,7 @@ export default function Footer() {
                     </div>
                 </div>
                 <div className="copyright">{t("footer.copyright")}</div>
-                <div className="credit">Designed using 1UI.dev and built using v0.app</div>
+                <div className="credit">Designed using <a href="https://nextjs.org/" target="_blank" className="hover:text-accent hover:underline transition cursor-pointer " >Next.js</a></div>
             </div>
         </footer>
     )

@@ -22,8 +22,18 @@ export default function MessagesView({ initialMessages }: MessagesViewProps) {
   const [selectedMessage, setSelectedMessage] = useState<DBMessage | null>(null)
   const [statusFilter, setStatusFilter] = useState("all")
 
+  // Reply Editor States
+  const [showReplyEditor, setShowReplyEditor] = useState(false)
+  const [replyText, setReplyText] = useState("")
+  const [sendingReply, setSendingReply] = useState(false)
+  const [showConfirm, setShowConfirm] = useState(false)
+  const [toastMsg, setToastMsg] = useState("")
+  const [toastError, setToastError] = useState(false)
+
   const handleSelectMessage = async (msg: DBMessage) => {
     setSelectedMessage(msg)
+    setShowReplyEditor(false)
+    setReplyText("")
     
     // Mark as read automatically if it's new
     if (msg.status === "new") {
@@ -80,6 +90,51 @@ export default function MessagesView({ initialMessages }: MessagesViewProps) {
     } catch (err) {
       console.error(err)
       alert("Failed to delete message")
+    }
+  }
+
+  const handleSendReply = async () => {
+    if (!selectedMessage) return
+    setSendingReply(true)
+    setToastMsg("")
+    try {
+      const response = await fetch("/api/admin/messages/reply", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          messageId: selectedMessage.id,
+          to: selectedMessage.email,
+          subject: selectedMessage.subject,
+          replyText: replyText,
+          originalName: selectedMessage.name,
+          originalDate: new Date(selectedMessage.created_at).toLocaleString(),
+          originalBody: selectedMessage.message,
+        }),
+      })
+
+      const data = await response.json()
+      if (!response.ok) {
+        throw new Error(data.message || "Failed to send email reply")
+      }
+
+      setToastMsg("Email reply sent successfully!")
+      setToastError(false)
+      
+      // Update local status state to 'replied'
+      setMessages(messages.map(m => m.id === selectedMessage.id ? { ...m, status: "replied" as const } : m))
+      setSelectedMessage({ ...selectedMessage, status: "replied" as const })
+      
+      setReplyText("")
+      setShowReplyEditor(false)
+      setTimeout(() => setToastMsg(""), 3000)
+    } catch (err: any) {
+      console.error(err)
+      setToastMsg(err.message || "Failed to send email reply")
+      setToastError(true)
+      setTimeout(() => setToastMsg(""), 3000)
+    } finally {
+      setSendingReply(false)
+      setShowConfirm(false)
     }
   }
 
@@ -198,13 +253,51 @@ export default function MessagesView({ initialMessages }: MessagesViewProps) {
             <div className="admin-message-body">{selectedMessage.message}</div>
 
             <div style={{ borderTop: "1px solid #e2e8f0", paddingTop: "20px", marginTop: "20px" }}>
-              <a
-                href={`mailto:${selectedMessage.email}?subject=Re: ${selectedMessage.subject}`}
-                className="admin-quick-btn primary"
-                onClick={() => handleUpdateStatus(selectedMessage.id, "replied")}
-              >
-                ✉️ Reply via Email
-              </a>
+              {!showReplyEditor ? (
+                <button
+                  type="button"
+                  onClick={() => setShowReplyEditor(true)}
+                  className="admin-quick-btn primary"
+                  style={{ display: "inline-flex", alignItems: "center", gap: "8px" }}
+                >
+                  ✉️ Reply to Sender
+                </button>
+              ) : (
+                <div style={{ display: "flex", flexDirection: "column", gap: "12px", background: "#f8fafc", padding: "16px", borderRadius: "12px", border: "1px solid #e2e8f0" }}>
+                  <h4 style={{ margin: 0, fontSize: "13px", fontWeight: 700, color: "#1e293b" }}>
+                    Reply Email to {selectedMessage.name}
+                  </h4>
+                  <textarea
+                    className="admin-form-input"
+                    value={replyText}
+                    onChange={(e) => setReplyText(e.target.value)}
+                    rows={6}
+                    placeholder="Write your email reply..."
+                    style={{ background: "#ffffff", padding: "10px", borderRadius: "8px", width: "100%", boxSizing: "border-box" }}
+                  />
+                  <div style={{ display: "flex", gap: "8px" }}>
+                    <button
+                      type="button"
+                      disabled={sendingReply || !replyText.trim()}
+                      onClick={() => setShowConfirm(true)}
+                      className="admin-btn admin-btn-primary admin-btn-sm"
+                      style={{ background: "#0f172a", color: "#ffffff", border: "none" }}
+                    >
+                      {sendingReply ? "Sending..." : "Send Reply"}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setShowReplyEditor(false)
+                        setReplyText("")
+                      }}
+                      className="admin-btn admin-btn-secondary admin-btn-sm"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         ) : (
@@ -215,6 +308,73 @@ export default function MessagesView({ initialMessages }: MessagesViewProps) {
           </div>
         )}
       </div>
+
+      {/* Toast Alert */}
+      {toastMsg && (
+        <div className={`admin-toast ${toastError ? "error" : "success"}`}>
+          {toastError ? "❌" : "⚙️"} {toastMsg}
+        </div>
+      )}
+
+      {/* Confirmation Modal */}
+      {showConfirm && selectedMessage && (
+        <div style={{
+          position: "fixed",
+          inset: 0,
+          background: "rgba(15, 23, 42, 0.4)",
+          backdropFilter: "blur(4px)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          zIndex: 1100,
+          animation: "fadeIn 0.2s ease-out"
+        }}>
+          <div style={{
+            background: "#ffffff",
+            padding: "24px",
+            borderRadius: "16px",
+            boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+            width: "100%",
+            maxWidth: "400px",
+            animation: "scaleIn 0.2s ease-out",
+            textAlign: "left"
+          }}>
+            <h3 style={{ fontSize: "16px", fontWeight: 800, color: "#0f172a", marginBottom: "8px" }}>
+              ✉️ Send Email Reply?
+            </h3>
+            <p style={{ fontSize: "14px", color: "#64748b", lineHeight: 1.5, marginBottom: "20px" }}>
+              Are you sure you want to send this reply to <strong>{selectedMessage.name} ({selectedMessage.email})</strong>? This will send a real email.
+            </p>
+            <div style={{ display: "flex", justifyContent: "flex-end", gap: "10px" }}>
+              <button
+                type="button"
+                className="admin-btn admin-btn-secondary"
+                onClick={() => setShowConfirm(false)}
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                className="admin-btn admin-btn-primary"
+                style={{ background: "#0f172a", color: "#ffffff", border: "none" }}
+                onClick={handleSendReply}
+              >
+                Yes, Send Reply
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      <style>{`
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        @keyframes scaleIn {
+          from { transform: scale(0.95); opacity: 0; }
+          to { transform: scale(1); opacity: 1; }
+        }
+      `}</style>
     </div>
   )
 }

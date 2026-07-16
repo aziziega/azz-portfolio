@@ -9,6 +9,7 @@ export default function Contact() {
     const [email, setEmail] = useState("")
     const [subject, setSubject] = useState("")
     const [message, setMessage] = useState("")
+    const [nameHoney, setNameHoney] = useState("")
     
     const [loading, setLoading] = useState(false)
     const [success, setSuccess] = useState(false)
@@ -24,11 +25,17 @@ export default function Contact() {
             const response = await fetch("/api/contact", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ name, email, subject, message }),
+                body: JSON.stringify({ name, email, subject, message, name_honey: nameHoney }),
             })
 
             const data = await response.json()
             if (!response.ok) {
+                if (data.errors) {
+                    const errorMessages = Object.values(data.errors)
+                        .map((msgs: any) => msgs.join(", "))
+                        .join(", ")
+                    throw new Error(errorMessages)
+                }
                 throw new Error(data.message || "Failed to send message")
             }
 
@@ -37,6 +44,7 @@ export default function Contact() {
             setEmail("")
             setSubject("")
             setMessage("")
+            setNameHoney("")
         } catch (err: any) {
             console.error(err)
             setError(err.message || "Something went wrong")
@@ -51,7 +59,7 @@ export default function Contact() {
                 <div className="container">
                     <div className="contact-wrapper animate-on-scroll">
                         <div className="contact-info">
-                            <h2 className="section-title">{t("contact.title")}</h2>
+                            <h2 className="section-title" suppressHydrationWarning>{t("contact.title")}</h2>
                             <p className="contact-desc">
                                 {t("contact.subtitle")}
                             </p>
@@ -93,6 +101,18 @@ export default function Contact() {
                                     <input type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder={t("contact.form.emailPlaceholder")} required disabled={loading} />
                                 </div>
                             </div>
+                            {/* Honeypot field (hidden from real users, traps bots) */}
+                            <div style={{ display: "none" }} aria-hidden="true">
+                                <label htmlFor="name_honey">Leave this field blank</label>
+                                <input
+                                    type="text"
+                                    id="name_honey"
+                                    value={nameHoney}
+                                    onChange={(e) => setNameHoney(e.target.value)}
+                                    autoComplete="off"
+                                />
+                            </div>
+
                             <div className="form-field">
                                 <label htmlFor="subject">{t("contact.form.subject")}</label>
                                 <input type="text" id="subject" value={subject} onChange={(e) => setSubject(e.target.value)} placeholder={t("contact.form.subjectPlaceholder")} required disabled={loading} />

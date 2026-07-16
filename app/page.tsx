@@ -7,7 +7,7 @@ import LineAvailable from "@/components/landingPage/line-available"
 import Newsletter from "@/components/landingPage/newletter"
 import Work from "@/components/landingPage/work"
 import Footer from "@/components/landingPage/footer"
-import { useEffect, useState } from "react"
+import { useEffect, useState, Suspense } from "react"
 
 
 export default function Portfolio() {
@@ -66,13 +66,52 @@ export default function Portfolio() {
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Person",
+            "name": "Azizi Egatri M.",
+            "alternateName": [
+              "Azizi Egatri Mu'thi",
+              "Azizi Egatri Muthi",
+              "Azizi Egatri M."
+            ],
+            "url": "https://aziziem.vercel.app",
+            "jobTitle": "Fullstack Web Developer",
+            "knowsAbout": [
+              "Next.js",
+              "React",
+              "TypeScript",
+              "Node.js",
+              "Supabase",
+              "PostgreSQL",
+              "Web Development",
+              "UI/UX Design"
+            ],
+            "sameAs": [
+              "https://github.com/aziziega",
+              "https://linkedin.com/in/aziziegatri"
+            ]
+          })
+        }}
+      />
       <main>
         <HeroSection />
         {/* <TechStack /> */}
         <LineAvailable />
         <Work />
         <Blog />
-        <Newsletter />
+        <Suspense fallback={
+          <section className="newsletter py-16 md:py-24">
+            <div className="container text-center">
+              <p style={{ color: "#64748b" }}>Loading newsletter...</p>
+            </div>
+          </section>
+        }>
+          <Newsletter />
+        </Suspense>
         <Contact />
       </main>
       <Footer />

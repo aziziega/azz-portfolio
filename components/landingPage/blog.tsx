@@ -77,7 +77,7 @@ export default function Blog() {
             <section id="blog" className="section blog-section">
                 <div className="container">
                     <div className="section-header animate-on-scroll">
-                        <h2 className="section-title">{t("blog.title")}</h2>
+                        <h2 className="section-title" suppressHydrationWarning>{t("blog.title")}</h2>
                         <a href="/blog" className="view-all">
                             {t("blog.viewAll")}
                         </a>

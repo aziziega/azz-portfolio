@@ -1,8 +1,10 @@
 "use client"
 
 import { usePathname } from "next/navigation"
-import { Menu } from "lucide-react"
+import { Menu, Bell } from "lucide-react"
+import Link from "next/link"
 import { useState, useEffect } from "react"
+import { createClient } from "@/lib/supabase/client"
 
 const pageTitles: Record<string, string> = {
   "/admin": "Overview",
@@ -31,12 +33,37 @@ export default function AdminHeader({ onMenuClick }: AdminHeaderProps) {
 
   const [currentTime, setCurrentTime] = useState<Date | null>(null)
 
+  const [unreadCount, setUnreadCount] = useState(0)
+
   useEffect(() => {
     setCurrentTime(new Date())
     const timer = setInterval(() => {
       setCurrentTime(new Date())
     }, 1000)
-    return () => clearInterval(timer)
+
+    const fetchUnreadCount = async () => {
+      try {
+        const supabase = createClient()
+        const { count, error } = await supabase
+          .from("contact_messages")
+          .select("*", { count: "exact", head: true })
+          .eq("status", "new")
+
+        if (!error && count !== null) {
+          setUnreadCount(count)
+        }
+      } catch (err) {
+        console.error("Failed to fetch unread count:", err)
+      }
+    }
+
+    fetchUnreadCount()
+    const countTimer = setInterval(fetchUnreadCount, 30000)
+
+    return () => {
+      clearInterval(timer)
+      clearInterval(countTimer)
+    }
   }, [])
 
   const formatDateTime = (date: Date) => {
@@ -63,10 +90,37 @@ export default function AdminHeader({ onMenuClick }: AdminHeaderProps) {
         </button>
         <h1 className="admin-header-title">{title}</h1>
       </div>
-      <div className="admin-header-right">
+      <div className="admin-header-right" style={{ display: "flex", alignItems: "center", gap: "20px" }}>
         <span className="admin-header-greeting">
           {greeting}, Azizi {currentTime ? `• ${formatDateTime(currentTime)}` : ""}
         </span>
+        <Link 
+          href="/admin/messages" 
+          style={{ 
+            position: "relative", 
+            display: "flex", 
+            alignItems: "center", 
+            justifyContent: "center", 
+            color: "#64748b",
+            transition: "color 0.15s"
+          }}
+          className="admin-bell-link"
+        >
+          <Bell size={20} />
+          {unreadCount > 0 && (
+            <span style={{
+              position: "absolute",
+              top: "-2px",
+              right: "-2px",
+              background: "#ef4444",
+              color: "#ffffff",
+              borderRadius: "9999px",
+              width: "8px",
+              height: "8px",
+              boxShadow: "0 0 0 2px #ffffff"
+            }} />
+          )}
+        </Link>
         <div className="admin-header-avatar">A</div>
       </div>
     </header>

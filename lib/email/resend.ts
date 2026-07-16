@@ -2,7 +2,7 @@ import { Resend } from "resend"
 
 const resend = new Resend(process.env.RESEND_API)
 
-const FROM_EMAIL = "onboarding@resend.dev"
+const FROM_EMAIL = process.env.RESEND_FROM_EMAIL || "onboarding@resend.dev"
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"
 const OWNER_NAME = "Azizi Egatri M."
 const OWNER_EMAIL = process.env.ADMIN_ALLOWED_EMAIL || "aziziegatrim@gmail.com"
@@ -240,3 +240,173 @@ export async function sendBroadcastEmail(emails: string[], subject: string, body
   if (error) throw new Error(`Resend error: ${JSON.stringify(error)}`)
   return data
 }
+
+/**
+ * Kirim email balasan ke pengirim pesan contact form.
+ * Menyertakan isi balasan dan salinan pesan asli (thread).
+ */
+export async function sendReplyEmail(
+  to: string,
+  originalSubject: string,
+  replyBody: string,
+  originalMessage: { name: string; date: string; body: string }
+) {
+  const formattedReplyHtml = replyBody
+    .replace(/\r\n/g, "<br />")
+    .replace(/\n/g, "<br />")
+    .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+
+  const formattedOriginalHtml = originalMessage.body
+    .replace(/\r\n/g, "<br />")
+    .replace(/\n/g, "<br />")
+
+  const replySubject = originalSubject.startsWith("Re:") 
+    ? originalSubject 
+    : `Re: ${originalSubject}`
+
+  const { data, error } = await resend.emails.send({
+    from: FROM_EMAIL,
+    to: to,
+    replyTo: OWNER_EMAIL, // Allow recipient to reply back to owner's personal email
+    subject: replySubject,
+    html: `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <meta charset="utf-8" />
+          <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        </head>
+        <body style="margin:0;padding:0;background:#f8fafc;font-family:'Segoe UI',Arial,sans-serif;color:#1e293b;">
+          <table width="100%" cellpadding="0" cellspacing="0" style="background:#f8fafc;padding:40px 0;">
+            <tr>
+              <td align="center">
+                <table width="560" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.07);">
+                  <!-- Body -->
+                  <tr>
+                    <td style="padding:40px;">
+                      <!-- Reply Content -->
+                      <div style="font-size:16px;line-height:1.6;color:#0f172a;margin-bottom:40px;">
+                        ${formattedReplyHtml}
+                      </div>
+
+                      <!-- Divider -->
+                      <hr style="border:0;border-top:1px solid #e2e8f0;margin:30px 0;" />
+
+                      <!-- Original Message Thread -->
+                      <div style="border-left:3px solid #cbd5e1;padding-left:16px;color:#64748b;font-size:14px;line-height:1.6;">
+                        <p style="margin:0 0 12px 0;font-weight:600;color:#475569;">
+                          Pada ${originalMessage.date}, <strong>${originalMessage.name}</strong> menulis:
+                        </p>
+                        <blockquote style="margin:0;font-style:italic;">
+                          ${formattedOriginalHtml}
+                        </blockquote>
+                      </div>
+                    </td>
+                  </tr>
+                  <!-- Footer -->
+                  <tr>
+                    <td style="background:#f8fafc;padding:20px 40px;border-top:1px solid #e2e8f0;text-align:center;">
+                      <p style="margin:0;color:#94a3b8;font-size:12px;line-height:1.5;">
+                        Balasan dari portofolio resmi ${OWNER_NAME}<br />
+                        Kontak: ${OWNER_EMAIL}
+                      </p>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        </body>
+      </html>
+    `,
+  })
+
+  if (error) throw new Error(`Resend error: ${JSON.stringify(error)}`)
+  return data
+}
+
+/**
+ * Kirim email notifikasi ke admin ketika ada pesan baru di contact form.
+ */
+export async function sendContactNotificationEmail(
+  guestName: string,
+  guestEmail: string,
+  subject: string,
+  message: string
+) {
+  const formattedMessage = message
+    .replace(/\r\n/g, "<br />")
+    .replace(/\n/g, "<br />")
+
+  const { data, error } = await resend.emails.send({
+    from: FROM_EMAIL,
+    to: OWNER_EMAIL,
+    subject: `🔔 New Contact Message: ${subject} from ${guestName}`,
+    html: `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <meta charset="utf-8" />
+          <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        </head>
+        <body style="margin:0;padding:0;background:#f8fafc;font-family:'Segoe UI',Arial,sans-serif;color:#1e293b;">
+          <table width="100%" cellpadding="0" cellspacing="0" style="background:#f8fafc;padding:40px 0;">
+            <tr>
+              <td align="center">
+                <table width="560" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.07);">
+                  <!-- Header -->
+                  <tr>
+                    <td style="background:linear-gradient(135deg,#e11d48 0%,#be123c 100%);padding:32px 40px;text-align:center;">
+                      <p style="margin:0;font-size:28px;">🔔</p>
+                      <h1 style="margin:12px 0 0;color:#ffffff;font-size:20px;font-weight:700;letter-spacing:-0.3px;">
+                        New Message in Inbox
+                      </h1>
+                    </td>
+                  </tr>
+                  <!-- Body -->
+                  <tr>
+                    <td style="padding:40px;">
+                      <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:24px;border-bottom:1px solid #e2e8f0;padding-bottom:16px;">
+                        <tr>
+                          <td style="padding:4px 0;font-size:14px;color:#64748b;width:80px;">From:</td>
+                          <td style="padding:4px 0;font-size:14px;color:#0f172a;font-weight:600;">${guestName} (${guestEmail})</td>
+                        </tr>
+                        <tr>
+                          <td style="padding:4px 0;font-size:14px;color:#64748b;">Subject:</td>
+                          <td style="padding:4px 0;font-size:14px;color:#0f172a;font-weight:600;">${subject}</td>
+                        </tr>
+                        <tr>
+                          <td style="padding:4px 0;font-size:14px;color:#64748b;">Date:</td>
+                          <td style="padding:4px 0;font-size:14px;color:#0f172a;">${new Date().toLocaleString()}</td>
+                        </tr>
+                      </table>
+
+                      <div style="background:#f1f5f9;border-radius:10px;padding:20px;font-size:15px;line-height:1.6;color:#334155;white-space:pre-wrap;">
+                        ${formattedMessage}
+                      </div>
+
+                      <table cellpadding="0" cellspacing="0" style="margin:30px auto 0 auto;">
+                        <tr>
+                          <td style="background:#0f172a;border-radius:10px;">
+                            <a href="${SITE_URL}/admin/messages" 
+                               style="display:inline-block;padding:14px 32px;color:#ffffff;font-size:14px;font-weight:600;text-decoration:none;">
+                              Open CMS Inbox
+                            </a>
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        </body>
+      </html>
+    `,
+  })
+
+  if (error) throw new Error(`Resend error: ${JSON.stringify(error)}`)
+  return data
+}
+

@@ -11,9 +11,8 @@ const _geist = Geist({ subsets: ["latin"] })
 const _geistMono = Geist_Mono({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "My Portfolio",
+  title: "Azizi Egatri M. — Portfolio",
   description: "Portfolio showcasing delightful digital experiences merging thoughtful design with robust engineering",
-  generator: "v0.app",
   icons: {
     icon: [
       {
@@ -24,6 +23,19 @@ export const metadata: Metadata = {
     ],
     apple: "/images/logo-portfolio.png",
     shortcut: "/images/logo-portfolio.png",
+  },
+  openGraph: {
+    title: "Azizi Egatri M. — Portfolio",
+    description: "Portfolio showcasing delightful digital experiences merging thoughtful design with robust engineering",
+    url: "https://aziziem.vercel.app",
+    siteName: "Azizi Egatri M. Portfolio",
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Azizi Egatri M. — Portfolio",
+    description: "Portfolio showcasing delightful digital experiences merging thoughtful design with robust engineering",
   },
 }
 

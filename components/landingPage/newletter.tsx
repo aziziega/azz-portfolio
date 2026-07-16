@@ -69,7 +69,7 @@ export default function Newsletter() {
             <section className="newsletter animate-on-scroll py-16 md:py-24">
                 <div className="container">
                     <div className="newsletter-inner max-w-2xl mx-auto">
-                        <h2 className="mb-4 text-center">{t("newsletter.title")}</h2>
+                        <h2 className="mb-4 text-center" suppressHydrationWarning>{t("newsletter.title")}</h2>
                         <p className="mb-8 text-center text-muted-foreground">{t("newsletter.subtitle")}</p>
                         
                         {message && (
