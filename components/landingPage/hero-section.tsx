@@ -114,7 +114,7 @@ export default function HeroSection() {
                                 position={[0, 0, 20]}
                                 anchorPosition={[-5, 4, 0]}
                                 containerClassName="absolute inset-0 w-full h-full pointer-events-auto"
-                                defaultName="Azizi E.M."
+                                defaultName="Azizi Egatri Mu'thi"
                                 defaultVariant="plain"
                             />
                         </div>
