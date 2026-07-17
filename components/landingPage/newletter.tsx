@@ -2,7 +2,6 @@
 
 import { useLanguage } from "@/contexts/language-contexts"
 import { useEffect, useState } from "react"
-import { useSearchParams } from "next/navigation"
 
 export default function Newsletter() {
     const { t } = useLanguage()
@@ -12,23 +11,25 @@ export default function Newsletter() {
     const [message, setMessage] = useState("")
     const [isError, setIsError] = useState(false)
     const [submitted, setSubmitted] = useState(false)
-    const searchParams = useSearchParams()
 
     useEffect(() => {
         setMounted(true)
         // Handle redirect back from email verification
-        const newsletterStatus = searchParams.get("newsletter")
-        if (newsletterStatus === "confirmed") {
-            setMessage("🎉 Email confirmed! You're now subscribed. Welcome aboard!")
-            setIsError(false)
-            setSubmitted(true)
-        } else if (newsletterStatus === "already_confirmed") {
-            setMessage("✅ Your email is already confirmed and you're subscribed!")
-            setIsError(false)
-            setSubmitted(true)
-        } else if (newsletterStatus === "invalid" || newsletterStatus === "error") {
-            setMessage("❌ This confirmation link is invalid or has expired. Please try subscribing again.")
-            setIsError(true)
+        if (typeof window !== "undefined") {
+            const params = new URLSearchParams(window.location.search)
+            const newsletterStatus = params.get("newsletter")
+            if (newsletterStatus === "confirmed") {
+                setMessage("🎉 Email confirmed! You're now subscribed. Welcome aboard!")
+                setIsError(false)
+                setSubmitted(true)
+            } else if (newsletterStatus === "already_confirmed") {
+                setMessage("✅ Your email is already confirmed and you're subscribed!")
+                setIsError(false)
+                setSubmitted(true)
+            } else if (newsletterStatus === "invalid" || newsletterStatus === "error") {
+                setMessage("❌ This confirmation link is invalid or has expired. Please try subscribing again.")
+                setIsError(true)
+            }
         }
     }, [])
 

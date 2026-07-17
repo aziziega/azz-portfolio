@@ -7,7 +7,7 @@ import LineAvailable from "@/components/landingPage/line-available"
 import Newsletter from "@/components/landingPage/newletter"
 import Work from "@/components/landingPage/work"
 import Footer from "@/components/landingPage/footer"
-import { useEffect, useState, Suspense } from "react"
+import { useEffect, useState } from "react"
 
 
 export default function Portfolio() {
@@ -103,15 +103,7 @@ export default function Portfolio() {
         <LineAvailable />
         <Work />
         <Blog />
-        <Suspense fallback={
-          <section className="newsletter py-16 md:py-24">
-            <div className="container text-center">
-              <p style={{ color: "#64748b" }}>Loading newsletter...</p>
-            </div>
-          </section>
-        }>
-          <Newsletter />
-        </Suspense>
+        <Newsletter />
         <Contact />
       </main>
       <Footer />
