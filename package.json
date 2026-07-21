@@ -67,6 +67,7 @@
     "tailwind-merge": "^3.3.1",
     "tailwindcss-animate": "^1.0.7",
     "three": "^0.184.0",
+    "@types/three": "^0.184.0",
     "vaul": "^1.1.2",
     "zod": "3.25.76"
   },
@@ -75,7 +76,7 @@
     "@types/node": "^22",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "@types/three": "^0.174.0",
+    "@types/three": "^0.184.0",
     "baseline-browser-mapping": "^2.10.40",
     "postcss": "^8.5",
     "tailwindcss": "^4.1.9",
