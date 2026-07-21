@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server"
+import { createAdminClient } from "@/lib/supabase/admin"
 
 export interface DBSiteSetting {
   key: string
@@ -7,7 +7,7 @@ export interface DBSiteSetting {
 }
 
 export async function getSettings(): Promise<Record<string, any>> {
-  const supabase = await createClient()
+  const supabase = createAdminClient()
   const { data, error } = await supabase
     .from("site_settings")
     .select("*")
@@ -26,7 +26,7 @@ export async function getSettings(): Promise<Record<string, any>> {
 }
 
 export async function getSettingByKey(key: string): Promise<any | null> {
-  const supabase = await createClient()
+  const supabase = createAdminClient()
   const { data, error } = await supabase
     .from("site_settings")
     .select("value")
@@ -41,7 +41,7 @@ export async function getSettingByKey(key: string): Promise<any | null> {
 }
 
 export async function updateSetting(key: string, value: any): Promise<void> {
-  const supabase = await createClient()
+  const supabase = createAdminClient()
   const { error } = await supabase
     .from("site_settings")
     .upsert({ key, value, updated_at: new Date().toISOString() }, { onConflict: 'key' })

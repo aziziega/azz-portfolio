@@ -78,7 +78,7 @@ export default function Portfolio() {
               "Azizi Egatri Muthi",
               "Azizi Egatri M."
             ],
-            "url": "https://aziziem.vercel.app",
+            "url": "https://aziziem.xyz",
             "jobTitle": "Fullstack Web Developer",
             "knowsAbout": [
               "Next.js",

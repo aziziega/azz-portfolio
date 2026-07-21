@@ -27,7 +27,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Azizi Egatri M. — Portfolio",
     description: "Portfolio showcasing delightful digital experiences merging thoughtful design with robust engineering",
-    url: "https://aziziem.vercel.app",
+    url: "https://aziziem.xyz",
     siteName: "Azizi Egatri M. Portfolio",
     locale: "en_US",
     type: "website",
