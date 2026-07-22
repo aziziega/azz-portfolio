@@ -23,8 +23,8 @@ const translations = {
 
     // Hero Section
     "hero.role": "Fullstack Web Developer",
-    "hero.location": "Prambanan, Klaten, Central Java Indonesia.",
-    "hero.bio": "Fullstack Web Developer delivering scalable, end-to-end web solutions with Next.js, React, Supabase, and Node.js. I transform complex requirements into clean, intuitive digital experiences. Reliable, continuously learning, and committed to modern best practices.",
+    "hero.location": "Jawa Tengah, Indonesia.",
+    "hero.bio": "Fresh graduate Builder and Fullstack Web Developer with 1+ year of experience delivering production systems for real-world clients using Next.js, Node.js, and PostgreSQL. Experienced end-to-end: designing database schemas, building REST APIs, and crafting intuitive user interfaces. An independent problem solver skilled in shipping Gym CRMs, Clinical EMR systems, and Custom Organization CMS platforms.",
     // Line Available
     "lineAvailable.available": "Available for New Projects",
     "lineAvailable.services": "Design & Development",
@@ -152,8 +152,8 @@ const translations = {
 
     // Hero Section
     "hero.role": "Fullstack Web Developer",
-    "hero.location": "Prambanan, Klaten, Jawa Tengah Indonesia.",
-    "hero.bio": "Fullstack Web Developer yang menghadirkan solusi web scalable dan end-to-end dengan Next.js, React, Supabase, dan Node.js. Saya mengubah requirement kompleks menjadi pengalaman digital yang clean dan intuitif. Dapat diandalkan, terus belajar, dan berkomitmen pada best practices modern.",
+    "hero.location": "Jawa Tengah, Indonesia.",
+    "hero.bio": "Fresh graduate Builder sekaligus Fullstack Web Developer dengan 1+ tahun pengalaman membangun sistem produksi untuk klien nyata menggunakan Next.js, Node.js, dan PostgreSQL. Terbiasa bekerja end-to-end: merancang skema database, membangun REST API, hingga UI yang siap pakai untuk end-user. Problem solver mandiri yang terbiasa mengeksekusi solusi dari CRM, EMR/RME Klinik, hingga CMS Organisasi.",
 
     // Line Available
     "lineAvailable.available": "Tersedia untuk Proyek Baru",

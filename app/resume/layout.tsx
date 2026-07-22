@@ -3,8 +3,8 @@ import type { Metadata } from "next"
 import { LanguageProvider } from "@/contexts/language-contexts"
 
 export const metadata: Metadata = {
-  title: "Resume — Azizi Egatri Murthi",
-  description: "Resume of Azizi Egatri Murthi, Fullstack Web Developer based in Prambanan, Klaten, Indonesia.",
+  title: "Resume — Azizi Egatri Muthi",
+  description: "Resume of Azizi Egatri Muthi, Fullstack Web Developer based in Jawa Tengah, Indonesia.",
 }
 
 /**
