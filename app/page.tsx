@@ -72,14 +72,22 @@ export default function Portfolio() {
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "Person",
-            "name": "Azizi Egatri M.",
+            "@id": "https://aziziem.xyz/",
+            "name": "Azizi Egatri Mu'thi",
             "alternateName": [
-              "Azizi Egatri Mu'thi",
+              "AZIZI EGATRI MU'THI",
               "Azizi Egatri Muthi",
-              "Azizi Egatri M."
+              "azizi egatri muthi",
+              "AZIZI EGATRI MUTHI",
+              "Azizi Egatri M.",
+              "aziziem",
             ],
             "url": "https://aziziem.xyz",
-            "jobTitle": "Fullstack Web Developer",
+            "image": "https://aziziem.xyz/me-02.jpg",
+            "email": "aziziegatrim@gmail.com",
+            "jobTitle": "Software Engineer & Product Builder",
+            "description":
+              "Software Engineer & Product Builder based in Indonesia. Building scalable web products, innovative digital platforms, and user-centric solutions that solve real-world problems with clean code and thoughtful engineering.",
             "knowsAbout": [
               "Next.js",
               "React",
@@ -88,13 +96,31 @@ export default function Portfolio() {
               "Supabase",
               "PostgreSQL",
               "Web Development",
-              "UI/UX Design"
+              "UI/UX Design",
+              "Product Engineering",
+              "Full-Stack Development",
+              "Digital Product Building",
+              "Problem Solving",
+              "Software Architecture",
+              "CRM Systems",
+              "ERP Solutions",
             ],
+            "worksFor": {
+              "@type": "Organization",
+              "name": "Independent / Freelance",
+              "url": "https://aziziem.xyz",
+            },
+            "address": {
+              "@type": "PostalAddress",
+              "addressRegion": "Jawa Tengah",
+              "addressCountry": "ID",
+            },
             "sameAs": [
               "https://github.com/aziziega",
-              "https://linkedin.com/in/aziziegatri"
-            ]
-          })
+              "https://www.linkedin.com/in/aziziem/",
+              "https://aziziem.xyz",
+            ],
+          }),
         }}
       />
       <main>

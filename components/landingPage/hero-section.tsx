@@ -33,17 +33,22 @@ export default function HeroSection() {
 
     return (
         <>
+
             <section id="about" className="hero animate-on-scroll">
+                {/* Visually hidden H1 for SEO — Google indexes this to associate full name with domain */}
+                <h1 className="sr-only">
+                    Azizi Egatri Mu&#39;thi — Software Engineer &amp; Product Builder | aziziem.xyz
+                </h1>
                 <div className="container">
                     <div className="hero-layout">
-                        <div className="hero-vertical-name">
+                        <div className="hero-vertical-name" aria-hidden="true">
                             {typedText}
                             <span className="typing-cursor">|</span>
                         </div>
                         <div className="hero-content-wrapper">
                             <div className="hero-image-container animate-on-scroll">
                                 <div className="hero-image-bg"></div>
-                                <img src="/images/azizi_photo1-rmbg.png" alt="Profile" className="hero-image" />
+                                <img src="/images/azizi_photo1-rmbg.png" alt="Azizi Egatri Mu'thi — Software Engineer & Product Builder" className="hero-image" />
                                 <div className="hero-image-badges">
                                     <div className="badge">
                                         <span className="badge-icon">🇮🇩</span>

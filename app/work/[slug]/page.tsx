@@ -19,12 +19,16 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const thumbnailUrl = project.thumbnail_url || ""
 
   return {
-    title: `${titleText} — Portfolio Project | Azizi E.M.`,
+    title: `${titleText} — Built by Azizi Egatri Mu'thi | aziziem.xyz`,
     description: descriptionText,
+    alternates: {
+      canonical: `https://aziziem.xyz/work/${slug}`,
+    },
     openGraph: {
-      title: titleText,
+      title: `${titleText} — Built by Azizi Egatri Mu'thi`,
       description: taglineText,
       type: "website",
+      url: `https://aziziem.xyz/work/${slug}`,
       images: [{ url: thumbnailUrl }],
     },
   }
@@ -43,11 +47,41 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
   const previousSlug = currentIndex > 0 ? allSlugs[currentIndex - 1] : null
   const nextSlug = currentIndex < allSlugs.length - 1 ? allSlugs[currentIndex + 1] : null
 
+  const titleText = project.seo_title?.en || project.title?.en || ""
+  const descriptionText = project.seo_description?.en || project.description?.en || ""
+  const thumbnailUrl = project.thumbnail_url || ""
+
+  const creativeWorkSchema = {
+    "@context": "https://schema.org",
+    "@type": "CreativeWork",
+    "name": titleText,
+    "description": descriptionText,
+    "url": `https://aziziem.xyz/work/${slug}`,
+    "image": thumbnailUrl,
+    "author": {
+      "@type": "Person",
+      "@id": "https://aziziem.xyz/#person",
+      "name": "Azizi Egatri Mu'thi",
+      "url": "https://aziziem.xyz",
+    },
+    "creator": {
+      "@type": "Person",
+      "@id": "https://aziziem.xyz/#person",
+      "name": "Azizi Egatri Mu'thi",
+    },
+  }
+
   return (
-    <ProjectDetailClient 
-      project={project} 
-      previousSlug={previousSlug} 
-      nextSlug={nextSlug} 
-    />
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(creativeWorkSchema) }}
+      />
+      <ProjectDetailClient 
+        project={project} 
+        previousSlug={previousSlug} 
+        nextSlug={nextSlug} 
+      />
+    </>
   )
 }

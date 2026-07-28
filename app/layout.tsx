@@ -11,8 +11,48 @@ const _geist = Geist({ subsets: ["latin"] })
 const _geistMono = Geist_Mono({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Azizi Egatri M. — Portfolio",
-  description: "Portfolio showcasing delightful digital experiences merging thoughtful design with robust engineering",
+  metadataBase: new URL("https://aziziem.xyz"),
+  title: {
+    default: "Azizi Egatri M. — Portfolio",
+    template: "%s | Azizi Egatri Mu'thi",
+  },
+  description:
+    "Azizi Egatri Mu'thi (aziziem) — Software Engineer & Product Builder based in Indonesia. Building scalable web products, innovative digital platforms, and user-centric solutions that solve real-world problems.",
+  keywords: [
+    "AZIZI EGATRI MU'THI",
+    "Azizi Egatri Muthi",
+    "azizi egatri muthi",
+    "Azizi Egatri",
+    "aziziem",
+    "aziziem.xyz",
+    "Software Engineer Indonesia",
+    "Product Builder Indonesia",
+    "Fullstack Developer Indonesia",
+    "Next.js Developer",
+    "React Developer",
+    "Web Developer Jawa Tengah",
+    "Portfolio Azizi",
+  ],
+  authors: [{ name: "Azizi Egatri Mu'thi", url: "https://aziziem.xyz" }],
+  creator: "Azizi Egatri Mu'thi",
+  publisher: "Azizi Egatri Mu'thi",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  alternates: {
+    canonical: "https://aziziem.xyz",
+  },
+  verification: {
+    google: "a4239bfafc97e332",
+  },
   icons: {
     icon: [
       {
@@ -25,17 +65,20 @@ export const metadata: Metadata = {
     shortcut: "/images/logo-portfolio.png",
   },
   openGraph: {
-    title: "Azizi Egatri M. — Portfolio",
-    description: "Portfolio showcasing delightful digital experiences merging thoughtful design with robust engineering",
+    title: "AZIZI EGATRI MU'THI — Software Engineer & Product Builder",
+    description:
+      "Building scalable web products, innovative digital platforms, and user-centric solutions that solve real-world problems.",
     url: "https://aziziem.xyz",
-    siteName: "Azizi Egatri M. Portfolio",
+    siteName: "Azizi Egatri Mu'thi — aziziem.xyz",
     locale: "en_US",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Azizi Egatri M. — Portfolio",
-    description: "Portfolio showcasing delightful digital experiences merging thoughtful design with robust engineering",
+    title: "AZIZI EGATRI MU'THI — Software Engineer & Product Builder",
+    description:
+      "Building scalable web products, innovative digital platforms, and user-centric solutions that solve real-world problems.",
+    creator: "@aziziem",
   },
 }
 

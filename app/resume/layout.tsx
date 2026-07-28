@@ -3,8 +3,19 @@ import type { Metadata } from "next"
 import { LanguageProvider } from "@/contexts/language-contexts"
 
 export const metadata: Metadata = {
-  title: "Resume — Azizi Egatri Muthi",
-  description: "Resume of Azizi Egatri Muthi, Fullstack Web Developer based in Jawa Tengah, Indonesia.",
+  title: "Resume — AZIZI EGATRI MU'THI | Software Engineer & Product Builder",
+  description:
+    "Resume of Azizi Egatri Mu'thi (aziziem) — Software Engineer & Product Builder based in Jawa Tengah, Indonesia. Specializing in Next.js, React, TypeScript, Supabase, and full-stack web product development.",
+  keywords: [
+    "Azizi Egatri Muthi resume",
+    "aziziem CV",
+    "Software Engineer resume Indonesia",
+    "Fullstack Developer CV",
+    "Next.js developer resume",
+  ],
+  alternates: {
+    canonical: "https://aziziem.xyz/resume",
+  },
 }
 
 /**
