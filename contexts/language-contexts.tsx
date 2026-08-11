@@ -46,6 +46,11 @@ const translations = {
     "techStack.title": "TECH STACK",
     "techStack.subtitle": "All projects here are based on this tech stack",
 
+    // Certificates Section
+    "certificates.title": "Certifications",
+    "certificates.subtitle": "Credentials and professional certifications.",
+    "certificates.verify": "Verify Credential",
+
     // Blog Section
     "blog.title": "External Writing",
     "blog.viewAll": "View All",
@@ -188,6 +193,11 @@ const translations = {
     // Tech Stack Section
     "techStack.title": "TEKNOLOGI",
     "techStack.subtitle": "Semua proyek di sini dibuat dengan teknologi ini",
+
+    // Certificates Section
+    "certificates.title": "Sertifikasi",
+    "certificates.subtitle": "Kredensial dan sertifikasi profesional.",
+    "certificates.verify": "Verifikasi Kredensial",
 
     // Blog Section
     "blog.title": "Tulisan Eksternal",

@@ -1,6 +1,7 @@
 "use client"
 
 import Blog from "@/components/landingPage/blog"
+import Certificates from "@/components/landingPage/certificates"
 import Contact from "@/components/landingPage/contact"
 import HeroSection from "@/components/landingPage/hero-section"
 import LineAvailable from "@/components/landingPage/line-available"
@@ -128,6 +129,7 @@ export default function Portfolio() {
         {/* <TechStack /> */}
         <LineAvailable />
         <Work />
+        <Certificates />
         <Blog />
         <Newsletter />
         <Contact />
