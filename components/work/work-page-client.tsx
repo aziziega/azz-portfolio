@@ -157,8 +157,8 @@ export default function WorkPageClient() {
         </div>
       </section>
 
-      {/* Footer CTA Section with Floating Stat Cards */}
-      <WorkFooterCTA projects={projects} />
+      {/* Simple White Footer CTA Section */}
+      <WorkFooterCTA />
     </main>
   )
 }

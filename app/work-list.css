@@ -1004,6 +1004,195 @@
   border-color: rgba(255, 255, 255, 0.3);
 }
 
+/* ---- Option 1: Clean White Footer CTA & Stats ---- */
+.work-footer-cta-container.light {
+  position: relative;
+  margin-top: 4rem;
+  background: #ffffff;
+}
+
+.work-stats-wrapper {
+  max-width: 1000px;
+  margin: 0 auto 3rem;
+  padding: 0 1.5rem;
+}
+
+.work-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.work-stat-card-light {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.work-stat-card-light:hover {
+  transform: translateY(-4px);
+  border-color: #2563eb;
+  box-shadow: 0 12px 28px rgba(37, 99, 235, 0.1);
+}
+
+.work-stat-card-number-light {
+  font-size: 2.25rem;
+  font-weight: 900;
+  color: #0f172a;
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+.work-stat-card-label-light {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 0.25rem;
+}
+
+.work-footer-light-body {
+  position: relative;
+  background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
+  border-top: 1px solid #e2e8f0;
+  padding: 5rem 1.5rem 6rem;
+  text-align: center;
+}
+
+.work-footer-pill-label-light {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.4rem 1.25rem;
+  background: #eff6ff;
+  color: #2563eb;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  border-radius: 9999px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-bottom: 1.25rem;
+  border: 1px solid #dbeafe;
+}
+
+.work-footer-main-title-light {
+  font-size: 2.75rem;
+  font-weight: 900;
+  color: #0f172a;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  margin-bottom: 1rem;
+}
+
+.work-footer-title-highlight-blue {
+  color: #2563eb;
+  background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.work-footer-description-light {
+  font-size: 1.0625rem;
+  color: #64748b;
+  line-height: 1.65;
+  max-width: 600px;
+  margin: 0 auto 2.25rem;
+}
+
+.work-footer-btn-secondary-light {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.9rem 2rem;
+  background: #f1f5f9;
+  color: #334155;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 0.75rem;
+  border: 1px solid #e2e8f0;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.work-footer-btn-secondary-light:hover {
+  color: #0f172a;
+  background: #e2e8f0;
+  border-color: #cbd5e1;
+}
+
+/* ---- Seamless Pure White Footer CTA (No Stat Cards) ---- */
+.work-footer-simple-container {
+  position: relative;
+  background: #ffffff;
+  border-top: 1px solid #f1f5f9;
+  padding: 5rem 1.5rem 6rem;
+  text-align: center;
+  margin-top: 4rem;
+}
+
+.work-footer-simple-inner {
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+.work-footer-pill-label-simple {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.4rem 1.25rem;
+  background: #eff6ff;
+  color: #2563eb;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  border-radius: 9999px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-bottom: 1.25rem;
+  border: 1px solid #dbeafe;
+}
+
+.work-footer-title-simple {
+  font-size: 2.75rem;
+  font-weight: 900;
+  color: #0f172a;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  margin-bottom: 1rem;
+}
+
+.work-footer-desc-simple {
+  font-size: 1.0625rem;
+  color: #64748b;
+  line-height: 1.65;
+  max-width: 600px;
+  margin: 0 auto 2.25rem;
+}
+
+.work-footer-btn-secondary-simple {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.9rem 2rem;
+  background: #f8fafc;
+  color: #475569;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 0.75rem;
+  border: 1px solid #e2e8f0;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.work-footer-btn-secondary-simple:hover {
+  color: #0f172a;
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+}
+
 /* ============================================
    RESPONSIVE BREAKPOINTS
    ============================================ */
