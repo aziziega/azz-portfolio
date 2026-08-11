@@ -1,16 +1,29 @@
 "use client"
 
-import { useEffect, useState } from "react"
-import ProjectListItem from "@/components/work/project-list-item"
+import { useEffect, useMemo, useState } from "react"
 import { useLanguage } from "@/contexts/language-contexts"
+import WorkHeader, { ViewMode } from "@/components/work/work-header"
+import WorkFilters from "@/components/work/work-filters"
+import WorkGridView from "@/components/work/work-grid-view"
+import WorkTimelineView from "@/components/work/work-timeline-view"
+import WorkFooterCTA from "@/components/work/work-footer-cta"
+import { filterProjects, FilterState } from "@/lib/work-utils"
 
 export default function WorkPageClient() {
-  const { language, t } = useLanguage()
+  const { language } = useLanguage()
   const [projects, setProjects] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
+  const [viewMode, setViewMode] = useState<ViewMode>("grid")
+  const [searchQuery, setSearchQuery] = useState("")
+  const [filters, setFilters] = useState<FilterState>({
+    categories: [],
+    years: [],
+    techStacks: [],
+  })
 
   useEffect(() => {
     async function fetchProjects() {
+      setLoading(true)
       try {
         const res = await fetch(`/api/projects?lang=${language}`)
         if (res.ok) {
@@ -26,96 +39,126 @@ export default function WorkPageClient() {
     fetchProjects()
   }, [language])
 
+  // Derive filter options from projects data
+  const availableCategories = useMemo(() => {
+    const set = new Set<string>()
+    projects.forEach((p) => {
+      if (p.category) set.add(p.category)
+    })
+    return Array.from(set).sort()
+  }, [projects])
+
+  const availableYears = useMemo(() => {
+    const set = new Set<number>()
+    projects.forEach((p) => {
+      const yr = Number(p.year)
+      if (yr) set.add(yr)
+    })
+    return Array.from(set).sort((a, b) => b - a)
+  }, [projects])
+
+  const availableTech = useMemo(() => {
+    const set = new Set<string>()
+    projects.forEach((p) => {
+      if (Array.isArray(p.techStack)) {
+        p.techStack.forEach((t: string) => set.add(t))
+      }
+    })
+    return Array.from(set).sort()
+  }, [projects])
+
+  // Filter projects client-side
+  const filteredProjects = useMemo(() => {
+    return filterProjects(projects, searchQuery, filters)
+  }, [projects, searchQuery, filters])
+
+  // Count active filters
+  const activeFilterCount =
+    filters.categories.length + filters.years.length + filters.techStacks.length
+
+  // Handlers
+  const handleCategoryToggle = (category: string) => {
+    setFilters((prev) => ({
+      ...prev,
+      categories: prev.categories.includes(category)
+        ? prev.categories.filter((c) => c !== category)
+        : [...prev.categories, category],
+    }))
+  }
+
+  const handleYearToggle = (year: number) => {
+    setFilters((prev) => ({
+      ...prev,
+      years: prev.years.includes(year)
+        ? prev.years.filter((y) => y !== year)
+        : [...prev.years, year],
+    }))
+  }
+
+  const handleTechToggle = (tech: string) => {
+    setFilters((prev) => ({
+      ...prev,
+      techStacks: prev.techStacks.includes(tech)
+        ? prev.techStacks.filter((t) => t !== tech)
+        : [...prev.techStacks, tech],
+    }))
+  }
+
+  const handleClearAll = () => {
+    setFilters({
+      categories: [],
+      years: [],
+      techStacks: [],
+    })
+    setSearchQuery("")
+  }
+
   return (
     <main className="work-list-main">
-      {/* Hero with Geometric Background */}
-      <section className="work-list-hero">
-        <div className="geometric-bg">
-          <div className="geo-circle geo-circle-1" />
-          <div className="geo-circle geo-circle-2" />
-          <div className="geo-circle geo-circle-3" />
-          <div className="geo-circle geo-circle-4" />
-          <div className="geo-line geo-line-1" />
-          <div className="geo-line geo-line-2" />
-          <div className="geo-line geo-line-3" />
-        </div>
-        <div className="work-list-hero-content">
-          <h1 className="work-list-hero-title">{t("work.selectedWorks")}</h1>
-          <p className="work-list-hero-subtitle">
-            {t("work.page.description")}
-          </p>
-        </div>
-      </section>
+      {/* Header with Hero, Search Bar & Grid/Timeline Toggle */}
+      <WorkHeader
+        viewMode={viewMode}
+        onViewModeChange={setViewMode}
+        searchQuery={searchQuery}
+        onSearchChange={setSearchQuery}
+      />
 
-      {/* Stacked List */}
-      <section className="work-list-section">
-        {loading ? (
-          <div style={{ padding: "80px 0", textAlign: "center", color: "rgba(255,255,255,0.4)" }}>
-            Loading projects...
-          </div>
-        ) : projects.length === 0 ? (
-          <div style={{ padding: "80px 0", textAlign: "center", color: "rgba(255,255,255,0.4)" }}>
-            No projects found.
-          </div>
-        ) : (
-          projects.map((project, index) => (
-            <ProjectListItem
-              key={project.id}
-              project={project}
-              index={index}
+      {/* Main Body (2 Columns Layout: Filters Sidebar + Content Grid/Timeline) */}
+      <section className="work-content-section">
+        <div className="work-body-grid">
+          {/* Sidebar Filter */}
+          <div className="work-sidebar-col">
+            <WorkFilters
+              filters={filters}
+              availableCategories={availableCategories}
+              availableYears={availableYears}
+              availableTech={availableTech}
+              onCategoryToggle={handleCategoryToggle}
+              onYearToggle={handleYearToggle}
+              onTechToggle={handleTechToggle}
+              onClearAll={handleClearAll}
+              activeFilterCount={activeFilterCount}
             />
-          ))
-        )}
-      </section>
-
-      {/* CTA Footer Section */}
-      <section className="work-footer">
-        <div className="work-footer-geo">
-          <div className="work-footer-circle work-footer-circle-1" />
-          <div className="work-footer-circle work-footer-circle-2" />
-          <div className="work-footer-line work-footer-line-1" />
-          <div className="work-footer-line work-footer-line-2" />
-        </div>
-
-        <div className="work-footer-inner">
-          <span className="work-footer-label">{t("work.footer.label")}</span>
-          <h2 className="work-footer-title">
-            {t("work.footer.title1")}<br />
-            <span className="work-footer-title-accent">{t("work.footer.title2")}</span>
-          </h2>
-          <p className="work-footer-text">
-            {t("work.footer.text")}
-          </p>
-          <div className="work-footer-actions">
-            <a href="/#contact" className="work-footer-btn-primary">
-              {t("work.footer.btn.primary")}
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M5 12h14" /><path d="m12 5 7 7-7 7" />
-              </svg>
-            </a>
-            <a href="/" className="work-footer-btn-secondary">
-              {t("work.footer.btn.secondary")}
-            </a>
           </div>
 
-          <div className="work-footer-stats">
-            <div className="work-footer-stat">
-              <span className="work-footer-stat-number">{projects.length}</span>
-              <span className="work-footer-stat-label">{t("work.footer.stat.projects")}</span>
-            </div>
-            <div className="work-footer-stat-divider" />
-            <div className="work-footer-stat">
-              <span className="work-footer-stat-number">{projects.filter(p => p.featured).length}</span>
-              <span className="work-footer-stat-label">{t("work.footer.stat.featured")}</span>
-            </div>
-            <div className="work-footer-stat-divider" />
-            <div className="work-footer-stat">
-              <span className="work-footer-stat-number">{new Set(projects.flatMap(p => p.techStack || [])).size}+</span>
-              <span className="work-footer-stat-label">{t("work.footer.stat.tech")}</span>
-            </div>
+          {/* Main Content (Grid or Timeline) */}
+          <div className="work-main-col">
+            {loading ? (
+              <div className="work-loading-state">
+                <div className="work-loading-spinner" />
+                <p>Loading projects...</p>
+              </div>
+            ) : viewMode === "grid" ? (
+              <WorkGridView projects={filteredProjects} />
+            ) : (
+              <WorkTimelineView projects={filteredProjects} />
+            )}
           </div>
         </div>
       </section>
+
+      {/* Footer CTA Section with Floating Stat Cards */}
+      <WorkFooterCTA projects={projects} />
     </main>
   )
 }

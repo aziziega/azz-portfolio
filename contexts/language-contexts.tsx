@@ -134,6 +134,18 @@ const translations = {
     "work.footer.stat.featured": "Featured",
     "work.footer.stat.tech": "Technologies",
 
+    // Work Filter & View Controls
+    "work.filter.title": "Filter",
+    "work.filter.clear": "Clear All",
+    "work.filter.categories": "Categories",
+    "work.filter.years": "Year",
+    "work.filter.tech": "Tech Stack",
+    "work.filter.searchPlaceholder": "Search projects by title, description, or tech...",
+    "work.filter.noResults": "No projects found",
+    "work.filter.noResultsDesc": "Try adjusting your search query or filters.",
+    "work.view.grid": "Grid",
+    "work.view.timeline": "Timeline",
+
     // Footer
     "footer.copyright": "© 2026 Azizi Egatri M. All rights reserved.",
 
@@ -264,6 +276,18 @@ const translations = {
     "work.footer.stat.projects": "Proyek",
     "work.footer.stat.featured": "Unggulan",
     "work.footer.stat.tech": "Teknologi",
+
+    // Work Filter & View Controls
+    "work.filter.title": "Filter",
+    "work.filter.clear": "Hapus Semua",
+    "work.filter.categories": "Kategori",
+    "work.filter.years": "Tahun",
+    "work.filter.tech": "Tech Stack",
+    "work.filter.searchPlaceholder": "Cari proyek berdasarkan judul, deskripsi, atau teknologi...",
+    "work.filter.noResults": "Tidak ada proyek ditemukan",
+    "work.filter.noResultsDesc": "Coba sesuaikan kata kunci pencarian atau filter Anda.",
+    "work.view.grid": "Grid",
+    "work.view.timeline": "Timeline",
 
     // Footer
     "footer.copyright": "© 2026 Azizi Egatri M. Hak cipta dilindungi.",

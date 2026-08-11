@@ -135,6 +135,8 @@ function resolveProject(p: DBProject, language: "en" | "id"): any {
     thumbnail: p.thumbnail_url || "",
     images: [], // Populated separately or via gallery table
     year: p.year || new Date().getFullYear(),
+    publishedAt: p.published_at,
+    createdAt: p.created_at,
     duration: p.duration[language] || p.duration["en"] || "",
     role: p.role[language] || p.role["en"] || "",
     client: p.client[language] || p.client["en"] || "",
@@ -162,6 +164,7 @@ export async function getPublicProjects(language: "en" | "id" = "en"): Promise<a
     .from("projects")
     .select("*")
     .eq("status", "published")
+    .order("published_at", { ascending: false, nullsFirst: false })
     .order("sort_order", { ascending: true })
   
   if (projectsError) throw projectsError

@@ -16,6 +16,7 @@ export const projectSchema = z.object({
   featured: z.boolean().default(false),
   sort_order: z.number().int().default(0),
   year: z.number().int().nullable().optional(),
+  published_at: z.string().nullable().optional(),
   title: bilingualField.refine(v => v.en.length > 0, "English title is required"),
   tagline: bilingualField.refine(v => v.en.length > 0, "English tagline is required"),
   description: bilingualField.refine(v => v.en.length > 0, "English description is required"),

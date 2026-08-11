@@ -34,6 +34,19 @@ export default function ProjectForm({ initialData, id }: ProjectFormProps) {
   const [featured, setFeatured] = useState(initialData?.featured || false)
   const [sortOrder, setSortOrder] = useState(initialData?.sort_order || 0)
   const [year, setYear] = useState<number>(initialData?.year || new Date().getFullYear())
+  const [publishedAt, setPublishedAt] = useState<string>(() => {
+    if (initialData?.published_at) {
+      try {
+        return new Date(initialData.published_at).toISOString().slice(0, 10)
+      } catch (e) {
+        return initialData.published_at.slice(0, 10)
+      }
+    }
+    if (initialData?.year) {
+      return `${initialData.year}-01-01`
+    }
+    return new Date().toISOString().slice(0, 10)
+  })
   const [liveUrl, setLiveUrl] = useState(initialData?.live_url || "")
   const [githubUrl, setGithubUrl] = useState(initialData?.github_url || "")
 
@@ -169,7 +182,8 @@ export default function ProjectForm({ initialData, id }: ProjectFormProps) {
         status,
         featured,
         sort_order: Number(sortOrder),
-        year: year ? Number(year) : null,
+        year: publishedAt ? new Date(publishedAt).getFullYear() : (year ? Number(year) : null),
+        published_at: publishedAt ? new Date(publishedAt).toISOString() : null,
         title,
         tagline,
         description,
@@ -272,12 +286,21 @@ export default function ProjectForm({ initialData, id }: ProjectFormProps) {
           />
         </div>
         <div className="admin-form-group">
-          <label className="admin-form-label">Release Year</label>
+          <label className="admin-form-label">Release Date (Tanggal, Bulan, Tahun)</label>
           <input
-            type="number"
+            type="date"
             className="admin-form-input"
-            value={year}
-            onChange={(e) => setYear(Number(e.target.value))}
+            value={publishedAt}
+            onChange={(e) => {
+              const val = e.target.value
+              setPublishedAt(val)
+              if (val) {
+                const parsedYear = new Date(val).getFullYear()
+                if (!isNaN(parsedYear)) {
+                  setYear(parsedYear)
+                }
+              }
+            }}
             required
           />
         </div>
