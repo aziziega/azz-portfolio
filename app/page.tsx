@@ -2,10 +2,12 @@
 
 import Blog from "@/components/landingPage/blog"
 import Certificates from "@/components/landingPage/certificates"
+import TechStackUsed from "@/components/landingPage/tech-stack-used"
 import Contact from "@/components/landingPage/contact"
 import HeroSection from "@/components/landingPage/hero-section"
 import LineAvailable from "@/components/landingPage/line-available"
 import Newsletter from "@/components/landingPage/newletter"
+import Testimonials from "@/components/landingPage/testimonials"
 import Work from "@/components/landingPage/work"
 import Footer from "@/components/landingPage/footer"
 import { useEffect, useState } from "react"
@@ -129,8 +131,11 @@ export default function Portfolio() {
         {/* <TechStack /> */}
         <LineAvailable />
         <Work />
+        <TechStackUsed />
         <Certificates />
+        {/* <Certificates /> */}
         <Blog />
+        {/* <Testimonials /> */}
         <Newsletter />
         <Contact />
       </main>

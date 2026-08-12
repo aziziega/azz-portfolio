@@ -45,11 +45,14 @@ const translations = {
     // Tech Stack Section
     "techStack.title": "TECH STACK",
     "techStack.subtitle": "All projects here are based on this tech stack",
+    "techUsed.title": "Tech Stack I Used",
+    "techUsed.subtitle": "Tools and technologies I work with across projects.",
 
     // Certificates Section
     "certificates.title": "Certifications",
     "certificates.subtitle": "Credentials and professional certifications.",
     "certificates.verify": "Verify Credential",
+    "certificates.viewAll": "View All Certificates",
 
     // Blog Section
     "blog.title": "External Writing",
@@ -80,6 +83,10 @@ const translations = {
     "newsletter.subtitle": "Get insights on design, development, and product thinking delivered to your inbox.",
     "newsletter.placeholder": "Enter your email",
     "newsletter.button": "Subscribe",
+
+    // Testimonials Section
+    "testimonials.title": "What People Say",
+    "testimonials.subtitle": "Feedback from clients and collaborators.",
 
     // Contact Section
     "contact.title": "Let's Work Together",
@@ -193,11 +200,14 @@ const translations = {
     // Tech Stack Section
     "techStack.title": "TEKNOLOGI",
     "techStack.subtitle": "Semua proyek di sini dibuat dengan teknologi ini",
+    "techUsed.title": "Teknologi yang Saya Gunakan",
+    "techUsed.subtitle": "Alat dan teknologi yang saya pakai di berbagai proyek.",
 
     // Certificates Section
     "certificates.title": "Sertifikasi",
     "certificates.subtitle": "Kredensial dan sertifikasi profesional.",
     "certificates.verify": "Verifikasi Kredensial",
+    "certificates.viewAll": "Lihat Semua Sertifikat",
 
     // Blog Section
     "blog.title": "Tulisan Eksternal",
@@ -224,10 +234,14 @@ const translations = {
     "blog.comingSoon.success": "Terima kasih! Saya akan memberi tahu Anda.",
 
     // Newsletter Section
-    "newsletter.title": "Tetap Update",
-    "newsletter.subtitle": "Dapatkan wawasan tentang desain, pengembangan, dan pemikiran produk yang dikirim ke inbox Anda.",
+    "newsletter.title": "Tetap Terhubung",
+    "newsletter.subtitle": "Dapatkan wawasan tentang desain, pengembangan, dan pemikiran produk yang dikirim langsung ke email Anda.",
     "newsletter.placeholder": "Masukkan email Anda",
     "newsletter.button": "Berlangganan",
+
+    // Testimonials Section
+    "testimonials.title": "Kata Mereka",
+    "testimonials.subtitle": "Umpan balik dari klien dan kolaborator.",
 
     // Contact Section
     "contact.title": "Mari Bekerja Sama",

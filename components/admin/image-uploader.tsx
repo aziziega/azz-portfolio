@@ -4,20 +4,26 @@ import { useState, useRef } from "react"
 import { createClient } from "@/lib/supabase/client"
 
 interface ImageUploaderProps {
-  label: string
+  label?: string
   value: string
   onChange: (url: string) => void
   bucketName?: string
+  bucket?: string
   projectSlug?: string
+  folder?: string
 }
 
 export default function ImageUploader({
   label,
   value,
   onChange,
-  bucketName = "project-images",
-  projectSlug = "general",
+  bucketName,
+  bucket,
+  projectSlug,
+  folder,
 }: ImageUploaderProps) {
+  const targetBucket = bucket || bucketName || "project-images"
+  const targetFolder = folder || projectSlug || "general"
   const [uploading, setUploading] = useState(false)
   const [error, setError] = useState("")
   const [mode, setMode] = useState<"upload" | "url">("upload")
@@ -28,13 +34,13 @@ export default function ImageUploader({
     try {
       setError("")
       const fileExt = file.name.split(".").pop()
-      const fileName = `${projectSlug}/${Date.now()}.${fileExt}`
+      const fileName = `${targetFolder}/${Date.now()}.${fileExt}`
 
       setUploading(true)
 
       const supabase = createClient()
       const { data, error: uploadError } = await supabase.storage
-        .from(bucketName)
+        .from(targetBucket)
         .upload(fileName, file, {
           cacheControl: "3600",
           upsert: true,
@@ -44,7 +50,7 @@ export default function ImageUploader({
 
       // Get public URL
       const { data: { publicUrl } } = supabase.storage
-        .from(bucketName)
+        .from(targetBucket)
         .getPublicUrl(fileName)
 
       onChange(publicUrl)
@@ -96,7 +102,7 @@ export default function ImageUploader({
   return (
     <div className="admin-form-group">
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "8px" }}>
-        <label className="admin-form-label">{label}</label>
+        {label ? <label className="admin-form-label">{label}</label> : <div />}
         <div className="admin-lang-tabs">
           <button
             type="button"

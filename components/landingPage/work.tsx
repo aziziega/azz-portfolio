@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import { ArrowRight } from "lucide-react"
 import { useLanguage } from "@/contexts/language-contexts"
 import { useEffect, useState } from "react"
 
@@ -52,20 +53,20 @@ export default function Work() {
     }, [loading, projects])
 
     return (
-        <>
-            <section id="work" className="section">
-                <div className="container">
-                    <div className="section-header animate-on-scroll">
-                        <h2 className="section-title">{t("work.title")}</h2>
+        <section id="work" className="section">
+            <div className="container">
+                <div className="section-header animate-on-scroll">
+                    <h2 className="section-title">{t("work.title")}</h2>
                         <Link href="/work" className="view-all">
                             {t("work.viewAll")}
                         </Link>
+                </div>
+                {loading ? (
+                    <div style={{ padding: "40px 0", textAlign: "center", color: "var(--text-secondary)" }}>
+                        Loading projects...
                     </div>
-                    {loading ? (
-                        <div style={{ padding: "40px 0", textAlign: "center", color: "var(--text-secondary)" }}>
-                            Loading projects...
-                        </div>
-                    ) : (
+                ) : (
+                    <>
                         <div className="grid">
                             {projects.map((project) => (
                                 <Link key={project.id} href={`/work/${project.slug}`}>
@@ -86,9 +87,17 @@ export default function Work() {
                                 </Link>
                             ))}
                         </div>
-                    )}
-                </div>
-            </section>
-        </>
+
+                        {/* View All Work Button (Monochrome Rounded Center) */}
+                        <div className="cert-cta-wrap">
+                            <Link href="/work" className="cert-view-all-btn">
+                                <span>{t("work.viewAll")}</span>
+                                <ArrowRight size={16} />
+                            </Link>
+                        </div>
+                    </>
+                )}
+            </div>
+        </section>
     )
 }
