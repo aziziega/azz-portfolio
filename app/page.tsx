@@ -128,14 +128,12 @@ export default function Portfolio() {
       />
       <main>
         <HeroSection />
-        {/* <TechStack /> */}
         <LineAvailable />
         <Work />
         <TechStackUsed />
         <Certificates />
-        {/* <Certificates /> */}
         <Blog />
-        {/* <Testimonials /> */}
+        <Testimonials />
         <Newsletter />
         <Contact />
       </main>

@@ -1,144 +1,101 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { cn } from "@/lib/utils"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Card, CardContent } from "@/components/ui/card"
+import { Marquee } from "@/components/ui/marquee"
 import { useLanguage } from "@/contexts/language-contexts"
 
-type Testimonial = {
-  quote: string
+export interface TestimonialItem {
+  id?: string
   name: string
-  role: string
-  company: string
-  image: string
+  username: string
+  body: string
+  profile: string
 }
 
-function DecorIcon({ className, ...props }: React.ComponentProps<"svg">) {
-  return (
-    <svg
-      aria-hidden="true"
-      className={cn(
-        "pointer-events-none absolute top-0 left-0 z-[1] size-3.5 shrink-0 -translate-x-[calc(50%+0.5px)] -translate-y-[calc(50%+0.5px)] stroke-1 stroke-muted-foreground",
-        className,
-      )}
-      fill="none"
-      stroke="currentColor"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      viewBox="0 0 24 24"
-      xmlns="http://www.w3.org/2000/svg"
-      {...props}
-    >
-      <path d="M5 12h14" />
-      <path d="M12 5v14" />
-    </svg>
-  )
-}
+const DEFAULT_AVATARS = [
+  "https://images.shadcnspace.com/assets/profiles/rough.webp",
+  "https://images.shadcnspace.com/assets/profiles/albert.webp",
+  "https://images.shadcnspace.com/assets/profiles/linda.webp",
+  "https://images.shadcnspace.com/assets/profiles/jessica.webp",
+  "https://images.shadcnspace.com/assets/profiles/jenny.webp",
+]
 
-function QuoteIcon({ className, ...props }: React.ComponentProps<"svg">) {
-  return (
-    <svg
-      aria-hidden="true"
-      className={className}
-      fill="none"
-      stroke="currentColor"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      viewBox="0 0 24 24"
-      xmlns="http://www.w3.org/2000/svg"
-      {...props}
-    >
-      <path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z" />
-      <path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z" />
-    </svg>
-  )
-}
-
-function TestimonialCard({
-  testimonial,
-  index,
-  className,
-  ...props
-}: React.ComponentProps<"figure"> & {
-  testimonial: Testimonial
-  index: number
-}) {
-  const { quote, name, role, company, image } = testimonial
-
-  return (
-    <figure
-      className={cn(
-        "group relative flex flex-col justify-between gap-6 px-8 pt-8 pb-6 shadow-xs md:translate-y-[calc(3rem*var(--t-card-index))]",
-        "dark:bg-[radial-gradient(50%_80%_at_25%_0%,color-mix(in_oklab,var(--foreground)_10%,transparent),transparent)]",
-        className,
-      )}
-      style={{ "--t-card-index": index } as React.CSSProperties}
-      {...props}
-    >
-      <div className="absolute -inset-y-4 -left-px w-px bg-border" />
-      <div className="absolute -inset-y-4 -right-px w-px bg-border" />
-      <div className="absolute -inset-x-4 -top-px h-px bg-border" />
-      <div className="absolute -right-4 -bottom-px -left-4 h-px bg-border" />
-      <DecorIcon />
-
-      <blockquote className="flex gap-4">
-        <QuoteIcon
-          aria-hidden="true"
-          className="size-6 shrink-0 stroke-1 text-muted-foreground"
-        />
-        <p className="flex-1 font-normal text-base text-muted-foreground leading-relaxed">
-          {quote}
-        </p>
-      </blockquote>
-
-      <figcaption className="flex items-center gap-3">
-        <Avatar className="size-10 rounded-full ring-2 ring-border ring-offset-2 ring-offset-background transition-shadow group-hover:ring-foreground/20">
-          <AvatarImage alt={`${name}'s profile picture`} src={image} />
-          <AvatarFallback>{name.charAt(0)}</AvatarFallback>
-        </Avatar>
-        <div className="flex flex-col">
-          <cite className="font-medium text-foreground text-sm not-italic">
-            {name}
-          </cite>
-          <p className="text-muted-foreground text-xs">
-            {role}
-            {company && (
-              <>, <span className="text-foreground/80">{company}</span></>
-            )}
-          </p>
-        </div>
-      </figcaption>
-    </figure>
-  )
-}
-
-const PLACEHOLDER_TESTIMONIALS: Testimonial[] = [
+const PLACEHOLDER_REVIEWS: TestimonialItem[] = [
   {
-    quote: "Azizi delivered an outstanding fullstack application with incredible speed and clean code structure. Extremely reliable engineer!",
-    name: "Alex Rivera",
-    role: "Senior Product Manager",
-    company: "Nexus Tech",
-    image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80",
+    name: "Ken Masters",
+    username: "@kmasters",
+    body: "Our productivity has nearly doubled since onboarding. Automation features removed repetitive tasks, allowing our team to focus on building instead of managing operations.",
+    profile: "https://images.shadcnspace.com/assets/profiles/rough.webp",
   },
   {
-    quote: "Collaborating with Azizi was seamless. He translated complex design requirements into pixel-perfect, responsive React components effortlessly.",
-    name: "Sarah Chen",
-    role: "Lead UI/UX Designer",
-    company: "Studio Vanguard",
-    image: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150&auto=format&fit=crop&q=80",
+    name: "Kira Athrun",
+    username: "@kathrun",
+    body: "What surprised us most was how quickly our team adapted. Minimal learning curve, excellent documentation, and powerful features make it a must-have for modern SaaS companies.",
+    profile: "https://images.shadcnspace.com/assets/profiles/albert.webp",
   },
   {
-    quote: "His expertise in Next.js, PostgreSQL, and Supabase saved our project timeline by weeks. Highly recommended for any serious web product!",
-    name: "Budi Santoso",
-    role: "CTO & Co-Founder",
-    company: "Innova Digital",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80",
+    name: "Lirael Nassun",
+    username: "@lnassun",
+    body: "This is easily one of the most reliable SaaS tools we've adopted. The UI is intuitive, integrations are seamless, and it saves us countless hours every week.",
+    profile: "https://images.shadcnspace.com/assets/profiles/linda.webp",
+  },
+  {
+    name: "Jessica",
+    username: "@jessica",
+    body: "Switching to this platform streamlined our entire workflow. Setup was effortless, performance improved instantly, and our team now ships features faster without worrying about infrastructure.",
+    profile: "https://images.shadcnspace.com/assets/profiles/jessica.webp",
+  },
+  {
+    name: "Jenny",
+    username: "@jenny",
+    body: "We evaluated multiple solutions, but this stood out immediately. It's fast, scalable, and thoughtfully designed for growing teams that need stability without added complexity.",
+    profile: "https://images.shadcnspace.com/assets/profiles/jenny.webp",
   },
 ]
 
+function ReviewCard({
+  profile,
+  name,
+  username,
+  body,
+}: TestimonialItem) {
+  return (
+    <div
+      style={{ padding: "24px" }}
+      className="relative w-72 sm:w-80 shrink-0 cursor-pointer overflow-hidden border border-border bg-card shadow-none rounded-2xl flex flex-col gap-4 hover:border-primary/40 transition-colors"
+    >
+      {/* Author Header */}
+      <div className="flex flex-row items-center gap-3">
+        <div className="relative size-10 rounded-full overflow-hidden shrink-0 border border-border/60">
+          <img
+            className="w-full h-full object-cover rounded-full aspect-square"
+            alt={name}
+            src={profile || DEFAULT_AVATARS[0]}
+            onError={(e) => {
+              ; (e.target as HTMLImageElement).src = DEFAULT_AVATARS[0]
+            }}
+          />
+        </div>
+        <div className="flex flex-col min-w-0">
+          <p className="text-sm font-semibold text-foreground truncate">{name}</p>
+          <p className="text-xs font-medium text-muted-foreground truncate">
+            {username}
+          </p>
+        </div>
+      </div>
+
+      {/* Quote Body */}
+      <p className="text-sm text-foreground/90 leading-relaxed font-normal">
+        {body}
+      </p>
+    </div>
+  )
+}
+
 export default function Testimonials() {
   const { language, t } = useLanguage()
-  const [testimonials, setTestimonials] = useState<Testimonial[]>(PLACEHOLDER_TESTIMONIALS)
+  const [reviews, setReviews] = useState<TestimonialItem[]>(PLACEHOLDER_REVIEWS)
 
   useEffect(() => {
     const fetchTestimonials = async () => {
@@ -146,66 +103,65 @@ export default function Testimonials() {
         const res = await fetch(`/api/testimonials?lang=${language}`)
         if (res.ok) {
           const data = await res.json()
-          console.log("Testimonials API response:", data)
           if (Array.isArray(data) && data.length > 0) {
-            const mapped: Testimonial[] = data.map((t: any) => ({
-              quote: t.quote || "",
-              name: t.name || "",
-              role: t.role || "",
-              company: t.company || "",
-              image: t.avatarUrl || "",
-            }))
-            setTestimonials(mapped)
+            const mapped: TestimonialItem[] = data.map((t: any, index: number) => {
+              const roleInfo = [t.role, t.company].filter(Boolean).join(", ")
+              const usernameClean = roleInfo || "Collaborator"
+              return {
+                id: t.id || `db-${index}`,
+                name: t.name || "Anonymous",
+                username: usernameClean,
+                body: t.quote || "",
+                profile: t.avatarUrl || DEFAULT_AVATARS[index % DEFAULT_AVATARS.length],
+              }
+            })
+            setReviews(mapped)
           } else {
-            // Show placeholder data if DB is empty
-            setTestimonials(PLACEHOLDER_TESTIMONIALS)
+            setReviews(PLACEHOLDER_REVIEWS)
           }
         } else {
-          console.error("Testimonials API error:", res.status, res.statusText)
-          setTestimonials(PLACEHOLDER_TESTIMONIALS)
+          setReviews(PLACEHOLDER_REVIEWS)
         }
       } catch (err) {
         console.error("Failed to fetch testimonials:", err)
-        setTestimonials(PLACEHOLDER_TESTIMONIALS)
+        setReviews(PLACEHOLDER_REVIEWS)
       }
     }
 
     fetchTestimonials()
   }, [language])
 
-  // Always render (with placeholder if needed)
-  if (testimonials.length === 0) {
-    return null
-  }
+  const listToUse = reviews.length > 0 ? reviews : PLACEHOLDER_REVIEWS
+  const extendedList =
+    listToUse.length < 6 ? [...listToUse, ...listToUse] : listToUse
+
+  const mid = Math.ceil(extendedList.length / 2)
+  const firstRow = extendedList.slice(0, mid)
+  const secondRow = extendedList.slice(mid)
 
   return (
-    <section
-      id="testimonials"
-      className="w-full px-6 py-16 md:py-24 bg-background text-foreground animate-on-scroll"
-    >
-      <div className="w-full">
-        {/* Section Header — exactly matching demo.tsx structure */}
-        <div className="mx-auto mb-20 max-w-xl text-center">
-          <p className="font-medium text-muted-foreground text-sm uppercase tracking-widest">
-            Testimonials
-          </p>
-          <h2 className="mt-3 text-balance font-semibold text-3xl tracking-tight sm:text-4xl">
-            {t("testimonials.title")}
-          </h2>
-          <p className="mt-4 text-muted-foreground">
-            {t("testimonials.subtitle")}
-          </p>
+    <section id="testimonials" className="section testimonials-section">
+      <div className="container">
+        {/* Section Header */}
+        <div className="section-header animate-on-scroll">
+          <h2 className="section-title">{t("testimonials.title")}</h2>
+          <p className="section-subtitle">{t("testimonials.subtitle")}</p>
         </div>
 
-        {/* Cards Grid — exact copy of demo.tsx layout */}
-        <div className="mx-auto -mt-10 grid w-full max-w-5xl gap-8 md:grid-cols-3 md:gap-6 pb-24">
-          {testimonials.map((testimonial, index) => (
-            <TestimonialCard
-              index={index}
-              key={`${testimonial.name}-${index}`}
-              testimonial={testimonial}
-            />
-          ))}
+        {/* Marquee - auto height cards, professional vertical gap between rows */}
+        <div className="relative flex w-full flex-col items-center justify-center overflow-hidden gap-4 sm:gap-5">
+          <Marquee pauseOnHover style={{ "--duration": "24s" } as React.CSSProperties} className="[--duration:24s] items-start">
+            {firstRow.map((review, idx) => (
+              <ReviewCard key={`${review.username}-r1-${idx}`} {...review} />
+            ))}
+          </Marquee>
+          <Marquee reverse pauseOnHover style={{ "--duration": "24s" } as React.CSSProperties} className="[--duration:24s] items-start">
+            {secondRow.map((review, idx) => (
+              <ReviewCard key={`${review.username}-r2-${idx}`} {...review} />
+            ))}
+          </Marquee>
+          <div className="from-background pointer-events-none absolute inset-y-0 left-0 w-1/4 bg-gradient-to-r"></div>
+          <div className="from-background pointer-events-none absolute inset-y-0 right-0 w-1/4 bg-gradient-to-l"></div>
         </div>
       </div>
     </section>

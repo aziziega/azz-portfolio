@@ -546,10 +546,26 @@ nav {
   margin-bottom: 40px;
 }
 
+@media (max-width: 640px) {
+  .section-header {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 6px;
+    margin-bottom: 24px;
+  }
+}
+
 .section-title {
   font-size: 32px;
   font-weight: 700;
   letter-spacing: -1px;
+}
+
+@media (max-width: 640px) {
+  .section-title {
+    font-size: 24px;
+  }
 }
 
 /* .section-tech-stack {
@@ -1968,6 +1984,23 @@ footer {
   overflow: hidden;
 }
 
+.testimonials-section .section-header {
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  margin-bottom: 28px;
+}
+
+.testimonials-section .section-subtitle {
+  margin-top: 8px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
+
 .testimonials-marquee-wrapper {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -2162,4 +2195,46 @@ footer {
     display: none;
   }
 }
+
+/* ==========================================================================
+   Horizontal & Vertical Marquee Keyframes & Utilities
+   ========================================================================== */
+.animate-marquee {
+  animation: marquee var(--duration, 40s) linear infinite;
+  will-change: transform;
+}
+
+.animate-marquee-vertical {
+  animation: marquee-vertical var(--duration, 40s) linear infinite;
+  will-change: transform;
+}
+
+.group:hover .animate-marquee,
+.group:hover .animate-marquee-vertical {
+  animation-play-state: paused;
+}
+
+.marquee-reverse {
+  animation-direction: reverse;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(calc(-100% - var(--gap, 1rem)));
+  }
+}
+
+@keyframes marquee-vertical {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(calc(-100% - var(--gap, 1rem)));
+  }
+}
+
+
 
