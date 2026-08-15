@@ -12,10 +12,12 @@ export default function Footer() {
                     <div className="logo">Azizi Egatri M.</div>
                     <div className="footer-content">
                         <nav className="footer-nav">
-                            <a href="#about">{t("foot.about")}</a>
-                            <a href="#work">{t("foot.work")}</a>
-                            <a href="#blog">{t("foot.blog")}</a>
-                            <a href="#contact">{t("foot.contact")}</a>
+                            <a href="/#about">{t("foot.about")}</a>
+                            <a href="/work">{t("foot.work")}</a>
+                            <a href="/#certificates">{t("foot.certifications")}</a>
+                            <a href="/blog">{t("foot.blog")}</a>
+                            <a href="/#testimonials">{t("foot.testimonials")}</a>
+                            <a href="/#contact">{t("foot.contact")}</a>
                         </nav>
                         <div className="social-icons">
 

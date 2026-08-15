@@ -18,7 +18,10 @@ const translations = {
     // Navbar
     "nav.about": "About",
     "nav.work": "Work",
+    "nav.certificates": "Certificates",
+    "nav.certifications": "Certifications",
     "nav.blog": "Blog",
+    "nav.testimonials": "Testimonials",
     "nav.contact": "Contact",
 
     // Hero Section
@@ -52,6 +55,8 @@ const translations = {
     "certificates.title": "Certifications",
     "certificates.subtitle": "Credentials and professional certifications.",
     "certificates.verify": "Verify Credential",
+    "certificates.viewPdf": "View PDF",
+    "certificates.credentialId": "Credential ID",
     "certificates.viewAll": "View All Certificates",
 
     // Blog Section
@@ -164,14 +169,20 @@ const translations = {
     // footer bar
     "foot.about": "About",
     "foot.work": "Work",
+    "foot.certificates": "Certificates",
+    "foot.certifications": "Certifications",
     "foot.blog": "Blog",
+    "foot.testimonials": "Testimonials",
     "foot.contact": "Contact",
   },
   id: {
     // Navbar
     "nav.about": "Tentang",
     "nav.work": "Karya",
+    "nav.certificates": "Sertifikasi",
+    "nav.certifications": "Sertifikasi",
     "nav.blog": "Blog",
+    "nav.testimonials": "Testimoni",
     "nav.contact": "Kontak",
 
     // Hero Section
@@ -207,6 +218,8 @@ const translations = {
     "certificates.title": "Sertifikasi",
     "certificates.subtitle": "Kredensial dan sertifikasi profesional.",
     "certificates.verify": "Verifikasi Kredensial",
+    "certificates.viewPdf": "Buka PDF",
+    "certificates.credentialId": "ID Kredensial",
     "certificates.viewAll": "Lihat Semua Sertifikat",
 
     // Blog Section
@@ -318,7 +331,10 @@ const translations = {
     // footer bar
     "foot.about": "Tentang",
     "foot.work": "Karya",
+    "foot.certificates": "Sertifikasi",
+    "foot.certifications": "Sertifikasi",
     "foot.blog": "Blog",
+    "foot.testimonials": "Testimoni",
     "foot.contact": "Kontak",
   },
 }

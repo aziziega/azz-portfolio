@@ -56,7 +56,9 @@ export default function Header() {
                         <div className="nav-links">
                             <Link href="/">{t("nav.about")}</Link>
                             <Link href="/work">{t("nav.work")}</Link>
+                            <a href="/#certificates">{t("nav.certifications")}</a>
                             <Link href="/blog">{t("nav.blog")}</Link>
+                            <a href="/#testimonials">{t("nav.testimonials")}</a>
                             <a href="/#contact">{t("nav.contact")}</a>
                         </div>
                         <div className="flex items-center gap-2 sm:gap-4 ml-auto md:ml-0 mr-1 sm:mr-0">
@@ -125,9 +127,15 @@ export default function Header() {
                             <Link href="/work" onClick={handleLinkClick}>
                                 {t("nav.work")}
                             </Link>
+                            <a href="/#certificates" onClick={handleLinkClick}>
+                                {t("nav.certifications")}
+                            </a>
                             <Link href="/blog" onClick={handleLinkClick}>
                                 {t("nav.blog")}
                             </Link>
+                            <a href="/#testimonials" onClick={handleLinkClick}>
+                                {t("nav.testimonials")}
+                            </a>
                             <a href="/#contact" onClick={handleLinkClick}>
                                 {t("nav.contact")}
                             </a>

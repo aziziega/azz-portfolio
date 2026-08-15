@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
-import { ExternalLink, X, Award, ZoomIn, ArrowRight, ChevronLeft, ChevronRight } from "lucide-react"
+import { ExternalLink, X, Award, ZoomIn, ArrowRight, ChevronLeft, ChevronRight, FileText } from "lucide-react"
 import { useLanguage } from "@/contexts/language-contexts"
 import { type PublicCertificate } from "@/lib/cms/certificates"
 
@@ -11,8 +11,11 @@ const FALLBACK_CERTIFICATES: PublicCertificate[] = [
     id: "fallback-1",
     title: "AWS Certified Solutions Architect – Associate",
     issuer: "Amazon Web Services",
+    issueDate: "2024-01-01",
     year: 2024,
     imageUrl: "https://images.unsplash.com/photo-1607799279861-4dd421887fb3?q=80&w=800&auto=format&fit=crop",
+    pdfUrl: null,
+    credentialId: "AWS-SAA-2024-0192",
     credentialUrl: "https://www.credly.com/badges/aws-certified-solutions-architect-associate",
     description: "Validated expertise in designing distributed systems, cloud security, and scalable infrastructure on AWS.",
     featured: true,
@@ -23,8 +26,11 @@ const FALLBACK_CERTIFICATES: PublicCertificate[] = [
     id: "fallback-2",
     title: "Meta Front-End Developer Professional Certificate",
     issuer: "Meta",
+    issueDate: "2023-06-15",
     year: 2023,
     imageUrl: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=800&auto=format&fit=crop",
+    pdfUrl: null,
+    credentialId: "META-FED-884102",
     credentialUrl: "https://www.coursera.org/account/accomplishments/professional-cert/meta-frontend",
     description: "Comprehensive program covering modern React, JavaScript ES6+, UI/UX principles, and web performance optimization.",
     featured: true,
@@ -35,8 +41,11 @@ const FALLBACK_CERTIFICATES: PublicCertificate[] = [
     id: "fallback-3",
     title: "Google Cloud Associate Cloud Engineer",
     issuer: "Google Cloud",
+    issueDate: "2023-11-20",
     year: 2023,
     imageUrl: "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?q=80&w=800&auto=format&fit=crop",
+    pdfUrl: null,
+    credentialId: "GCP-ACE-559281",
     credentialUrl: "https://www.credential.net/google-cloud-associate-engineer",
     description: "Demonstrated proficiency in deploying applications, monitoring operations, and managing GCP cloud solutions.",
     featured: false,
@@ -47,8 +56,11 @@ const FALLBACK_CERTIFICATES: PublicCertificate[] = [
     id: "fallback-4",
     title: "Pelatihan Data Scientist - Nasional",
     issuer: "Pengembangan Talenta Digital (KOMDIGI)",
+    issueDate: "2026-02-10",
     year: 2026,
     imageUrl: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop",
+    pdfUrl: null,
+    credentialId: "DTS-DS-2026-901",
     credentialUrl: "https://digitalent.kominfo.go.id",
     description: "Pelatihan Data Science tingkat nasional yang mencakup algoritma machine learning, analisis data, dan pemodelan prediktif.",
     featured: true,
@@ -59,8 +71,11 @@ const FALLBACK_CERTIFICATES: PublicCertificate[] = [
     id: "fallback-5",
     title: "Cybersecurity Fundamentals Professional",
     issuer: "Cisco Networking Academy",
+    issueDate: "2025-08-01",
     year: 2025,
     imageUrl: "https://images.unsplash.com/photo-1563986768609-322da13575f3?q=80&w=800&auto=format&fit=crop",
+    pdfUrl: null,
+    credentialId: "CSCO-NET-2025-783",
     credentialUrl: "https://www.credly.com",
     description: "Pemahaman mendalam tentang konsep keamanan jaringan, analisis ancaman, dan protokol pertahanan cyber.",
     featured: true,
@@ -71,8 +86,11 @@ const FALLBACK_CERTIFICATES: PublicCertificate[] = [
     id: "fallback-6",
     title: "Full-Stack Modern Web Engineering",
     issuer: "Dicoding Academy",
+    issueDate: "2025-04-18",
     year: 2025,
     imageUrl: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=800&auto=format&fit=crop",
+    pdfUrl: null,
+    credentialId: "DCD-FS-2025-338",
     credentialUrl: "https://www.dicoding.com",
     description: "Pengembangan web full-stack tingkat lanjut spesialisasi Next.js, microservice REST API Node.js, dan arsitektur database.",
     featured: true,
@@ -215,11 +233,32 @@ export default function Certificates() {
                 onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setSelectedCert(cert) } }}
                 style={{ transitionDelay: `${i * 0.05}s` }}
               >
-                {/* Image Container */}
+                {/* Image Container / Placeholder */}
                 <div className="cert-card-img-wrap">
-                  <img src={cert.imageUrl} alt={cert.title} className="cert-card-img" loading="lazy" />
+                  {cert.imageUrl ? (
+                    <img src={cert.imageUrl} alt={cert.title} className="cert-card-img" loading="lazy" />
+                  ) : (
+                    <div
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        background: "linear-gradient(135deg, #1e293b 0%, #0f172a 100%)",
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        padding: "24px",
+                        textAlign: "center",
+                        color: "#ffffff"
+                      }}
+                    >
+                      <Award size={36} style={{ color: "#38bdf8", marginBottom: "10px" }} />
+                      <span style={{ fontSize: "14px", fontWeight: 700, lineHeight: 1.3 }}>{cert.title}</span>
+                      <span style={{ fontSize: "12px", color: "#94a3b8", marginTop: "6px" }}>{cert.issuer}</span>
+                    </div>
+                  )}
 
-                  {/* Professional Blue Hover Overlay with Blur Effect */}
+                  {/* Professional Hover Overlay */}
                   <div className="cert-card-img-overlay">
                     <div className="cert-card-overlay-inner">
                       <h3 className="cert-card-name">{cert.title}</h3>
@@ -266,18 +305,94 @@ export default function Certificates() {
             <button className="cert-lb-close" onClick={() => setSelectedCert(null)} aria-label="Close" type="button" suppressHydrationWarning>
               <X size={18} />
             </button>
+            
+            {/* Lightbox Image / Placeholder */}
             <div className="cert-lb-img-wrap">
-              <img src={selectedCert.imageUrl} alt={selectedCert.title} className="cert-lb-img" />
-            </div>
-            <div className="cert-lb-body">
-              <span className="cert-lb-issuer">{selectedCert.issuer}{selectedCert.year ? ` · ${selectedCert.year}` : ""}</span>
-              <h3 className="cert-lb-title">{selectedCert.title}</h3>
-              {selectedCert.description && <p className="cert-lb-desc">{selectedCert.description}</p>}
-              {selectedCert.credentialUrl && (
-                <a href={selectedCert.credentialUrl} target="_blank" rel="noreferrer" className="cert-lb-link">
-                  {t("certificates.verify")} <ExternalLink size={14} />
-                </a>
+              {selectedCert.imageUrl ? (
+                <img src={selectedCert.imageUrl} alt={selectedCert.title} className="cert-lb-img" />
+              ) : (
+                <div
+                  style={{
+                    width: "100%",
+                    minHeight: "220px",
+                    background: "linear-gradient(135deg, #1e293b 0%, #0f172a 100%)",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    padding: "32px",
+                    textAlign: "center",
+                    color: "#ffffff"
+                  }}
+                >
+                  <Award size={48} style={{ color: "#38bdf8", marginBottom: "12px" }} />
+                  <h4 style={{ fontSize: "18px", fontWeight: 700, margin: 0 }}>{selectedCert.title}</h4>
+                  <p style={{ fontSize: "14px", color: "#94a3b8", marginTop: "6px" }}>{selectedCert.issuer}</p>
+                </div>
               )}
+            </div>
+
+            {/* Lightbox Details */}
+            <div className="cert-lb-body">
+              <span className="cert-lb-issuer">
+                {selectedCert.issuer}
+                {selectedCert.year ? ` · ${selectedCert.year}` : ""}
+              </span>
+
+              <h3 className="cert-lb-title">{selectedCert.title}</h3>
+
+              {/* Credential ID Pill if available */}
+              {selectedCert.credentialId && (
+                <div style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "6px",
+                  padding: "4px 10px",
+                  background: "#f1f5f9",
+                  borderRadius: "6px",
+                  fontSize: "12px",
+                  fontFamily: "monospace",
+                  color: "#334155",
+                  marginBottom: "12px",
+                  width: "fit-content"
+                }}>
+                  <span style={{ color: "#64748b", fontWeight: 600 }}>{t("certificates.credentialId")}:</span>
+                  <span style={{ fontWeight: 700 }}>{selectedCert.credentialId}</span>
+                </div>
+              )}
+
+              {selectedCert.description && <p className="cert-lb-desc">{selectedCert.description}</p>}
+
+              {/* Action Buttons: Verify & PDF */}
+              <div style={{ display: "flex", flexWrap: "wrap", gap: "10px", marginTop: "16px" }}>
+                {selectedCert.credentialUrl && (
+                  <a
+                    href={selectedCert.credentialUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="cert-lb-link"
+                  >
+                    {t("certificates.verify")} <ExternalLink size={14} />
+                  </a>
+                )}
+
+                {selectedCert.pdfUrl && (
+                  <a
+                    href={selectedCert.pdfUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="cert-lb-link"
+                    style={{
+                      background: "rgba(220, 38, 38, 0.08)",
+                      borderColor: "rgba(220, 38, 38, 0.2)",
+                      color: "#dc2626"
+                    }}
+                  >
+                    <FileText size={14} />
+                    {t("certificates.viewPdf")}
+                  </a>
+                )}
+              </div>
             </div>
           </div>
         </div>

@@ -4,7 +4,7 @@ import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { type CertificateInput } from "@/lib/validations/certificate"
 import LocalizedField from "./localized-field"
-import ImageUploader from "./image-uploader"
+import CertificateFileUploader from "./certificate-file-uploader"
 
 interface CertificateFormProps {
   initialData?: any
@@ -19,9 +19,19 @@ export default function CertificateForm({ initialData, id }: CertificateFormProp
   // Form States
   const [title, setTitle] = useState(initialData?.title || "")
   const [issuer, setIssuer] = useState(initialData?.issuer || "")
-  const [year, setYear] = useState<number | null>(initialData?.year || new Date().getFullYear())
-  const [imageUrl, setImageUrl] = useState(initialData?.image_url || "")
+  
+  // Format initial issue_date or fallback from year
+  const initialIssueDate = initialData?.issue_date 
+    ? initialData.issue_date.split("T")[0]
+    : initialData?.year 
+      ? `${initialData.year}-01-01`
+      : new Date().toISOString().split("T")[0]
+
+  const [issueDate, setIssueDate] = useState(initialIssueDate)
+  const [credentialId, setCredentialId] = useState(initialData?.credential_id || "")
   const [credentialUrl, setCredentialUrl] = useState(initialData?.credential_url || "")
+  const [imageUrl, setImageUrl] = useState(initialData?.image_url || "")
+  const [pdfUrl, setPdfUrl] = useState(initialData?.pdf_url || "")
   const [description, setDescription] = useState(initialData?.description || { en: "", id: "" })
   const [featured, setFeatured] = useState(initialData?.featured || false)
   const [sortOrder, setSortOrder] = useState<number>(initialData?.sort_order || 0)
@@ -33,17 +43,31 @@ export default function CertificateForm({ initialData, id }: CertificateFormProp
     setError("")
 
     try {
-      if (!imageUrl || imageUrl.trim() === "") {
-        throw new Error("Certificate image is required. Please upload or specify an image URL.")
+      if (!title.trim()) {
+        throw new Error("Certificate title is required")
+      }
+      if (!issuer.trim()) {
+        throw new Error("Issuer organization is required")
+      }
+      if (!issueDate) {
+        throw new Error("Issue date is required")
       }
 
+      const computedYear = issueDate ? new Date(issueDate).getFullYear() : null
+
       const payload: CertificateInput = {
-        title,
-        issuer,
-        year: year ? Number(year) : null,
-        image_url: imageUrl,
-        credential_url: credentialUrl || null,
-        description,
+        title: title.trim(),
+        issuer: issuer.trim(),
+        issue_date: issueDate,
+        year: computedYear,
+        credential_id: credentialId.trim() || null,
+        credential_url: credentialUrl.trim() || null,
+        image_url: imageUrl.trim() || null,
+        pdf_url: pdfUrl.trim() || null,
+        description: {
+          en: description?.en || "",
+          id: description?.id || "",
+        },
         featured,
         sort_order: Number(sortOrder),
         status,
@@ -58,7 +82,7 @@ export default function CertificateForm({ initialData, id }: CertificateFormProp
 
       const data = await response.json()
       if (!response.ok) {
-        throw new Error(data.message || "Failed to save certificate")
+        throw new Error(data.message || (data.errors ? JSON.stringify(data.errors) : "Failed to save certificate"))
       }
 
       router.push("/admin/certificates")
@@ -79,7 +103,7 @@ export default function CertificateForm({ initialData, id }: CertificateFormProp
         </div>
       )}
 
-      {/* Basic Meta Row */}
+      {/* Basic Info */}
       <div className="admin-form-row">
         <div className="admin-form-group">
           <label className="admin-form-label">Certificate Title *</label>
@@ -88,7 +112,7 @@ export default function CertificateForm({ initialData, id }: CertificateFormProp
             className="admin-form-input"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            placeholder="e.g. AWS Certified Cloud Practitioner"
+            placeholder="e.g. AWS Certified Solutions Architect – Associate"
             required
           />
         </div>
@@ -108,13 +132,13 @@ export default function CertificateForm({ initialData, id }: CertificateFormProp
 
       <div className="admin-form-row">
         <div className="admin-form-group">
-          <label className="admin-form-label">Year Issued</label>
+          <label className="admin-form-label">Issue Date *</label>
           <input
-            type="number"
+            type="date"
             className="admin-form-input"
-            value={year || ""}
-            onChange={(e) => setYear(e.target.value ? Number(e.target.value) : null)}
-            placeholder="e.g. 2024"
+            value={issueDate}
+            onChange={(e) => setIssueDate(e.target.value)}
+            required
           />
         </div>
 
@@ -131,14 +155,16 @@ export default function CertificateForm({ initialData, id }: CertificateFormProp
         </div>
       </div>
 
+      {/* Credentials */}
       <div className="admin-form-row">
         <div className="admin-form-group">
-          <label className="admin-form-label">Sort Order (integer)</label>
+          <label className="admin-form-label">Credential ID (Optional)</label>
           <input
-            type="number"
+            type="text"
             className="admin-form-input"
-            value={sortOrder}
-            onChange={(e) => setSortOrder(Number(e.target.value))}
+            value={credentialId}
+            onChange={(e) => setCredentialId(e.target.value)}
+            placeholder="e.g. AWS-PSA-728190 or CERT-9938"
           />
         </div>
 
@@ -154,41 +180,71 @@ export default function CertificateForm({ initialData, id }: CertificateFormProp
         </div>
       </div>
 
-      <div className="admin-form-group" style={{ flexDirection: "row", gap: "10px", alignItems: "center" }}>
-        <label className="admin-toggle">
+      <div className="admin-form-row">
+        <div className="admin-form-group">
+          <label className="admin-form-label">Fallback Sort Order</label>
           <input
-            type="checkbox"
-            checked={featured}
-            onChange={(e) => setFeatured(e.target.checked)}
+            type="number"
+            className="admin-form-input"
+            value={sortOrder}
+            onChange={(e) => setSortOrder(Number(e.target.value))}
+            placeholder="0"
           />
-          <span className="admin-toggle-slider" />
-        </label>
-        <span className="admin-form-label">Pin certificate as Featured</span>
+          <small style={{ color: "#64748b", marginTop: "4px" }}>
+            Note: Primary order is managed via drag-and-drop in the certificate list.
+          </small>
+        </div>
+
+        <div className="admin-form-group" style={{ justifyContent: "center" }}>
+          <div style={{ display: "flex", gap: "10px", alignItems: "center", paddingTop: "20px" }}>
+            <label className="admin-toggle">
+              <input
+                type="checkbox"
+                checked={featured}
+                onChange={(e) => setFeatured(e.target.checked)}
+              />
+              <span className="admin-toggle-slider" />
+            </label>
+            <span className="admin-form-label" style={{ margin: 0 }}>Pin certificate as Featured</span>
+          </div>
+        </div>
       </div>
 
-      {/* Image Upload */}
-      <ImageUploader
-        label="Certificate Image *"
-        value={imageUrl}
-        onChange={(url) => setImageUrl(url)}
-        bucketName="site-assets"
-        projectSlug="certificates"
-      />
+      {/* Media: Image & PDF Uploaders */}
+      <div style={{ marginTop: "16px", display: "flex", flexDirection: "column", gap: "20px" }}>
+        <CertificateFileUploader
+          label="Certificate Image (Optional - preview card & lightbox)"
+          value={imageUrl}
+          onChange={(url) => setImageUrl(url)}
+          type="image"
+          folder="images"
+        />
+
+        <CertificateFileUploader
+          label="Certificate PDF (Optional - download / view original document)"
+          value={pdfUrl}
+          onChange={(url) => setPdfUrl(url)}
+          type="pdf"
+          folder="pdfs"
+        />
+      </div>
 
       {/* Bilingual Description for Lightbox Caption */}
-      <LocalizedField
-        label="Description / Caption (Optional - Lightbox Caption)"
-        valueEn={description.en}
-        valueId={description.id}
-        onChangeEn={(val) => setDescription({ ...description, en: val })}
-        onChangeId={(val) => setDescription({ ...description, id: val })}
-        type="textarea"
-        placeholderEn="Brief notes about what this certification covers..."
-        placeholderId="Catatan singkat tentang cakupan sertifikasi ini..."
-      />
+      <div style={{ marginTop: "16px" }}>
+        <LocalizedField
+          label="Description / Caption (Optional - Lightbox Caption)"
+          valueEn={description.en}
+          valueId={description.id}
+          onChangeEn={(val) => setDescription({ ...description, en: val })}
+          onChangeId={(val) => setDescription({ ...description, id: val })}
+          type="textarea"
+          placeholderEn="Brief summary of competencies or topics validated by this certificate..."
+          placeholderId="Ringkasan kompetensi atau materi yang divalidasi oleh sertifikasi ini..."
+        />
+      </div>
 
       {/* Form Action Buttons */}
-      <div className="admin-form-actions" style={{ marginTop: "24px" }}>
+      <div className="admin-form-actions" style={{ marginTop: "28px" }}>
         <button
           type="button"
           className="admin-btn admin-btn-secondary"
