@@ -97,7 +97,7 @@ export default function Certificates() {
       })
     }, observerOptions)
 
-    const section = document.getElementById("certificates")
+    const section = document.getElementById("certificates")?.closest("section") || document.getElementById("certificates")
     const els = section?.querySelectorAll(".animate-on-scroll")
     els?.forEach((el) => observer.observe(el))
 
@@ -117,10 +117,10 @@ export default function Certificates() {
   }, [selectedCert])
 
   return (
-    <section id="certificates" className="section">
+    <section className="section">
       <div className="container">
         {/* Section Header */}
-        <div className="section-header animate-on-scroll">
+        <div id="certificates" className="section-header animate-on-scroll">
           <h2 className="section-title">{t("certificates.title")}</h2>
           <p className="section-subtitle">{t("certificates.subtitle")}</p>
         </div>

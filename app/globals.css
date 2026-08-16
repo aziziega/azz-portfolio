@@ -135,7 +135,8 @@ html {
 }
 
 section,
-.section {
+.section,
+.section-header {
   scroll-margin-top: 84px;
 }
 
@@ -144,7 +145,8 @@ section,
     scroll-padding-top: 68px;
   }
   section,
-  .section {
+  .section,
+  .section-header {
     scroll-margin-top: 68px;
   }
 }

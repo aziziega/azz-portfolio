@@ -44,22 +44,31 @@ export default function Header() {
         })
     }
 
-    const handleLinkClick = () => {
+    const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, targetId?: string) => {
         setMobileMenuOpen(false)
+        if (targetId && pathname === "/") {
+            e.preventDefault()
+            const el = document.getElementById(targetId)
+            if (el) {
+                el.scrollIntoView({ behavior: "smooth" })
+                window.history.pushState(null, "", `#${targetId}`)
+            }
+        }
     }
+
     return (
         <>
             <header>
                 <div className="container">
                     <nav>
-                        <Link href="/" className="logo">Azizi Egatri M.</Link>
+                        <Link href="/" className="logo" onClick={(e) => handleNavClick(e, "about")}>Azizi Egatri M.</Link>
                         <div className="nav-links">
-                            <Link href="/">{t("nav.about")}</Link>
+                            <Link href="/" onClick={(e) => handleNavClick(e, "about")}>{t("nav.about")}</Link>
                             <Link href="/work">{t("nav.work")}</Link>
-                            <a href="/#certificates">{t("nav.certifications")}</a>
+                            <Link href="/#certificates" onClick={(e) => handleNavClick(e, "certificates")}>{t("nav.certifications")}</Link>
                             <Link href="/blog">{t("nav.blog")}</Link>
-                            <a href="/#testimonials">{t("nav.testimonials")}</a>
-                            <a href="/#contact">{t("nav.contact")}</a>
+                            <Link href="/#testimonials" onClick={(e) => handleNavClick(e, "testimonials")}>{t("nav.testimonials")}</Link>
+                            <Link href="/#contact" onClick={(e) => handleNavClick(e, "contact")}>{t("nav.contact")}</Link>
                         </div>
                         <div className="flex items-center gap-2 sm:gap-4 ml-auto md:ml-0 mr-1 sm:mr-0">
                             {/* Language Toggle with Dots */}
@@ -81,7 +90,6 @@ export default function Header() {
                                     </div>
                                 </div>
                             )}
-
 
                             {/* Live Clock - Asia/Jakarta */}
                             {mounted && (
@@ -121,24 +129,24 @@ export default function Header() {
                 {mobileMenuOpen && (
                     <div className="mobile-menu">
                         <div className="mobile-menu-links">
-                            <Link href="/" onClick={handleLinkClick}>
+                            <Link href="/" onClick={(e) => handleNavClick(e, "about")}>
                                 {t("nav.about")}
                             </Link>
-                            <Link href="/work" onClick={handleLinkClick}>
+                            <Link href="/work" onClick={() => setMobileMenuOpen(false)}>
                                 {t("nav.work")}
                             </Link>
-                            <a href="/#certificates" onClick={handleLinkClick}>
+                            <Link href="/#certificates" onClick={(e) => handleNavClick(e, "certificates")}>
                                 {t("nav.certifications")}
-                            </a>
-                            <Link href="/blog" onClick={handleLinkClick}>
+                            </Link>
+                            <Link href="/blog" onClick={() => setMobileMenuOpen(false)}>
                                 {t("nav.blog")}
                             </Link>
-                            <a href="/#testimonials" onClick={handleLinkClick}>
+                            <Link href="/#testimonials" onClick={(e) => handleNavClick(e, "testimonials")}>
                                 {t("nav.testimonials")}
-                            </a>
-                            <a href="/#contact" onClick={handleLinkClick}>
+                            </Link>
+                            <Link href="/#contact" onClick={(e) => handleNavClick(e, "contact")}>
                                 {t("nav.contact")}
-                            </a>
+                            </Link>
                         </div>
                     </div>
                 )}

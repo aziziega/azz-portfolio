@@ -140,10 +140,10 @@ export default function Testimonials() {
   const secondRow = extendedList.slice(mid)
 
   return (
-    <section id="testimonials" className="section testimonials-section">
+    <section className="section testimonials-section">
       <div className="container">
         {/* Section Header */}
-        <div className="section-header animate-on-scroll">
+        <div id="testimonials" className="section-header animate-on-scroll">
           <h2 className="section-title">{t("testimonials.title")}</h2>
           <p className="section-subtitle">{t("testimonials.subtitle")}</p>
         </div>
