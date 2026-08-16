@@ -89,7 +89,7 @@ export default function Work() {
                         </div>
 
                         {/* View All Work Button (Monochrome Rounded Center) */}
-                        <div className="cert-cta-wrap">
+                        <div className="cert-cta-wrap animate-on-scroll">
                             <Link href="/work" className="cert-view-all-btn">
                                 <span>{t("work.viewAll")}</span>
                                 <ArrowRight size={16} />
