@@ -1,6 +1,8 @@
 import { getAllTestimonialsAdmin } from "@/lib/cms/testimonials"
 import TestimonialsList from "@/components/admin/testimonials-list"
 
+export const revalidate = 0
+
 export const metadata = {
   title: "Testimonials Management | Admin CMS",
 }

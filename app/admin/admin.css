@@ -968,6 +968,79 @@
   border-radius: 9px;
 }
 
+/* ---------- Table Action Buttons ---------- */
+.admin-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.admin-action-btn,
+.admin-icon-btn,
+.admin-btn-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: #ffffff;
+  border: 1px solid var(--admin-border-strong);
+  color: var(--admin-text);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  text-decoration: none;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.admin-action-btn:hover,
+.admin-icon-btn:hover,
+.admin-btn-icon:hover {
+  background: #f8fafc;
+  border-color: var(--admin-blue);
+  color: var(--admin-blue);
+  transform: translateY(-1px);
+}
+
+.admin-icon-btn-danger,
+.admin-btn-icon-danger {
+  color: #dc2626;
+  border-color: #fecaca;
+  background: #ffffff;
+}
+
+.admin-icon-btn-danger:hover,
+.admin-btn-icon-danger:hover {
+  background: #fef2f2;
+  border-color: #f87171;
+  color: #b91c1c;
+}
+
+.admin-btn-feedback {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #92400e;
+  background-color: #fef3c7;
+  border: 1px solid #fde68a;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  font-family: inherit;
+}
+
+.admin-btn-feedback:hover {
+  background-color: #fde68a;
+  border-color: #fcd34d;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(180, 83, 9, 0.12);
+}
+
 /* ---------- Quick Actions / Toolbar ---------- */
 .admin-quick-actions,
 .admin-toolbar {

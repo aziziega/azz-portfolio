@@ -60,6 +60,15 @@ function ReviewCard({
   username,
   body,
 }: TestimonialItem) {
+  const [imgError, setImgError] = useState(false)
+
+  const getInitials = (text: string) => {
+    if (!text || !text.trim()) return "CL"
+    const parts = text.trim().split(" ")
+    if (parts.length === 1) return parts[0].substring(0, 2).toUpperCase()
+    return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase()
+  }
+
   return (
     <div
       style={{ padding: "24px" }}
@@ -67,16 +76,23 @@ function ReviewCard({
     >
       {/* Author Header */}
       <div className="flex flex-row items-center gap-3">
-        <div className="relative size-10 rounded-full overflow-hidden shrink-0 border border-border/60">
-          <img
-            className="w-full h-full object-cover rounded-full aspect-square"
-            alt={name}
-            src={profile || DEFAULT_AVATARS[0]}
-            onError={(e) => {
-              ; (e.target as HTMLImageElement).src = DEFAULT_AVATARS[0]
-            }}
-          />
-        </div>
+        {profile && !imgError ? (
+          <div className="relative size-10 rounded-full overflow-hidden shrink-0 border border-border/60">
+            <img
+              className="w-full h-full object-cover rounded-full aspect-square"
+              alt={name}
+              src={profile}
+              onError={() => setImgError(true)}
+            />
+          </div>
+        ) : (
+          <div
+            className="size-10 rounded-full shrink-0 flex items-center justify-center font-bold text-xs text-white shadow-sm"
+            style={{ background: "linear-gradient(135deg, #3b82f6, #06b6d4)" }}
+          >
+            {getInitials(name)}
+          </div>
+        )}
         <div className="flex flex-col min-w-0">
           <p className="text-sm font-semibold text-foreground truncate">{name}</p>
           <p className="text-xs font-medium text-muted-foreground truncate">
@@ -112,7 +128,7 @@ export default function Testimonials() {
                 name: t.name || "Anonymous",
                 username: usernameClean,
                 body: t.quote || "",
-                profile: t.avatarUrl || DEFAULT_AVATARS[index % DEFAULT_AVATARS.length],
+                profile: t.avatarUrl || "",
               }
             })
             setReviews(mapped)
