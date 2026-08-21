@@ -27,7 +27,9 @@ export default async function EditTechStackPage({ params }: EditTechStackPagePro
         </div>
       </div>
 
-      <TechStackForm initialData={techStack} id={id} />
+      <div className="admin-card">
+        <TechStackForm initialData={techStack} id={id} />
+      </div>
     </div>
   )
 }

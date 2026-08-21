@@ -45,7 +45,7 @@ export async function PUT(
     const result = certificateSchema.safeParse(body)
     if (!result.success) {
       return NextResponse.json({
-        message: "Validation failed",
+        message: result.error.errors[0]?.message || "Validation failed",
         errors: result.error.flatten().fieldErrors,
       }, { status: 400 })
     }

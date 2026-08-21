@@ -19,6 +19,22 @@ interface CertificatesListProps {
   initialCertificates: any[]
 }
 
+export function getCertificateTitle(title: any): string {
+  if (!title) return ""
+  if (typeof title === "object" && title !== null) {
+    return title.en || title.id || ""
+  }
+  if (typeof title === "string" && title.startsWith("{")) {
+    try {
+      const p = JSON.parse(title)
+      return p.en || p.id || title
+    } catch {
+      return title
+    }
+  }
+  return String(title)
+}
+
 export default function CertificatesList({ initialCertificates }: CertificatesListProps) {
   const [certificates, setCertificates] = useState<any[]>(initialCertificates)
   const [search, setSearch] = useState("")
@@ -151,7 +167,10 @@ export default function CertificatesList({ initialCertificates }: CertificatesLi
 
   // Filtering
   const filtered = certificates.filter((c) => {
-    const titleText = (c.title || "").toLowerCase()
+    const titleText = (typeof c.title === "object" && c.title !== null
+      ? `${c.title.en || ""} ${c.title.id || ""}`
+      : getCertificateTitle(c.title)
+    ).toLowerCase()
     const issuerText = (c.issuer || "").toLowerCase()
     const credIdText = (c.credential_id || "").toLowerCase()
     const searchLower = search.toLowerCase()
@@ -342,7 +361,7 @@ export default function CertificatesList({ initialCertificates }: CertificatesLi
                         )}
                         <div>
                           <div style={{ display: "flex", alignItems: "center", gap: "6px", flexWrap: "wrap" }}>
-                            <strong style={{ color: "#0f172a", fontSize: "0.95rem" }}>{c.title}</strong>
+                            <strong style={{ color: "#0f172a", fontSize: "0.95rem" }}>{getCertificateTitle(c.title)}</strong>
                             {c.featured && (
                               <span
                                 style={{
@@ -442,25 +461,27 @@ export default function CertificatesList({ initialCertificates }: CertificatesLi
                           href={c.credential_url}
                           target="_blank"
                           rel="noreferrer"
+                          className="hover:underline"
                           style={{
                             display: "inline-flex",
                             alignItems: "center",
                             gap: "4px",
                             color: "#2563eb",
                             fontSize: "0.8125rem",
-                            fontWeight: 500,
+                            fontWeight: 600,
+                            textDecoration: "none",
                           }}
                         >
                           Verify <ExternalLink size={12} />
                         </a>
                       ) : (
-                        <span style={{ color: "#cbd5e1", fontSize: "0.8125rem" }}>-</span>
+                        <span style={{ color: "#94a3b8", fontSize: "0.8125rem" }}>-</span>
                       )}
                     </td>
 
                     {/* Action Buttons */}
-                    <td style={{ textAlign: "right" }}>
-                      <div className="admin-action-btns" style={{ justifyContent: "flex-end" }}>
+                    <td className="text-right">
+                      <div className="admin-actions" style={{ justifyContent: "flex-end" }}>
                         <Link href={`/admin/certificates/${c.id}`} className="admin-action-btn edit" title="Edit Certificate">
                           <Edit2 size={15} />
                         </Link>
@@ -477,7 +498,7 @@ export default function CertificatesList({ initialCertificates }: CertificatesLi
                           </button>
                         ) : (
                           <button
-                            onClick={() => setArchiveConfirmItem({ id: c.id, title: c.title })}
+                            onClick={() => setArchiveConfirmItem({ id: c.id, title: getCertificateTitle(c.title) })}
                             className="admin-action-btn"
                             title="Archive Certificate"
                             type="button"

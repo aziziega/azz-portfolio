@@ -278,19 +278,21 @@ export default function Certificates() {
 
               {/* Credential ID Pill if available */}
               {selectedCert.credentialId && (
-                <div style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: "6px",
-                  padding: "4px 10px",
-                  background: "#f1f5f9",
-                  borderRadius: "6px",
-                  fontSize: "12px",
-                  fontFamily: "monospace",
-                  color: "#334155",
-                  marginBottom: "12px",
-                  width: "fit-content"
-                }}>
+                <div
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "6px",
+                    padding: "6px 12px",
+                    background: "rgba(100, 116, 139, 0.08)",
+                    border: "1px solid rgba(100, 116, 139, 0.15)",
+                    borderRadius: "8px",
+                    fontSize: "12.5px",
+                    fontFamily: "monospace",
+                    width: "fit-content",
+                    marginBottom: "4px",
+                  }}
+                >
                   <span style={{ color: "#64748b", fontWeight: 600 }}>{t("certificates.credentialId")}:</span>
                   <span style={{ fontWeight: 700 }}>{selectedCert.credentialId}</span>
                 </div>
@@ -298,8 +300,8 @@ export default function Certificates() {
 
               {selectedCert.description && <p className="cert-lb-desc">{selectedCert.description}</p>}
 
-              {/* Action Buttons: Verify & PDF */}
-              <div style={{ display: "flex", flexWrap: "wrap", gap: "10px", marginTop: "16px" }}>
+              {/* Action Links: Verify & PDF */}
+              <div style={{ display: "flex", flexWrap: "wrap", gap: "20px", marginTop: "16px" }}>
                 {selectedCert.credentialUrl && (
                   <a
                     href={selectedCert.credentialUrl}
@@ -316,12 +318,7 @@ export default function Certificates() {
                     href={selectedCert.pdfUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="cert-lb-link"
-                    style={{
-                      background: "rgba(220, 38, 38, 0.08)",
-                      borderColor: "rgba(220, 38, 38, 0.2)",
-                      color: "#dc2626"
-                    }}
+                    className="cert-lb-link cert-lb-link-pdf"
                   >
                     <FileText size={14} />
                     {t("certificates.viewPdf")}

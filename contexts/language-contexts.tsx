@@ -56,6 +56,7 @@ const translations = {
     "certificates.subtitle": "Credentials and professional certifications.",
     "certificates.verify": "Verify Credential",
     "certificates.viewPdf": "View PDF",
+    "certificates.viewImage": "View Full Image",
     "certificates.credentialId": "Credential ID",
     "certificates.viewAll": "View All Certificates",
 
@@ -219,6 +220,7 @@ const translations = {
     "certificates.subtitle": "Kredensial dan sertifikasi profesional.",
     "certificates.verify": "Verifikasi Kredensial",
     "certificates.viewPdf": "Buka PDF",
+    "certificates.viewImage": "Lihat Gambar Penuh",
     "certificates.credentialId": "ID Kredensial",
     "certificates.viewAll": "Lihat Semua Sertifikat",
 

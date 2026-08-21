@@ -135,7 +135,7 @@ export default function TechStackList({ initialTechStacks }: TechStackListProps)
                 </td>
                 <td>{t.sort_order ?? 0}</td>
                 <td>
-                  <span className={`admin-badge admin-badge-${t.status}`}>
+                  <span className={`admin-badge ${t.status}`}>
                     {t.status}
                   </span>
                 </td>

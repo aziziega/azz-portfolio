@@ -3,7 +3,7 @@ import { type CertificateInput } from "@/lib/validations/certificate"
 
 export interface DBCertificate {
   id: string
-  title: string
+  title: string | Record<string, string>
   issuer: string
   issue_date: string | null
   year: number | null
@@ -82,6 +82,7 @@ export async function createCertificate(input: CertificateInput): Promise<DBCert
   const payload = {
     ...input,
     year: computedYear ?? null,
+    image_url: input.image_url ?? "",
   }
 
   const { data, error } = await supabase
@@ -111,6 +112,9 @@ export async function updateCertificate(id: string, input: Partial<CertificateIn
   }
   if (computedYear !== undefined) {
     payload.year = computedYear
+  }
+  if ("image_url" in input) {
+    payload.image_url = input.image_url ?? ""
   }
 
   const { data, error } = await supabase
@@ -181,7 +185,29 @@ export async function reorderCertificates(ids: string[]): Promise<void> {
 
 // ---------------- Public Functions ----------------
 
+export function resolveTitle(rawTitle: any, language: "en" | "id" = "en"): string {
+  if (!rawTitle) return ""
+  if (typeof rawTitle === "string") {
+    if (rawTitle.trim().startsWith("{")) {
+      try {
+        const parsed = JSON.parse(rawTitle)
+        if (typeof parsed === "object" && parsed !== null) {
+          return parsed[language] || parsed["en"] || parsed["id"] || ""
+        }
+      } catch {
+        // Not a JSON string
+      }
+    }
+    return rawTitle
+  }
+  if (typeof rawTitle === "object" && rawTitle !== null) {
+    return rawTitle[language] || rawTitle["en"] || rawTitle["id"] || ""
+  }
+  return String(rawTitle)
+}
+
 export function resolveCertificate(c: DBCertificate, language: "en" | "id" = "en"): PublicCertificate {
+  const title = resolveTitle(c.title, language)
   const description = c.description
     ? (c.description[language] || c.description["en"] || "")
     : ""
@@ -196,7 +222,7 @@ export function resolveCertificate(c: DBCertificate, language: "en" | "id" = "en
 
   return {
     id: c.id,
-    title: c.title,
+    title,
     issuer: c.issuer,
     issueDate: c.issue_date,
     year: computedYear,

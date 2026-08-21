@@ -16,13 +16,26 @@ export default async function EditCertificatePage({
     notFound()
   }
 
+  const displayTitle = typeof certificate.title === "object" && certificate.title !== null
+    ? certificate.title.en || certificate.title.id || ""
+    : typeof certificate.title === "string" && certificate.title.startsWith("{")
+      ? (() => {
+          try {
+            const p = JSON.parse(certificate.title)
+            return p.en || p.id || certificate.title
+          } catch {
+            return certificate.title
+          }
+        })()
+      : certificate.title || ""
+
   return (
     <div className="admin-page">
       <div className="admin-page-header">
         <div>
           <h1 className="admin-page-title">Edit Certificate</h1>
           <p className="admin-page-subtitle">
-            Update details for &quot;{certificate.title}&quot;.
+            Update details for &quot;{displayTitle}&quot;.
           </p>
         </div>
       </div>

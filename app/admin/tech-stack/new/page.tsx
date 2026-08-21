@@ -12,7 +12,9 @@ export default function NewTechStackPage() {
         </div>
       </div>
 
-      <TechStackForm />
+      <div className="admin-card">
+        <TechStackForm />
+      </div>
     </div>
   )
 }

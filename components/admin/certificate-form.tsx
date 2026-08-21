@@ -15,9 +15,35 @@ export default function CertificateForm({ initialData, id }: CertificateFormProp
   const router = useRouter()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
+  const [toastMsg, setToastMsg] = useState("")
+  const [toastError, setToastError] = useState(false)
+
+  const showToast = (message: string, isErr = true) => {
+    setToastMsg(message)
+    setToastError(isErr)
+    setTimeout(() => {
+      setToastMsg("")
+    }, 4000)
+  }
+
+  // Format initial title (supports both object { en, id } and legacy plain string)
+  const initialTitle = typeof initialData?.title === "object" && initialData?.title !== null
+    ? { en: initialData.title.en || "", id: initialData.title.id || "" }
+    : typeof initialData?.title === "string"
+      ? initialData.title.startsWith("{")
+        ? (() => {
+            try {
+              const p = JSON.parse(initialData.title)
+              return { en: p.en || "", id: p.id || "" }
+            } catch {
+              return { en: initialData.title, id: initialData.title }
+            }
+          })()
+        : { en: initialData.title || "", id: initialData.title || "" }
+      : { en: "", id: "" }
 
   // Form States
-  const [title, setTitle] = useState(initialData?.title || "")
+  const [title, setTitle] = useState(initialTitle)
   const [issuer, setIssuer] = useState(initialData?.issuer || "")
   
   // Format initial issue_date or fallback from year
@@ -39,31 +65,59 @@ export default function CertificateForm({ initialData, id }: CertificateFormProp
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setLoading(true)
     setError("")
 
-    try {
-      if (!title.trim()) {
-        throw new Error("Certificate title is required")
-      }
-      if (!issuer.trim()) {
-        throw new Error("Issuer organization is required")
-      }
-      if (!issueDate) {
-        throw new Error("Issue date is required")
-      }
+    // Check certificate files requirement (at least Image or PDF)
+    const hasImage = Boolean(imageUrl && imageUrl.trim().length > 0)
+    const hasPdf = Boolean(pdfUrl && pdfUrl.trim().length > 0)
 
+    if (!hasImage && !hasPdf) {
+      showToast("Harap upload file sertifikat (Image atau PDF) terlebih dahulu!", true)
+      setError("Harap upload file sertifikat berupa Image atau PDF terlebih dahulu (salah satu wajib diisi).")
+      return
+    }
+
+    const finalTitleEn = (title.en || "").trim()
+    const finalTitleId = (title.id || "").trim()
+
+    if (!finalTitleEn && !finalTitleId) {
+      const msg = "Certificate title is required (in English or Indonesian)"
+      setError(msg)
+      showToast(msg, true)
+      return
+    }
+
+    if (!issuer.trim()) {
+      const msg = "Issuer organization is required"
+      setError(msg)
+      showToast(msg, true)
+      return
+    }
+
+    if (!issueDate) {
+      const msg = "Issue date is required"
+      setError(msg)
+      showToast(msg, true)
+      return
+    }
+
+    setLoading(true)
+
+    try {
       const computedYear = issueDate ? new Date(issueDate).getFullYear() : null
 
       const payload: CertificateInput = {
-        title: title.trim(),
+        title: {
+          en: finalTitleEn || finalTitleId,
+          id: finalTitleId || finalTitleEn,
+        },
         issuer: issuer.trim(),
         issue_date: issueDate,
         year: computedYear,
         credential_id: credentialId.trim() || null,
         credential_url: credentialUrl.trim() || null,
-        image_url: imageUrl.trim() || null,
-        pdf_url: pdfUrl.trim() || null,
+        image_url: imageUrl.trim() || "",
+        pdf_url: pdfUrl.trim() || "",
         description: {
           en: description?.en || "",
           id: description?.id || "",
@@ -85,11 +139,14 @@ export default function CertificateForm({ initialData, id }: CertificateFormProp
         throw new Error(data.message || (data.errors ? JSON.stringify(data.errors) : "Failed to save certificate"))
       }
 
+      showToast(id ? "Certificate updated successfully!" : "Certificate created successfully!", false)
       router.push("/admin/certificates")
       router.refresh()
     } catch (err: any) {
       console.error(err)
-      setError(err.message || "Something went wrong")
+      const message = err.message || "Something went wrong"
+      setError(message)
+      showToast(message, true)
     } finally {
       setLoading(false)
     }
@@ -97,37 +154,42 @@ export default function CertificateForm({ initialData, id }: CertificateFormProp
 
   return (
     <form onSubmit={handleSubmit} className="admin-form">
+      {/* Toast Notification */}
+      {toastMsg && (
+        <div className={`admin-toast ${toastError ? "error" : "success"}`}>
+          {toastError ? "❌" : "✅"} {toastMsg}
+        </div>
+      )}
+
       {error && (
         <div className="admin-alert error" style={{ marginBottom: "20px" }}>
           ⚠️ {error}
         </div>
       )}
 
-      {/* Basic Info */}
-      <div className="admin-form-row">
-        <div className="admin-form-group">
-          <label className="admin-form-label">Certificate Title *</label>
-          <input
-            type="text"
-            className="admin-form-input"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            placeholder="e.g. AWS Certified Solutions Architect – Associate"
-            required
-          />
-        </div>
+      {/* Title (Bilingual Field: EN & ID) */}
+      <LocalizedField
+        label="Certificate Title"
+        valueEn={title.en}
+        valueId={title.id}
+        onChangeEn={(val) => setTitle({ ...title, en: val })}
+        onChangeId={(val) => setTitle({ ...title, id: val })}
+        placeholderEn="e.g. AWS Certified Solutions Architect – Associate"
+        placeholderId="e.g. Belajar Membuat Front-End Web untuk Pemula"
+        required
+      />
 
-        <div className="admin-form-group">
-          <label className="admin-form-label">Issuer Organization *</label>
-          <input
-            type="text"
-            className="admin-form-input"
-            value={issuer}
-            onChange={(e) => setIssuer(e.target.value)}
-            placeholder="e.g. Amazon Web Services"
-            required
-          />
-        </div>
+      {/* Issuer Organization */}
+      <div className="admin-form-group">
+        <label className="admin-form-label">Issuer Organization *</label>
+        <input
+          type="text"
+          className="admin-form-input"
+          value={issuer}
+          onChange={(e) => setIssuer(e.target.value)}
+          placeholder="e.g. Amazon Web Services, Dicoding, Google Cloud"
+          required
+        />
       </div>
 
       <div className="admin-form-row">
@@ -212,18 +274,33 @@ export default function CertificateForm({ initialData, id }: CertificateFormProp
 
       {/* Media: Image & PDF Uploaders */}
       <div style={{ marginTop: "16px", display: "flex", flexDirection: "column", gap: "20px" }}>
+        <div>
+          <label className="admin-form-label" style={{ marginBottom: "4px" }}>
+            Certificate Files <span style={{ color: "#ef4444" }}>* (Wajib upload Image atau PDF)</span>
+          </label>
+          <p style={{ fontSize: "12px", color: "#64748b", margin: 0 }}>
+            Harap upload setidaknya salah satu berkas: Gambar sertifikat (Image) atau Dokumen (PDF).
+          </p>
+        </div>
+
         <CertificateFileUploader
-          label="Certificate Image (Optional - preview card & lightbox)"
+          label="Certificate Image (Preview Card & Lightbox)"
           value={imageUrl}
-          onChange={(url) => setImageUrl(url)}
+          onChange={(url) => {
+            setImageUrl(url)
+            if (url) setError("")
+          }}
           type="image"
           folder="images"
         />
 
         <CertificateFileUploader
-          label="Certificate PDF (Optional - download / view original document)"
+          label="Certificate PDF (Original Document Download)"
           value={pdfUrl}
-          onChange={(url) => setPdfUrl(url)}
+          onChange={(url) => {
+            setPdfUrl(url)
+            if (url) setError("")
+          }}
           type="pdf"
           folder="pdfs"
         />
