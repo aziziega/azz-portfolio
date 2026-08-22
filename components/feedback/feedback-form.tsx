@@ -285,7 +285,7 @@ export default function FeedbackForm({ token }: FeedbackFormProps) {
               <span>{isId ? "Kritik & Saran (Private)" : "Private Feedback / Suggestions"}</span>
             </label>
             <span className="feedback-private-tag">
-              🔒 {isId ? "Hanya untuk Saya" : "Admin Only"}
+              🔒 {isId ? "Hanya untuk Azizi" : "Only for Azizi"}
             </span>
           </div>
           <textarea
