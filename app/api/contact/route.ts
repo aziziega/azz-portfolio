@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server"
-import { createClient } from "@/lib/supabase/server"
+import { createAdminClient } from "@/lib/supabase/admin"
 import { contactSchema } from "@/lib/validations/contact"
 import { sendContactNotificationEmail } from "@/lib/email/resend"
 
@@ -24,7 +24,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ message: "Message sent successfully" })
     }
 
-    const supabase = await createClient()
+    const supabase = createAdminClient()
 
     // Insert into contact_messages (RLS policy allows public insert)
     const { data, error } = await supabase

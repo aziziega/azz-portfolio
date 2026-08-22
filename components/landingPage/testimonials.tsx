@@ -1,7 +1,6 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { Card, CardContent } from "@/components/ui/card"
 import { Marquee } from "@/components/ui/marquee"
 import { useLanguage } from "@/contexts/language-contexts"
 
@@ -12,47 +11,6 @@ export interface TestimonialItem {
   body: string
   profile: string
 }
-
-const DEFAULT_AVATARS = [
-  "https://images.shadcnspace.com/assets/profiles/rough.webp",
-  "https://images.shadcnspace.com/assets/profiles/albert.webp",
-  "https://images.shadcnspace.com/assets/profiles/linda.webp",
-  "https://images.shadcnspace.com/assets/profiles/jessica.webp",
-  "https://images.shadcnspace.com/assets/profiles/jenny.webp",
-]
-
-const PLACEHOLDER_REVIEWS: TestimonialItem[] = [
-  {
-    name: "Ken Masters",
-    username: "@kmasters",
-    body: "Our productivity has nearly doubled since onboarding. Automation features removed repetitive tasks, allowing our team to focus on building instead of managing operations.",
-    profile: "https://images.shadcnspace.com/assets/profiles/rough.webp",
-  },
-  {
-    name: "Kira Athrun",
-    username: "@kathrun",
-    body: "What surprised us most was how quickly our team adapted. Minimal learning curve, excellent documentation, and powerful features make it a must-have for modern SaaS companies.",
-    profile: "https://images.shadcnspace.com/assets/profiles/albert.webp",
-  },
-  {
-    name: "Lirael Nassun",
-    username: "@lnassun",
-    body: "This is easily one of the most reliable SaaS tools we've adopted. The UI is intuitive, integrations are seamless, and it saves us countless hours every week.",
-    profile: "https://images.shadcnspace.com/assets/profiles/linda.webp",
-  },
-  {
-    name: "Jessica",
-    username: "@jessica",
-    body: "Switching to this platform streamlined our entire workflow. Setup was effortless, performance improved instantly, and our team now ships features faster without worrying about infrastructure.",
-    profile: "https://images.shadcnspace.com/assets/profiles/jessica.webp",
-  },
-  {
-    name: "Jenny",
-    username: "@jenny",
-    body: "We evaluated multiple solutions, but this stood out immediately. It's fast, scalable, and thoughtfully designed for growing teams that need stability without added complexity.",
-    profile: "https://images.shadcnspace.com/assets/profiles/jenny.webp",
-  },
-]
 
 function ReviewCard({
   profile,
@@ -111,45 +69,56 @@ function ReviewCard({
 
 export default function Testimonials() {
   const { language, t } = useLanguage()
-  const [reviews, setReviews] = useState<TestimonialItem[]>(PLACEHOLDER_REVIEWS)
+  const [reviews, setReviews] = useState<TestimonialItem[]>([])
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const fetchTestimonials = async () => {
       try {
+        setLoading(true)
         const res = await fetch(`/api/testimonials?lang=${language}`)
         if (res.ok) {
           const data = await res.json()
-          if (Array.isArray(data) && data.length > 0) {
-            const mapped: TestimonialItem[] = data.map((t: any, index: number) => {
-              const roleInfo = [t.role, t.company].filter(Boolean).join(", ")
+          if (Array.isArray(data)) {
+            const mapped: TestimonialItem[] = data.map((item: any, index: number) => {
+              const roleInfo = [item.role, item.company].filter(Boolean).join(", ")
               const usernameClean = roleInfo || "Collaborator"
               return {
-                id: t.id || `db-${index}`,
-                name: t.name || "Anonymous",
+                id: item.id || `db-${index}`,
+                name: item.name || "Anonymous",
                 username: usernameClean,
-                body: t.quote || "",
-                profile: t.avatarUrl || "",
+                body: item.quote || "",
+                profile: item.avatarUrl || "",
               }
             })
             setReviews(mapped)
           } else {
-            setReviews(PLACEHOLDER_REVIEWS)
+            setReviews([])
           }
         } else {
-          setReviews(PLACEHOLDER_REVIEWS)
+          setReviews([])
         }
       } catch (err) {
         console.error("Failed to fetch testimonials:", err)
-        setReviews(PLACEHOLDER_REVIEWS)
+        setReviews([])
+      } finally {
+        setLoading(false)
       }
     }
 
     fetchTestimonials()
   }, [language])
 
-  const listToUse = reviews.length > 0 ? reviews : PLACEHOLDER_REVIEWS
-  const extendedList =
-    listToUse.length < 6 ? [...listToUse, ...listToUse] : listToUse
+  // If loading or no published testimonials found from DB, hide the section
+  if (loading || reviews.length === 0) {
+    return null
+  }
+
+  // Ensure enough items for smooth continuous marquee looping
+  let extendedList = [...reviews]
+  while (extendedList.length < 6) {
+    extendedList = [...extendedList, ...reviews]
+  }
 
   const mid = Math.ceil(extendedList.length / 2)
   const firstRow = extendedList.slice(0, mid)
@@ -168,12 +137,12 @@ export default function Testimonials() {
         <div className="relative flex w-full flex-col items-center justify-center overflow-hidden gap-4 sm:gap-5">
           <Marquee pauseOnHover style={{ "--duration": "24s" } as React.CSSProperties} className="[--duration:24s] items-start">
             {firstRow.map((review, idx) => (
-              <ReviewCard key={`${review.username}-r1-${idx}`} {...review} />
+              <ReviewCard key={`${review.id || review.username}-r1-${idx}`} {...review} />
             ))}
           </Marquee>
           <Marquee reverse pauseOnHover style={{ "--duration": "24s" } as React.CSSProperties} className="[--duration:24s] items-start">
             {secondRow.map((review, idx) => (
-              <ReviewCard key={`${review.username}-r2-${idx}`} {...review} />
+              <ReviewCard key={`${review.id || review.username}-r2-${idx}`} {...review} />
             ))}
           </Marquee>
           <div className="from-background pointer-events-none absolute inset-y-0 left-0 w-1/4 bg-gradient-to-r"></div>
