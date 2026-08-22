@@ -112,7 +112,7 @@ const translations = {
     // Work Page
     "work.page.title": "Featured Work",
     "work.page.subtitle": "A collection of projects showcasing my expertise in fullstack web development. From CRM systems to healthcare solutions, each project demonstrates scalable architecture, clean code, and modern best practices.",
-    
+
     // Project Detail
     "project.challenge": "The Challenge",
     "project.solution": "The Solution",
@@ -123,7 +123,7 @@ const translations = {
     "project.outcomes": "Results & Impact",
     "project.designProcess": "Design Process",
     "project.lessonsLearned": "Lessons Learned",
-    
+
     // Project Navigation
     "project.nav.back": "Back to All Projects",
     "project.nav.previous": "Previous",
@@ -276,7 +276,7 @@ const translations = {
     // Work Page
     "work.page.title": "Karya Unggulan",
     "work.page.subtitle": "Koleksi proyek yang menunjukkan keahlian saya dalam pengembangan web fullstack. Dari sistem CRM hingga solusi healthcare, setiap proyek mendemonstrasikan arsitektur yang scalable, clean code, dan best practices modern.",
-    
+
     // Project Detail
     "project.challenge": "Tantangan",
     "project.solution": "Solusi",
@@ -287,7 +287,7 @@ const translations = {
     "project.outcomes": "Hasil & Dampak",
     "project.designProcess": "Proses Desain",
     "project.lessonsLearned": "Pelajaran yang Dipetik",
-    
+
     // Project Navigation
     "project.nav.back": "Kembali ke Semua Proyek",
     "project.nav.previous": "Sebelumnya",
@@ -343,14 +343,14 @@ const translations = {
 
 
 
-export function LanguageProvider({ 
+export function LanguageProvider({
   children,
   initialSettings = {}
-}: { 
+}: {
   children: ReactNode
   initialSettings?: Record<string, any>
 }) {
-  const [language, setLanguage] = useState<Language>("en")
+  const [language, setLanguage] = useState<Language>("id")
   const [settings, setSettings] = useState<Record<string, any>>({
     hero: {
       en: {
