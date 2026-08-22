@@ -29,7 +29,7 @@
 
 .feedback-header {
   text-align: center;
-  margin-bottom: 32px;
+  margin-bottom: 28px;
 }
 
 .feedback-badge {
@@ -62,10 +62,127 @@
   line-height: 1.5;
 }
 
+/* =========================================================================
+   Top Avatar Section (Center Prominent)
+   ========================================================================= */
+
+.feedback-avatar-top-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 16px 0 8px 0;
+}
+
+.feedback-avatar-top-preview-wrap {
+  position: relative;
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  margin-bottom: 16px;
+  box-shadow: 0 10px 25px -5px rgba(37, 99, 235, 0.25),
+              0 0 0 4px rgba(59, 130, 246, 0.15);
+  transition: transform 0.2s ease;
+}
+
+.feedback-avatar-top-preview-wrap:hover {
+  transform: scale(1.03);
+}
+
+.feedback-avatar-top-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #ffffff;
+}
+
+.feedback-avatar-top-initials {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #3b82f6, #06b6d4);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 32px;
+  letter-spacing: 1px;
+  border: 3px solid #ffffff;
+}
+
+.feedback-avatar-top-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.feedback-avatar-btn-choose {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 18px;
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  color: #1e293b;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.feedback-avatar-btn-choose:hover:not(:disabled) {
+  background: #e2e8f0;
+  border-color: #94a3b8;
+  transform: translateY(-1px);
+}
+
+.feedback-avatar-btn-remove {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #dc2626;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.feedback-avatar-btn-remove:hover:not(:disabled) {
+  background: #fee2e2;
+  border-color: #f87171;
+  transform: translateY(-1px);
+}
+
+.feedback-avatar-top-hint {
+  font-size: 12px;
+  color: var(--muted-foreground);
+  max-width: 420px;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.feedback-section-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border), transparent);
+  margin: 8px 0 12px 0;
+}
+
+/* =========================================================================
+   Form Fields
+   ========================================================================= */
+
 .feedback-form-content {
   display: flex;
   flex-direction: column;
-  gap: 22px;
+  gap: 20px;
 }
 
 .feedback-grid-2 {
@@ -90,65 +207,6 @@
   .feedback-title {
     font-size: 22px;
   }
-}
-
-.feedback-avatar-row {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-}
-
-.feedback-avatar-preview-wrap {
-  position: relative;
-  width: 72px;
-  height: 72px;
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-
-.feedback-avatar-img {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid var(--border);
-}
-
-.feedback-avatar-initials {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #3b82f6, #06b6d4);
-  color: #ffffff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 800;
-  font-size: 22px;
-  letter-spacing: 0.5px;
-  box-shadow: 0 8px 16px rgba(37, 99, 235, 0.25);
-}
-
-.feedback-avatar-upload-btn {
-  position: absolute;
-  bottom: -2px;
-  right: -2px;
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  background: var(--foreground);
-  color: var(--background);
-  border: 2px solid var(--card);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: transform 0.15s, opacity 0.15s;
-}
-
-.feedback-avatar-upload-btn:hover {
-  transform: scale(1.1);
-  opacity: 0.9;
 }
 
 .feedback-label {
@@ -217,7 +275,7 @@
 }
 
 .feedback-submit-wrap {
-  margin-top: 10px;
+  margin-top: 8px;
 }
 
 .feedback-submit-btn {
@@ -258,7 +316,189 @@
   margin-bottom: 20px;
 }
 
-/* Success Card */
+/* =========================================================================
+   Crop Modal Dialog
+   ========================================================================= */
+
+.crop-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.crop-modal-card {
+  width: 100%;
+  max-width: 440px;
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.crop-modal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.crop-modal-title {
+  font-size: 17px;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0 0 4px 0;
+}
+
+.crop-modal-sub {
+  font-size: 12px;
+  color: #64748b;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.crop-modal-close-btn {
+  background: #f1f5f9;
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  color: #475569;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+}
+
+.crop-modal-close-btn:hover {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+.crop-canvas-wrapper {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #0f172a;
+  border-radius: 16px;
+  overflow: hidden;
+  padding: 12px;
+}
+
+.crop-canvas {
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+  touch-action: none;
+  user-select: none;
+}
+
+.crop-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.crop-slider-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 8px 14px;
+}
+
+.crop-slider {
+  flex: 1;
+  height: 6px;
+  accent-color: #2563eb;
+  cursor: pointer;
+}
+
+.crop-reset-btn {
+  background: none;
+  border: none;
+  color: #64748b;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  transition: color 0.15s ease;
+}
+
+.crop-reset-btn:hover {
+  color: #0f172a;
+  background: #e2e8f0;
+}
+
+.crop-modal-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.crop-btn-cancel {
+  padding: 10px 18px;
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  color: #334155;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.crop-btn-cancel:hover:not(:disabled) {
+  background: #e2e8f0;
+}
+
+.crop-btn-apply {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: linear-gradient(135deg, #2563eb, #0284c7);
+  color: #ffffff;
+  border: none;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+  transition: all 0.15s ease;
+}
+
+.crop-btn-apply:hover:not(:disabled) {
+  opacity: 0.95;
+  transform: translateY(-1px);
+}
+
+.crop-btn-apply:disabled,
+.crop-btn-cancel:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* =========================================================================
+   Success & Access Denied Cards
+   ========================================================================= */
+
 .feedback-success-card {
   text-align: center;
   padding: 50px 36px;
@@ -308,7 +548,6 @@
   opacity: 0.88;
 }
 
-/* Access Denied (403) */
 .feedback-denied-card {
   text-align: center;
   max-width: 520px;
