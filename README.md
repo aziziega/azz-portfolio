@@ -1,18 +1,21 @@
 <div align="center">
 
-# 🌟 Azizi Egatri Mu'thi — Personal Portfolio & Headless CMS
+# 🌟 azz-portfolio — Developer Portfolio & Headless CMS
 
-An interactive, high-performance developer portfolio and headless CMS built with **Next.js 16**, **React 19**, **TypeScript**, **Tailwind CSS v4**, **Three.js / React Three Fiber**, **Supabase**, and **Resend**.
+An interactive, high-performance developer portfolio and full-stack headless CMS built with **Next.js 16**, **React 19**, **TypeScript**, **Tailwind CSS v4**, **Three.js / React Three Fiber**, **Supabase**, and **Resend**.
+
+**100% Free & Open-Source Template** — Siap di-clone, di-setup, dan dikustomisasi untuk portofolio pribadi Anda!
 
 [![Next.js](https://img.shields.io/badge/Next.js-16.0-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
-[![React](https://img.shields.io/badge/React-19.0-blue?style=for-the-badge&logo=react)](https://react.dev/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
+[![React](https://img.shields.io/badge/React-19.2-blue?style=for-the-badge&logo=react)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178C6?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-v4.0-38B2AC?style=for-the-badge&logo=tailwind-css)](https://tailwindcss.com/)
-[![Supabase](https://img.shields.io/badge/Supabase-Database-3ECF8E?style=for-the-badge&logo=supabase)](https://supabase.com/)
+[![Supabase](https://img.shields.io/badge/Supabase-PostgreSQL_%26_Auth-3ECF8E?style=for-the-badge&logo=supabase)](https://supabase.com/)
 [![Three.js](https://img.shields.io/badge/Three.js-3D_Physics-black?style=for-the-badge&logo=three.js)](https://threejs.org/)
-[![Resend](https://img.shields.io/badge/Resend-Email_API-black?style=for-the-badge&logo=resend)](https://resend.com/)
+[![Resend](https://img.shields.io/badge/Resend-Email_Engine-black?style=for-the-badge&logo=resend)](https://resend.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](LICENSE)
 
-[**Live Demo (aziziem.xyz)**](https://aziziem.xyz) • [**Report Bug**](https://github.com/aziziega/azz-portfolio/issues) • [**Request Feature**](https://github.com/aziziega/azz-portfolio/issues)
+[**🌐 Live Demo (aziziem.xyz)**](https://aziziem.xyz) • [**🚀 Deploy to Vercel**](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Faziziega%2Fazz-portfolio) • [**🐛 Laporkan Masalah**](https://github.com/aziziega/azz-portfolio/issues)
 
 </div>
 
@@ -20,96 +23,103 @@ An interactive, high-performance developer portfolio and headless CMS built with
 
 ## 📌 Daftar Isi / Table of Contents
 
-- [Tentang Proyek / About The Project](#-tentang-proyek--about-the-project)
-- [Fitur Utama / Key Features](#-fitur-utama--key-features)
-- [Teknologi & Stack / Tech Stack](#-teknologi--stack--tech-stack)
-- [Struktur Direktori / Project Structure](#-struktur-direktori--project-structure)
-- [Panduan Memulai / Getting Started](#-panduan-memulai--getting-started)
-  - [Prasyarat / Prerequisites](#prasyarat--prerequisites)
-  - [Instalasi / Installation](#instalasi--installation)
-  - [Konfigurasi Environment Variables](#konfigurasi-environment-variables)
-  - [Setup Database & Supabase](#setup-database--supabase)
-  - [Menjalankan Aplikasi / Running Locally](#menjalankan-aplikasi--running-locally)
-- [Panel Admin & Headless CMS](#-panel-admin--headless-cms)
-- [SEO & Optimasi / SEO & Performance](#-seo--optimasi--seo--performance)
-- [Kontributor & Lisensi / Author & License](#-kontributor--lisensi--author--license)
+- [📖 Tentang Proyek / About The Project](#-tentang-proyek--about-the-project)
+- [✨ Fitur Utama / Key Features](#-fitur-utama--key-features)
+  - [1. 🪢 3D Interactive Physics Lanyard](#1--3d-interactive-physics-lanyard)
+  - [2. 🛡️ Custom Headless CMS & Admin Dashboard (`/admin`)](#2-️-custom-headless-cms--admin-dashboard-admin)
+  - [3. ⭐ Client Feedback Portal & Interactive Avatar Cropper (`/feedback`)](#3--client-feedback-portal--interactive-avatar-cropper-feedback)
+  - [4. 🌐 Sistem Bilingual Multi-Bahasa (i18n & JSONB)](#4--sistem-bilingual-multi-bahasa-i18n--jsonb)
+  - [5. 💼 In-Depth Project Case Studies (`/work/[slug]`)](#5--in-depth-project-case-studies-workslug)
+  - [6. 📬 Email Automation, Newsletter & Direct Reply (Resend API)](#6--email-automation-newsletter--direct-reply-resend-api)
+  - [7. 📄 Resume Interaktif & PDF Viewer (`/resume`)](#7--resume-interaktif--pdf-viewer-resume)
+  - [8. 🎨 Bento Grid UI, Glassmorphism & Smooth Theme Switcher](#8--bento-grid-ui-glassmorphism--smooth-theme-switcher)
+- [🛠️ Teknologi & Stack / Tech Stack](#-teknologi--stack--tech-stack)
+- [📁 Struktur Direktori / Project Structure](#-struktur-direktori--project-structure)
+- [🚀 Panduan Memulai & Setup Mandiri / Quick Setup Guide](#-panduan-memulai--setup-mandiri--quick-setup-guide)
+  - [Langkah 1: Clone & Install Dependensi](#langkah-1-clone--install-dependensi)
+  - [Langkah 2: Konfigurasi Database Supabase (SQL Schema)](#langkah-2-konfigurasi-database-supabase-sql-schema)
+  - [Langkah 3: Konfigurasi Environment Variables (`.env.local`)](#langkah-3-konfigurasi-environment-variables-envlocal)
+  - [Langkah 4: Konfigurasi Akun Admin Pertama](#langkah-4-konfigurasi-akun-admin-pertama)
+  - [Langkah 5: Menjalankan Server Lokal](#langkah-5-menjalankan-server-lokal)
+- [🎨 Panduan Kustomisasi Konten & Aset](#-panduan-kustomisasi-konten--aset)
+- [☁️ Panduan Deploy ke Vercel](#️-panduan-deploy-ke-vercel)
+- [⚡ Keamanan & Optimasi SEO](#-keamanan--optimasi-seo)
+- [📄 Lisensi & Kontributor / License & Author](#-lisensi--kontributor--license--author)
 
 ---
 
 ## 📖 Tentang Proyek / About The Project
 
-**azz-portfolio** adalah platform portofolio digital dan Headless CMS modern milik **Azizi Egatri Mu'thi** (*Fullstack Web Developer & Software Engineer*). Proyek ini dirancang tidak hanya sebagai etalase karya digital yang estetik dan interaktif, tetapi juga sebagai platform full-stack dinamis yang terintegrasi dengan **Supabase**, sistem animasi fisika 3D, portal ulasan klien (*Client Feedback Form*), dukungan bilingual (*Indonesian & English*), otomasi notifikasi email, dan sistem newsletter berbasis **Resend API**.
+**azz-portfolio** adalah platform portofolio digital modern dan **Headless Content Management System (CMS)** yang dapat digunakan secara **gratis dan terbuka (open-source)** oleh pengembang, desainer, atau software engineer mana pun yang ingin memiliki portofolio profesional berkinerja tinggi.
+
+Platform ini mengintegrasikan seluruh kebutuhan portofolio level industri:
+- **Simulasi Fisika 3D Real-time**: ID Card lanyard 3D interaktif dengan Three.js & Rapier physics.
+- **Headless CMS Dashboard Penuh**: Panel admin mandiri untuk mengelola Proyek, Tech Stack, Sertifikat, Artikel Blog (sinkronisasi Medium RSS), Testimoni Klien, Pesan Kontak, dan Newsletter.
+- **Portal Ulasan Klien Khusus**: URL formulir aman bertoken unik, pemotong avatar interaktif (1:1 circular cropper), dan masukan kritik rahasia.
+- **Sistem Email Transaksional**: Integrasi Resend API untuk formulir kontak, notifikasi, double opt-in newsletter, dan fitur balas email langsung dari dashboard admin.
+- **Dukungan Bilingual (ID & EN)**: Arsitektur multi-bahasa terpadu pada antarmuka dan basis data PostgreSQL (`JSONB`).
 
 ---
 
 ## ✨ Fitur Utama / Key Features
 
 ### 1. 🪢 3D Interactive Physics Lanyard
-- ID Card 3D interaktif yang dapat ditarik, diayunkan, dan berinteraksi secara fisik dengan kursor pengguna menggunakan `@react-three/fiber`, `@react-three/drei`, dan `@react-three/rapier`.
-- Mendukung dynamic texture generator untuk tampilan kartu identitas (*light/dark mode*).
+- **Simulasi Kartu Identitas 3D**: Lanyard ID Card yang dapat ditarik, diayunkan, dan berinteraksi secara fisik terhadap gravitasi dan drag kursor pengguna secara real-time.
+- **Tech Stack 3D**: Menggunakan `@react-three/fiber`, `@react-three/drei`, `@react-three/rapier` (physics engine), dan `meshline` untuk tali lanyard yang lentur.
+- **Dynamic Texture Generator**: Tekstur kartu identitas dihasilkan secara dinamis mengikuti preferensi tema (*light / dark mode*).
 
 ### 2. 🛡️ Custom Headless CMS & Admin Dashboard (`/admin`)
-- Panel kontrol lengkap terlindungi oleh **Supabase SSR Auth** dan **Email Whitelist Middleware**.
-- Manajemen konten penuh (**CRUD**) untuk:
-  - 📁 **Projects & Case Studies**: Status (*draft/published/archived*), fitur, tantangan, solusi, galeri gambar, dan tech stack.
-  - 🛠️ **Tech Stack**: Kategori, icon URL, dan status profisiensi.
-  - 📜 **Certificates**: Kredensial, penerbit, nomor sertifikat, tanggal, file PDF/gambar, dan URL verifikasi.
-  - ✍️ **Blog & Writings**: Artikel lokal dan integrasi sinkronisasi RSS Medium.
-  - ⭐ **Testimonials Management**: Tinjau ulasan klien, quick approve/reject, baca pesan kritik & saran privat, dan filter sumber (*Admin vs Client*).
-  - ✉️ **Contact Messages & Reply**: Notifikasi pesan masuk, preview pesan, dan fitur balasan langsung (*two-way email reply*) ke pengirim.
-  - 📬 **Newsletter Subscribers**: Manajemen subscriber, status konfirmasi (*Double Opt-in*), dan fitur broadcast update.
-  - ⚙️ **Site Settings**: Pengaturan informasi situs, bio, kontak, dan SEO.
+- **Proteksi Akses Berlapis**: Terlindungi oleh **Supabase SSR Auth** dan **Email Whitelist Middleware** (`ADMIN_ALLOWED_EMAIL`).
+- **Modul Manajemen Konten Lengkap (CRUD)**:
+  - 📁 **Projects & Case Studies**: Kelola proyek dengan status (*draft/published/archived*), fitur unggulan (*featured*), deskripsi bilingual, tantangan, solusi, hasil, galeri multi-gambar, tech stack, dan pemicu broadcast subscriber otomatis.
+  - 🛠️ **Tech Stack Manager**: Kelola daftar teknologi, kategori, ikon, warna aksen, tingkat kemahiran, dan urutan sorting.
+  - 📜 **Certifications & Licences**: Kelola sertifikat, penerbit, tahun penerbitan, URL verifikasi kredensial, preview file PDF/gambar, dan fitur reorder cepat.
+  - ✍️ **Blog & External Writings**: Kelola artikel lokal serta integrasi **sinkronisasi otomatis RSS feed Medium**.
+  - ⭐ **Testimonials Moderation**: Tinjau ulasan klien, status persetujuan (*pending / published / draft*), preview foto avatar, dan baca kritik/saran privat.
+  - ✉️ **Contact Messages & Two-Way Reply**: Kotak masuk pesan kontak, pelacakan status (*new, read, replied, archived*), serta **fitur kirim balasan email langsung ke klien dari dashboard**.
+  - 📬 **Newsletter Hub**: Daftar subscriber, status verifikasi (*Double Opt-in*), pembersihan kontak, dan pengiriman pesan broadcast.
+  - ⚙️ **Site Settings**: Pengaturan dinamis untuk bio hero, kontak publik, tautan sosial media, dan default metadata SEO.
 
-### 3. ⭐ Client Feedback Portal & Interactive Cropper (`/feedback`)
-- Halaman formulir khusus klien yang dilindungi oleh access token unik (`/feedback?token=...`).
-- **Interactive Avatar Cropping**: Modal crop foto profil interaktif (1:1 circular viewport) dengan kontrol drag/pan dan slider zoom sebelum upload.
-- **Inisial Fallback Otomatis**: Generate avatar berinisial nama secara otomatis jika klien tidak mengunggah foto.
-- **Kritik & Saran Privat**: Kolom masukan rahasia yang hanya dapat diakses oleh Admin di dashboard.
+### 3. ⭐ Client Feedback Portal & Interactive Avatar Cropper (`/feedback`)
+- **Akses Aman Bertoken**: Portal ulasan klien dilindungi oleh token rahasia (`/feedback?token=...`).
+- **Interactive Avatar Cropper**: Modal pemotong foto interaktif (viewport bundar 1:1) dengan dukungan kontrol drag/pan dan slider pembesar (zoom) sebelum foto diunggah ke Supabase Storage.
+- **Smart Avatar Fallback**: Otomatis menghasilkan avatar inisial nama yang elegan apabila klien tidak menyertakan foto profil.
+- **Kritik & Saran Privat**: Kolom masukan rahasia yang tidak ditampilkan ke publik, hanya dapat dibaca oleh Admin di dashboard CMS.
 
-### 4. 🌐 Dukungan Multi-Bahasa (Bilingual i18n)
-- Default **Bahasa Indonesia (`id`)** untuk pengunjung baru, dengan switcher instan ke **English (`en`)** yang tersimpan di `localStorage`.
-- Semua data proyek, deskripsi, sertifikat, dan UI mendukung lokalisasi penuh.
+### 4. 🌐 Sistem Bilingual Multi-Bahasa (i18n & JSONB)
+- **Dukungan Bahasa Indonesia (`id`) & Bahasa Inggris (`en`)**: Pengunjung dapat mengganti bahasa kapan saja melalui switcher di navbar, dengan preferensi tersimpan di `localStorage`.
+- **Database Multilingual**: Struktur tabel di Supabase menggunakan tipe data `jsonb` (contoh: `title: {"en": "...", "id": "..."}`), memastikan data dinamis dari CMS dapat disajikan secara dwibahasa secara akurat.
 
 ### 5. 💼 In-Depth Project Case Studies (`/work/[slug]`)
-- Halaman detail studi kasus terstruktur: Problem Statement, Solution, Architecture & Technical Decisions, Challenges, Key Outcomes, dan Image Showcase.
+- Halaman detail studi kasus proyek komprehensif: Problem Statement, Solution, Technical & Architecture Decisions, Challenges, Key Outcomes, Tech Stack Badges, Image Showcase, serta navigasi proyek sebelumnya & berikutnya.
+- Dynamic Metadata & OpenGraph generator otomatis per halaman proyek untuk preview sosial media yang kaya.
 
-### 6. 📬 Formulir Kontak & Newsletter Terintegrasi (Resend API)
-- **Form Kontak**: Notifikasi instan ke email pemilik dan balasan langsung dari CMS ke inbox pengirim.
-- **Newsletter**: Alur *Double Opt-in* terautentikasi (link konfirmasi bertoken unik) dan pengiriman *Welcome Email* otomatis menggunakan domain terverifikasi.
+### 6. 📬 Email Automation, Newsletter & Direct Reply (Resend API)
+- **Form Kontak Terintegrasi**: Notifikasi instan masuk ke email pemilik saat ada pesan baru dari form kontak.
+- **Two-Way Reply dari CMS**: Admin dapat langsung membalas email pengunjung/klien dari dashboard admin melalui integrasi Resend API.
+- **Newsletter Double Opt-in**: Pengunjung yang mendaftar newsletter menerima email verifikasi bertoken unik, diikuti email selamat datang (*Welcome Email*) otomatis setelah konfirmasi.
 
 ### 7. 📄 Resume Interaktif & PDF Viewer (`/resume`)
-- Halaman riwayat hidup digital yang terstruktur rapi, lengkap dengan mode *Fullscreen* dan tombol unduh langsung PDF CV.
+- Halaman resume digital terstruktur rapi yang mencakup Ringkasan Profesional, Pengalaman Kerja, Pendidikan, Keahlian Teknis, dan Proyek Utama.
+- Dilengkapi dengan fitur **Fullscreen Mode** (`/resume/fullscreen`), tombol print khusus (print-friendly CSS), dan tombol unduh langsung file PDF CV asli.
 
-### 8. 🎨 Desain Modern Bento Grid & Dark/Light Mode
-- Desain antarmuka modern dengan gaya Bento Grid, efek glassmorphism, fluid typography, dan transisi tema halus via `next-themes`.
+### 8. 🎨 Bento Grid UI, Glassmorphism & Smooth Theme Switcher
+- Tampilan modern dengan arsitektur Bento Grid, efek glassmorphism, tipografi halus, dan transisi tema (*Dark / Light mode*) tanpa efek flicker via `next-themes`.
 
 ---
 
 ## 🛠️ Teknologi & Stack / Tech Stack
 
-### Core Framework & Language
-- **[Next.js 16](https://nextjs.org/)** (App Router, Server Components, Route Handlers, Turbopack)
-- **[React 19](https://react.dev/)**
-- **[TypeScript](https://www.typescriptlang.org/)**
-
-### UI & Styling
-- **[Tailwind CSS v4](https://tailwindcss.com/)** & PostCSS
-- **[Radix UI](https://www.radix-ui.com/)** (Dialog, Dropdown, Accordion, Tooltip, Avatar, Popover, dll.)
-- **[Lucide React](https://lucide.dev/)** (Modern Icon library)
-- **[Motion (Framer Motion v12)](https://motion.dev/)** (Smooth page animations & scroll effects)
-- **[Sonner](https://sonner.emilkowal.ski/)** (Modern toast notifications)
-- **[Embla Carousel](https://www.embla-carousel.com/)** (Touch & drag carousel)
-
-### 3D & Physics
-- **[Three.js](https://threejs.org/)**
-- **[@react-three/fiber](https://r3f.docs.pmnd.rs/)** & **[@react-three/drei](https://github.com/pmndrs/drei)**
-- **[@react-three/rapier](https://github.com/pmndrs/react-three-rapier)** (Physics engine)
-- **[MeshLine](https://github.com/spite/THREE.MeshLine)** (3D lanyard rope simulation)
-
-### Database, Auth & Backend
-- **[Supabase](https://supabase.com/)** (PostgreSQL Database, Storage, Row Level Security, Auth SSR)
-- **[Resend](https://resend.com/)** (Transactional & Marketing Email Delivery)
-- **[Zod](https://zod.dev/)** & **[React Hook Form](https://react-hook-form.com/)** (Type-safe schema validation)
+| Kategori | Teknologi & Library |
+| :--- | :--- |
+| **Framework & Core** | [Next.js 16](https://nextjs.org/) (App Router, Turbopack, SSR, Server Actions), [React 19](https://react.dev/), [TypeScript 5](https://www.typescriptlang.org/) |
+| **Styling & Design System** | [Tailwind CSS v4](https://tailwindcss.com/), PostCSS, [Radix UI](https://www.radix-ui.com/) Primitives, [Lucide Icons](https://lucide.dev/) |
+| **Animasi & Interaktivitas** | [Motion (Framer Motion v12)](https://motion.dev/), [Embla Carousel](https://www.embla-carousel.com/), [Sonner Toast](https://sonner.emilkowal.ski/), [Vaul Drawer](https://vaul.emilkowal.ski/) |
+| **3D & Physics Engine** | [Three.js](https://threejs.org/), [@react-three/fiber](https://r3f.docs.pmnd.rs/), [@react-three/drei](https://github.com/pmndrs/drei), [@react-three/rapier](https://github.com/pmndrs/react-three-rapier), MeshLine |
+| **Database & Auth** | [Supabase](https://supabase.com/) (PostgreSQL, Row Level Security, Auth SSR, Storage Buckets) |
+| **Email Engine** | [Resend API](https://resend.com/) (Transactional emails, Double opt-in verification, Newsletter broadcast) |
+| **Validasi & Forms** | [Zod](https://zod.dev/), [React Hook Form](https://react-hook-form.com/), `@hookform/resolvers` |
+| **Analytics & SEO** | [@vercel/analytics](https://vercel.com/analytics), Dynamic JSON-LD (Schema.org Person & CreativeWork), Dynamic Sitemap & OG Image |
 
 ---
 
@@ -117,154 +127,190 @@ An interactive, high-performance developer portfolio and headless CMS built with
 
 ```bash
 azz-portfolio/
-├── app/                      # Next.js App Router
-│   ├── admin/                # Panel CMS Admin (Projects, Tech, Testimonials, Messages, dll.)
-│   ├── api/                  # API Route Handlers (Admin, Contact, Feedback, Newsletter, Medium)
-│   ├── blog/                 # Halaman daftar blog & artikel
-│   ├── feedback/             # Halaman portal formulir ulasan klien (Token Protected)
-│   ├── resume/               # Halaman Resume digital & fullscreen view
-│   ├── work/                 # Halaman Portfolio & Case Studies ([slug])
-│   ├── globals.css           # Global CSS & Tailwind design tokens
-│   ├── layout.tsx            # Root layout, ThemeProvider, LanguageProvider
-│   ├── opengraph-image.tsx   # Dynamic OpenGraph image generator
-│   ├── sitemap.ts            # Dynamic XML Sitemap generator
-│   └── page.tsx              # Landing page utama
-├── components/               # Komponen React Reusable
-│   ├── admin/                # Komponen dashboard & CRUD editor
-│   ├── blog/                 # Komponen listing & kartu artikel
-│   ├── feedback/             # Komponen formulir ulasan & ImageCropModal
-│   ├── landingPage/          # Komponen landing page (Hero, Work, Tech, Contact, dll.)
-│   ├── resume/               # Komponen resume & timeline
-│   ├── ui/                   # UI Primitives (Radix UI, Marquee, GlassButton, dll.)
-│   ├── lanyard-with-control.tsx # 3D Physics Lanyard Component
-│   └── theme-toggle.tsx      # Dark / Light theme switcher
-├── contexts/                 # React Contexts (Language context i18n)
-├── data/                     # Fallback data (Projects & Blogs default data)
-├── lib/                      # Utilitas & Integrasi
-│   ├── cms/                  # Helper queries untuk database Supabase CMS
-│   ├── email/                # Integrasi template & pengiriman email Resend
-│   ├── supabase/             # Client, Server, Admin & Middleware Supabase
-│   └── validations/          # Schema validasi Zod
-├── public/                   # Asset statis (Gambar, 3D glb model, CV PDF, Icons)
-├── schema/                   # SQL Scripts (setup.sql untuk schema Supabase)
-└── types/                    # Definisi tipe TypeScript
+├── app/                        # Next.js App Router
+│   ├── admin/                  # Panel Headless CMS Admin (Projects, Tech, Testimonials, Messages, dll.)
+│   │   ├── auth/               # OAuth & Magic link auth callback
+│   │   ├── certificates/       # Manajemen sertifikasi (List, New, Edit)
+│   │   ├── login/              # Halaman login admin
+│   │   ├── messages/           # Manajemen pesan kontak & fitur reply email
+│   │   ├── newsletter/         # Manajemen subscriber & pengiriman broadcast
+│   │   ├── projects/           # Manajemen portofolio & studi kasus
+│   │   ├── site/               # Pengaturan bio, kontak, dan SEO situs
+│   │   ├── tech-stack/         # Manajemen master teknologi & keahlian
+│   │   ├── testimonials/       # Moderasi ulasan klien & kritik privat
+│   │   └── writing/            # Manajemen artikel & sinkronisasi Medium RSS
+│   ├── api/                    # API Route Handlers
+│   │   ├── admin/              # Endpoint terlindungi untuk seluruh modul CMS
+│   │   ├── certificates/       # Public API data sertifikat
+│   │   ├── contact/            # Endpoint pengiriman formulir kontak
+│   │   ├── feedback/           # Endpoint submit ulasan klien & upload avatar
+│   │   ├── medium/             # Endpoint fetch artikel Medium
+│   │   ├── newsletter/         # Endpoint langganan & verifikasi token newsletter
+│   │   ├── projects/           # Public API data proyek
+│   │   ├── tech-stacks/        # Public API data tech stack
+│   │   ├── testimonials/       # Public API data testimoni
+│   │   └── writings/           # Public API data artikel
+│   ├── blog/                   # Halaman daftar blog & artikel
+│   ├── feedback/               # Portal formulir ulasan klien (Token Protected)
+│   ├── resume/                 # Halaman resume digital, print view & fullscreen mode
+│   ├── work/                   # Halaman portfolio & studi kasus mendalam ([slug])
+│   ├── globals.css             # Desain token Tailwind CSS v4 & custom animations
+│   ├── layout.tsx              # Root Layout, ThemeProvider, LanguageProvider
+│   ├── opengraph-image.tsx     # Dynamic OpenGraph generator
+│   ├── sitemap.ts              # Dynamic XML Sitemap generator
+│   ├── robots.ts               # Dynamic Robots.txt generator
+│   └── page.tsx                # Landing page utama
+├── components/                 # Komponen React Reusable
+│   ├── admin/                  # Komponen antarmuka dashboard CMS & editor
+│   ├── blog/                   # Komponen kartu artikel & feed
+│   ├── feedback/               # Form ulasan klien & ImageCropModal (Cropper 1:1)
+│   ├── landingPage/            # Komponen landing page (Hero, Work, Tech, Certs, Testimonials, dll.)
+│   ├── resume/                 # Komponen dokumen resume terstruktur
+│   ├── ui/                     # UI Primitives (Radix, Dialog, Dropdown, Button, dll.)
+│   ├── lanyard-with-control.tsx # Komponen 3D Physics Lanyard Card
+│   ├── theme-provider.tsx      # Provider next-themes
+│   └── theme-toggle.tsx        # Tombol pengalih Dark/Light mode
+├── contexts/                   # Contexts (Language context i18n & translations)
+├── data/                       # Fallback data default saat database belum terisi
+├── lib/                        # Modul utilitas & integrasi
+│   ├── cms/                    # Kueri database Supabase untuk seluruh entitas CMS
+│   ├── email/                  # Template email HTML & integrasi Resend API
+│   ├── supabase/               # Client, Server, Admin, dan Middleware Supabase
+│   └── validations/            # Skema validasi Zod untuk form & API
+├── public/                     # Asset statis (Gambar, 3D glb model, CV PDF, Icons)
+├── schema/                     # SQL Scripts (setup.sql & seed.sql untuk Supabase)
+├── .env.example                # Template konfigurasi environment variables
+└── types/                      # Definisi tipe TypeScript
 ```
 
 ---
 
-## 🚀 Panduan Memulai / Getting Started
+## 🚀 Panduan Memulai & Setup Mandiri / Quick Setup Guide
 
-### Prasyarat / Prerequisites
+Ikuti langkah-langkah berikut untuk menjalankan dan meng-host portofolio ini dengan mudah:
 
-Pastikan Anda telah menginstal:
-- [Node.js](https://nodejs.org/) versi 18.18.0 atau lebih baru (Disarankan Node.js 20+)
-- Package Manager: `npm`, `pnpm` (disarankan), atau `yarn`
+### Langkah 1: Clone & Install Dependensi
 
-### Instalasi / Installation
+```bash
+git clone https://github.com/aziziega/azz-portfolio.git
+cd azz-portfolio
 
-1. **Clone repositori ini:**
-   ```bash
-   git clone https://github.com/aziziega/azz-portfolio.git
-   cd azz-portfolio
-   ```
+# Install dependensi via pnpm (disarankan) atau npm
+pnpm install
+# atau
+npm install
+```
 
-2. **Install dependensi:**
-   ```bash
-   npm install
-   # atau
-   pnpm install
-   ```
+### Langkah 2: Konfigurasi Database Supabase (SQL Schema)
 
-### Konfigurasi Environment Variables
+1. Buat project baru di [Supabase Dashboard](https://supabase.com/dashboard).
+2. Masuk ke menu **SQL Editor** pada project Supabase Anda.
+3. Buka file [`schema/setup.sql`](schema/setup.sql), salin seluruh isinya, dan tempelkan pada SQL Editor lalu jalankan (**Run**):
+   - *Skrip ini akan membuat seluruh tabel, trigger `updated_at`, fungsi `is_admin()`, kebijakan RLS, dan Storage Buckets (`project-images`, `site-assets`).*
+4. *(Opsional)* Jalankan file [`schema/seed.sql`](schema/seed.sql) untuk mengisi data awal proyek, sertifikat, tech stack, dan testimoni dummy sebagai referensi.
 
-Buat file `.env.local` di direktori root proyek dan isi variabel berikut menggunakan data kredensial Anda:
+### Langkah 3: Konfigurasi Environment Variables (`.env.local`)
+
+Salin file `.env.example` menjadi `.env.local`:
+
+```bash
+cp .env.example .env.local
+```
+
+Buka `.env.local` dan lengkapi nilainya:
 
 ```env
-# ==============================================================================
-# SUPABASE CONFIGURATION
-# ==============================================================================
+# 1. Supabase (Project Settings -> API)
 NEXT_PUBLIC_SUPABASE_URL=https://your-project-id.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
 SUPABASE_SERVICE_ROLE_KEY=your-supabase-service-role-key
 
-# ==============================================================================
-# SITE & ADMIN CONFIGURATION
-# ==============================================================================
+# 2. Site & Admin CMS
 NEXT_PUBLIC_SITE_URL=http://localhost:3000
 ADMIN_LOGIN_USERNAME=admin
 ADMIN_ALLOWED_EMAIL=your-admin-email@example.com
 
-# ==============================================================================
-# RESEND EMAIL CONFIGURATION
-# ==============================================================================
+# 3. Resend Email Engine (https://resend.com/api-keys)
 RESEND_API=re_your_resend_api_key
 RESEND_FROM_EMAIL="Your Name <newsletter@yourdomain.com>"
 
-# ==============================================================================
-# CLIENT FEEDBACK PORTAL
-# ==============================================================================
-FEEDBACK_TOKEN=your-secret-feedback-token
-NEXT_PUBLIC_FEEDBACK_TOKEN=your-secret-feedback-token
+# 4. Client Feedback Portal Token
+FEEDBACK_TOKEN=your-random-feedback-secret-token
+NEXT_PUBLIC_FEEDBACK_TOKEN=your-random-feedback-secret-token
 ```
 
-### Setup Database & Supabase
+### Langkah 4: Konfigurasi Akun Admin Pertama
 
-1. Buat project baru di [Supabase Console](https://supabase.com/).
-2. Buka menu **SQL Editor** pada dashboard Supabase Anda.
-3. Jalankan script setup tabel & RLS dari [`schema/setup.sql`](schema/setup.sql).
+1. Di Supabase Dashboard, buka menu **Authentication** -> **Users**.
+2. Klik **Add User** -> **Create User** dan masukkan email yang sama persis dengan `ADMIN_ALLOWED_EMAIL` di `.env.local` beserta password pilihan Anda.
+3. Buka **SQL Editor** dan pastikan email tersebut terdaftar di tabel `admin_users`:
+   ```sql
+   INSERT INTO public.admin_users (email, role)
+   VALUES ('your-admin-email@example.com', 'owner')
+   ON CONFLICT (email) DO NOTHING;
+   ```
 
-### Menjalankan Aplikasi / Running Locally
-
-Jalankan server pengembangan lokal:
+### Langkah 5: Menjalankan Server Lokal
 
 ```bash
-npm run dev
-# atau
 pnpm dev
+# atau
+npm run dev
 ```
 
-Buka browser Anda di [http://localhost:3000](http://localhost:3000) untuk melihat hasilnya.
+Buka [http://localhost:3000](http://localhost:3000) di browser untuk melihat portofolio Anda, dan buka [http://localhost:3000/admin](http://localhost:3000/admin) untuk masuk ke panel CMS!
 
 ---
 
-## 🔐 Panel Admin & Headless CMS
+## 🎨 Panduan Kustomisasi Konten & Aset
 
-Untuk mengelola konten website portofolio:
+Untuk mengubah identitas portofolio menjadi identitas Anda sendiri:
 
-1. Akses rute `/admin` atau `/admin/login`.
-2. Masuk menggunakan email yang telah didaftarkan pada `ADMIN_ALLOWED_EMAIL`.
-3. Setelah login, Anda memiliki akses penuh untuk memperbarui:
-   - Portofolio Proyek & Studi Kasus
-   - Sertifikasi & Lisensi
-   - Tech Stack & Kategori Keahlian
-   - Artikel Blog / Sinkronisasi Medium
-   - Moderasi Testimoni & Kritik/Saran Privat Klien
-   - Inbox Pesan Masuk & Balas Email Klien
-   - Daftar Subscriber Newsletter & Kirim Broadcast Update
+| Yang Ingin Diubah | Lokasi File / Pengaturan |
+| :--- | :--- |
+| **Foto Profil & Avatar** | Ganti file foto di [`public/me-02.jpg`](public/me-02.jpg) atau upload via CMS. |
+| **File Resume / CV PDF** | Ganti file PDF di [`public/cv.pdf`](public/cv.pdf) agar tombol unduh resume mengunduh CV Anda. |
+| **Bio, Kontak, & Social Links** | Masuk ke dashboard CMS di `/admin/site` atau sesuaikan fallback di [`contexts/language-contexts.tsx`](contexts/language-contexts.tsx). |
+| **Teks ID Card 3D Lanyard** | Sesuaikan teks nama dan role pada [`components/lanyard-with-control.tsx`](components/lanyard-with-control.tsx) dan [`components/card-template.tsx`](components/card-template.tsx). |
+| **Favicon & App Icons** | Ganti [`app/icon.png`](app/icon.png) dan [`app/apple-icon.png`](app/apple-icon.png). |
+| **Metadata SEO (JSON-LD)** | Sesuaikan nama, deskripsi, dan social links pada tag `<script type="application/ld+json">` di [`app/page.tsx`](app/page.tsx). |
 
 ---
 
-## ⚡ SEO & Optimasi / SEO & Performance
+## ☁️ Panduan Deploy ke Vercel
 
-Portofolio ini dioptimalkan secara mendalam untuk mesin pencari:
-- **Schema.org Structured Data (JSON-LD)**: Menyediakan metadata tipe `Person` lengkap untuk Google Knowledge Graph.
-- **Dynamic OG Images**: Auto-generate kartu pratinjau sosial media via `@vercel/og` (`/opengraph-image`, `/twitter-image`).
-- **Dynamic Sitemap & Robots**: Otomatis mengindeks halaman dinamis proyek dan artikel melalui `sitemap.ts` dan `robots.ts`.
-- **Accessibility & Semantic HTML**: Struktur heading yang ketat (`h1` - `h6`), ARIA labels, dan screen-reader optimization.
+1. Push repository Anda ke akun GitHub pribadi.
+2. Buka [Vercel Dashboard](https://vercel.com/dashboard) dan klik **Add New** -> **Project**.
+3. Import repository `azz-portfolio` Anda.
+4. Pada bagian **Environment Variables**, tambahkan seluruh variabel dari file `.env.local` Anda.
+5. Ubah `NEXT_PUBLIC_SITE_URL` menjadi domain produksi Vercel Anda (misal: `https://portofolio-anda.vercel.app`).
+6. Klik **Deploy**. Website dan Headless CMS Anda akan langsung live dalam hitungan menit!
 
 ---
 
-## 👨‍💻 Kontributor & Lisensi / Author & License
+## ⚡ Keamanan & Optimasi SEO
 
-Dibuat dengan ❤️ oleh **Azizi Egatri Mu'thi**
+- **Row Level Security (RLS)**: Setiap tabel database Supabase dilindungi oleh RLS ketat; pengunjung publik hanya dapat membaca data yang berstatus `published`.
+- **Security Headers**: Dilengkapi konfigurasi header keamanan standar industri di `next.config.mjs` (`X-Frame-Options: DENY`, `X-Content-Type-Options: nosniff`, `Referrer-Policy`, `Permissions-Policy`).
+- **Structured Data (JSON-LD)**: Mengimplementasikan schema [Schema.org](https://schema.org) tipe `Person` pada halaman utama dan tipe `CreativeWork` pada halaman studi kasus proyek untuk mendukung Google Rich Results.
+- **Dynamic OG & Twitter Cards**: Auto-generate banner preview sosial media berbasis Next.js Image Response (`/opengraph-image`, `/twitter-image`).
+- **Sitemap & Robots**: Generator XML Sitemap dinamis (`/sitemap.xml`) yang mengikutsertakan seluruh slug proyek dan artikel blog.
+
+---
+
+## 📄 Lisensi & Kontributor / License & Author
+
+Proyek ini dilisensikan di bawah lisensi **MIT License** — Anda bebas menggunakan, memodifikasi, dan mendistribusikannya untuk keperluan pribadi maupun komersial.
+
+Dikonsep, didesain, dan dikembangkan dengan ❤️ oleh **Azizi Egatri Mu'thi**
 
 - 🌐 Website: [aziziem.xyz](https://aziziem.xyz)
-- 💼 LinkedIn: [linkedin.com/in/aziziegatri](https://linkedin.com/in/aziziegatri)
+- 💼 LinkedIn: [linkedin.com/in/aziziem](https://linkedin.com/in/aziziem)
 - 🐙 GitHub: [@aziziega](https://github.com/aziziega)
-- ✉️ Email: [aziziegatrim@gmail.com](mailto:aziziegatrim@gmail.com)
 
 ---
 
 <div align="center">
-  <sub>© 2026 Azizi Egatri Mu'thi. All rights reserved.</sub>
+  <sub>⭐️ Jika template ini bermanfaat untuk Anda, jangan lupa berikan bintang di GitHub!</sub>
 </div>
+
