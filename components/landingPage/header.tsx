@@ -4,6 +4,7 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useLanguage } from "@/contexts/language-contexts"
 import { Globe } from "lucide-react"
+import { ScrollProgress } from "@/components/ui/scroll-progress"
 
 export default function Header() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -150,6 +151,7 @@ export default function Header() {
                         </div>
                     </div>
                 )}
+                <ScrollProgress />
             </header>
         </>
     );
