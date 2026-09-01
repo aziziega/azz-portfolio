@@ -188,12 +188,12 @@ button,
 
 /* Added custom portfolio styles from HTML */
 :root {
-  --bg: #ffffff;
-  --text-primary: #1a1a1a;
-  --text-secondary: #666666;
-  --border: #eeeeee;
-  --accent: #000000;
-  --gray-light: #f9f9f9;
+  --bg: var(--background);
+  --text-primary: var(--foreground);
+  --text-secondary: var(--muted-foreground);
+  --border: var(--border);
+  --accent: var(--primary);
+  --gray-light: var(--muted);
 }
 
 * {
@@ -228,7 +228,7 @@ header {
   top: 0px;
   left: 0px;
   right: 0px;
-  background: rgba(255, 255, 255, 0.95);
+  background: color-mix(in srgb, var(--background) 95%, transparent);
   backdrop-filter: blur(10px);
   z-index: 1000;
   border-bottom: 1px solid var(--border);
@@ -623,7 +623,7 @@ nav {
 }
 
 .card {
-  background: white;
+  background: var(--card);
   border: 1px solid var(--border);
   transition: 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
   overflow: hidden;
@@ -710,7 +710,9 @@ nav {
 input[type="email"] {
   flex: 1 1 0%;
   padding: 15px 20px;
-  border: 1px solid rgb(221, 221, 221);
+  border: 1px solid var(--border);
+  background: var(--background);
+  color: var(--foreground);
   border-radius: 0px;
   outline: none;
   font-family: inherit;
@@ -718,7 +720,7 @@ input[type="email"] {
 
 .btn-subscribe {
   background: var(--accent);
-  color: white;
+  color: var(--primary-foreground);
   border: none;
   padding: 0px 30px;
   font-weight: 600;
@@ -786,7 +788,7 @@ footer {
   top: 64px;
   left: 0;
   right: 0;
-  background: rgba(255, 255, 255, 0.98);
+  background: color-mix(in srgb, var(--background) 98%, transparent);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--border);
   animation: slideDown 0.3s cubic-bezier(0.16, 1, 0.3, 1);

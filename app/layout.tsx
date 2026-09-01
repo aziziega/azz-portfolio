@@ -6,6 +6,7 @@ import "./globals.css"
 import Header from "@/components/landingPage/header"
 import { LanguageProvider } from "@/contexts/language-contexts"
 import { getSettings } from "@/lib/cms/site-settings"
+import { ThemeProvider } from "@/components/theme-provider"
 
 const _geist = Geist({ subsets: ["latin"] })
 const _geistMono = Geist_Mono({ subsets: ["latin"] })
@@ -102,11 +103,13 @@ export default async function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`font-sans antialiased`}>
-        <LanguageProvider initialSettings={settings}>
-          <Header />
-          {children}
-        </LanguageProvider>
-        <Analytics />
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+          <LanguageProvider initialSettings={settings}>
+            <Header />
+            {children}
+          </LanguageProvider>
+          <Analytics />
+        </ThemeProvider>
       </body>
     </html>
   )

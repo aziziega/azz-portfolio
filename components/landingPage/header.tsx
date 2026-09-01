@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation"
 import { useLanguage } from "@/contexts/language-contexts"
 import { Globe } from "lucide-react"
 import { ScrollProgress } from "@/components/ui/scroll-progress"
+import { ModeToggle } from "@/components/theme-toggle"
 
 export default function Header() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -72,22 +73,29 @@ export default function Header() {
                             <Link href="/#contact" onClick={(e) => handleNavClick(e, "contact")}>{t("nav.contact")}</Link>
                         </div>
                         <div className="flex items-center gap-2 sm:gap-4 ml-auto md:ml-0 mr-1 sm:mr-0">
+                            {/* Mode Toggle */}
+                            {mounted && (
+                                <div className="flex flex-col items-center justify-center">
+                                    <ModeToggle />
+                                </div>
+                            )}
+
                             {/* Language Toggle with Dots */}
                             {mounted && (
                                 <div className="flex flex-col items-center gap-1">
                                     <button
                                         onClick={toggleLanguage}
-                                        className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 !bg-black hover:!bg-gray-800 !rounded-full text-xs sm:text-sm font-semibold text-white transition-all cursor-pointer"
+                                        className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 bg-foreground hover:bg-foreground/80 !rounded-full text-xs sm:text-sm font-semibold text-background transition-all cursor-pointer"
                                         aria-label={`Switch to ${language === "en" ? "Indonesian" : "English"} language`}
                                         title={`Current language: ${language === "en" ? "English" : "Indonesian"}`}
                                     >
-                                        <Globe size={16} className="text-white" />
+                                        <Globe size={16} className="text-background" />
                                         <span className="uppercase">{language.toUpperCase()}</span>
                                     </button>
                                     {/* Dot Indicators: 1 dot = EN, 2 dots = ID */}
                                     <div className="flex items-center gap-1">
-                                        <div className={`w-1.5 h-1.5 rounded-full transition-colors ${language === "en" ? "bg-black" : "bg-gray-300"}`}></div>
-                                        <div className={`w-1.5 h-1.5 rounded-full transition-colors ${language === "id" ? "bg-black" : "bg-gray-300"}`}></div>
+                                        <div className={`w-1.5 h-1.5 rounded-full transition-colors ${language === "en" ? "bg-foreground" : "bg-muted"}`}></div>
+                                        <div className={`w-1.5 h-1.5 rounded-full transition-colors ${language === "id" ? "bg-foreground" : "bg-muted"}`}></div>
                                     </div>
                                 </div>
                             )}
@@ -95,10 +103,10 @@ export default function Header() {
                             {/* Live Clock - Asia/Jakarta */}
                             {mounted && (
                                 <div className="inline-flex flex-col items-center justify-center px-2 sm:px-4 py-1.5 sm:py-2 transition-all">
-                                    <span className="text-xs sm:text-sm font-mono font-semibold text-gray-900">
+                                    <span className="text-xs sm:text-sm font-mono font-semibold text-foreground">
                                         {formatTime()}
                                     </span>
-                                    <span className="text-[10px] sm:text-xs text-gray-400">
+                                    <span className="text-[10px] sm:text-xs text-muted-foreground">
                                         Asia/Jakarta
                                     </span>
                                 </div>
