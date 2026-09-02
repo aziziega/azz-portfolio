@@ -2,10 +2,12 @@
 
 import { useTheme } from "next-themes"
 import { useEffect, useState } from "react"
-import { Sun, Moon } from "lucide-react"
+import { Sun, Moon, Monitor } from "lucide-react"
+import { motion } from "motion/react"
+import { cn } from "@/lib/utils"
 
 export function ModeToggle() {
-  const { theme, setTheme, resolvedTheme } = useTheme()
+  const { theme, setTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
@@ -14,26 +16,40 @@ export function ModeToggle() {
 
   if (!mounted) {
     return (
-      <div className="w-9 h-9 rounded-full bg-gray-100 dark:bg-gray-800 animate-pulse" />
+      <div className="flex items-center p-1 bg-secondary border border-border rounded-full w-[100px] h-9 animate-pulse" />
     )
   }
 
-  const isDark = resolvedTheme === "dark" || theme === "dark"
+  const options = [
+    { label: "light", icon: Sun },
+    { label: "system", icon: Monitor },
+    { label: "dark", icon: Moon },
+  ]
 
   return (
-    <button
-      onClick={() => setTheme(isDark ? "light" : "dark")}
-      className="inline-flex items-center justify-center w-9 h-9 rounded-full bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-200 transition-all cursor-pointer border border-gray-200 dark:border-gray-700"
-      aria-label="Toggle Theme"
-      title={`Switch to ${isDark ? "Light" : "Dark"} mode`}
-      type="button"
-      suppressHydrationWarning
-    >
-      {isDark ? (
-        <Sun size={18} className="text-yellow-400 transition-transform duration-300 rotate-0 hover:rotate-45" />
-      ) : (
-        <Moon size={18} className="text-gray-700 dark:text-gray-300 transition-transform duration-300 rotate-0 hover:-rotate-12" />
-      )}
-    </button>
+    <div className="flex items-center p-1 bg-secondary/80 border border-border rounded-full relative">
+      {options.map((option) => (
+        <button
+          key={option.label}
+          onClick={() => setTheme(option.label)}
+          className={cn(
+            "relative z-10 flex items-center justify-center w-8 h-7 rounded-full text-muted-foreground transition-colors cursor-pointer",
+            theme === option.label ? "text-foreground" : "hover:text-foreground/80"
+          )}
+          aria-label={`Switch to ${option.label} mode`}
+          title={`${option.label.charAt(0).toUpperCase() + option.label.slice(1)} mode`}
+        >
+          <option.icon size={14} strokeWidth={2.5} />
+          {theme === option.label && (
+            <motion.div
+              layoutId="theme-toggle-indicator"
+              className="absolute inset-0 bg-background rounded-full shadow-xs border border-border/50"
+              transition={{ type: "spring", stiffness: 300, damping: 25 }}
+              style={{ zIndex: -1 }}
+            />
+          )}
+        </button>
+      ))}
+    </div>
   )
 }

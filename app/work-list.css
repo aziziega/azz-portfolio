@@ -5,14 +5,14 @@
 
 /* Work List Main Container */
 .work-list-main {
-  background: #ffffff;
+  background: var(--background);
   min-height: 100vh;
 }
 
 /* ---- Header Section ---- */
 .work-header-container {
-  background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
-  border-bottom: 1px solid #e2e8f0;
+  background: var(--background);
+  border-bottom: 1px solid var(--border);
   padding: 8rem 1.5rem 3rem;
 }
 
@@ -60,7 +60,7 @@
 .work-header-title {
   font-size: 3.5rem;
   font-weight: 900;
-  color: #0f172a;
+  color: var(--foreground);
   line-height: 1.1;
   letter-spacing: -0.03em;
   margin-bottom: 1rem;
@@ -68,7 +68,7 @@
 
 .work-header-subtitle {
   font-size: 1.125rem;
-  color: #64748b;
+  color: var(--muted-foreground);
   line-height: 1.6;
   font-weight: 400;
 }
@@ -96,7 +96,7 @@
   transform: translateY(-50%);
   width: 1.125rem;
   height: 1.125rem;
-  color: #94a3b8;
+  color: var(--muted-foreground);
   pointer-events: none;
 }
 
@@ -106,10 +106,10 @@
   padding-right: 1.25rem;
   height: 3.25rem;
   font-size: 0.95rem;
-  border: 2px solid #e2e8f0;
+  border: 2px solid var(--border);
   border-radius: 0.75rem;
-  background: #ffffff;
-  color: #0f172a;
+  background: var(--background);
+  color: var(--foreground);
   transition: all 0.2s ease;
 }
 
@@ -123,10 +123,10 @@
   display: flex;
   align-items: center;
   gap: 0.35rem;
-  background: #ffffff;
+  background: var(--background);
   padding: 0.35rem;
   border-radius: 0.75rem;
-  border: 2px solid #e2e8f0;
+  border: 2px solid var(--border);
 }
 
 .work-toggle-btn {
@@ -137,24 +137,24 @@
   border-radius: 0.5rem;
   font-size: 0.875rem;
   font-weight: 600;
-  color: #64748b;
+  color: var(--muted-foreground);
   background: transparent;
   transition: all 0.2s ease;
 }
 
 .work-toggle-btn:hover {
-  color: #0f172a;
-  background: #f1f5f9;
+  color: var(--foreground);
+  background: var(--secondary);
 }
 
 .work-toggle-btn.active {
   background: #2563eb;
-  color: #ffffff;
+  color: var(--background);
 }
 
 .work-toggle-btn.active:hover {
   background: #1d4ed8;
-  color: #ffffff;
+  color: var(--background);
 }
 
 /* ---- Main Content Layout ---- */
@@ -183,8 +183,8 @@
 .work-filters-card {
   position: sticky;
   top: 6rem;
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
+  background: var(--background);
+  border: 1px solid var(--border);
   border-radius: 1rem;
   padding: 1.5rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
@@ -198,18 +198,18 @@
   align-items: center;
   justify-content: space-between;
   padding-bottom: 1rem;
-  border-bottom: 1px solid #f1f5f9;
+  border-bottom: 1px solid var(--secondary);
 }
 
 .work-filters-title {
   font-size: 1rem;
   font-weight: 750;
-  color: #0f172a;
+  color: var(--foreground);
 }
 
 .work-filter-badge-count {
   background: #2563eb;
-  color: #ffffff;
+  color: var(--background);
   font-size: 0.75rem;
   font-weight: 600;
   border-radius: 9999px;
@@ -217,7 +217,7 @@
 }
 
 .work-filters-clear-btn {
-  color: #64748b;
+  color: var(--muted-foreground);
   font-size: 0.75rem;
   padding: 0.25rem 0.5rem;
   height: auto;
@@ -253,8 +253,8 @@
   font-weight: 500;
   padding: 0.4rem 0.75rem;
   border-radius: 0.5rem;
-  border: 1px solid #e2e8f0;
-  background: #f8fafc;
+  border: 1px solid var(--border);
+  background: var(--background);
   color: #475569;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -269,7 +269,7 @@
 .work-chip.is-selected {
   background: #2563eb;
   border-color: #2563eb;
-  color: #ffffff;
+  color: var(--background);
   font-weight: 600;
 }
 
@@ -294,7 +294,7 @@
 }
 
 .work-tech-checkbox-label:hover {
-  color: #0f172a;
+  color: var(--foreground);
 }
 
 .work-checkbox {
@@ -306,7 +306,7 @@
   align-items: center;
   justify-content: center;
   transition: all 0.15s ease;
-  background: #ffffff;
+  background: var(--background);
 }
 
 .work-checkbox.checked {
@@ -326,13 +326,13 @@
   justify-content: center;
   padding: 6rem 1rem;
   gap: 1rem;
-  color: #64748b;
+  color: var(--muted-foreground);
 }
 
 .work-loading-spinner {
   width: 2.5rem;
   height: 2.5rem;
-  border: 3px solid #e2e8f0;
+  border: 3px solid var(--border);
   border-top-color: #2563eb;
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
@@ -347,8 +347,8 @@
 .work-empty-state {
   text-align: center;
   padding: 5rem 1.5rem;
-  background: #f8fafc;
-  border: 2px dashed #e2e8f0;
+  background: var(--background);
+  border: 2px dashed var(--border);
   border-radius: 1rem;
 }
 
@@ -360,13 +360,13 @@
 .work-empty-title {
   font-size: 1.25rem;
   font-weight: 700;
-  color: #0f172a;
+  color: var(--foreground);
   margin-bottom: 0.5rem;
 }
 
 .work-empty-desc {
   font-size: 0.875rem;
-  color: #64748b;
+  color: var(--muted-foreground);
 }
 
 /* ---- Grid View ---- */
@@ -385,8 +385,8 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
+  background: var(--background);
+  border: 1px solid var(--border);
   border-radius: 1rem;
   overflow: hidden;
   text-decoration: none;
@@ -406,7 +406,7 @@
   aspect-ratio: 16 / 10;
   width: 100%;
   overflow: hidden;
-  background: #f1f5f9;
+  background: var(--secondary);
 }
 
 .project-card-image {
@@ -426,7 +426,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  background: linear-gradient(135deg, #1e293b 0%, var(--foreground) 100%);
   color: #38bdf8;
   font-size: 2rem;
   font-weight: 800;
@@ -443,8 +443,8 @@
 }
 
 .project-card-badge-featured {
-  background: #0f172a !important;
-  color: #ffffff !important;
+  background: var(--foreground) !important;
+  color: var(--background) !important;
   font-size: 0.6875rem !important;
   font-weight: 700 !important;
   padding: 0.2rem 0.55rem !important;
@@ -455,7 +455,7 @@
 
 .project-card-badge-category {
   background: rgba(37, 99, 235, 0.9) !important;
-  color: #ffffff !important;
+  color: var(--background) !important;
   font-size: 0.6875rem !important;
   font-weight: 600 !important;
   padding: 0.2rem 0.55rem !important;
@@ -503,7 +503,7 @@
 .project-card-title {
   font-size: 1.125rem;
   font-weight: 800;
-  color: #0f172a;
+  color: var(--foreground);
   line-height: 1.3;
   transition: color 0.2s ease;
 }
@@ -514,7 +514,7 @@
 
 .project-card-tagline {
   font-size: 0.84rem;
-  color: #64748b;
+  color: var(--muted-foreground);
   line-height: 1.5;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -533,14 +533,14 @@
   font-size: 0.7rem;
   font-weight: 600;
   padding: 0.2rem 0.55rem;
-  background: #f1f5f9;
+  background: var(--secondary);
   color: #475569;
   border-radius: 0.375rem;
   transition: all 0.2s ease;
 }
 
 .project-card-tech-chip.more {
-  background: #e2e8f0;
+  background: var(--border);
   color: #334155;
 }
 
@@ -549,7 +549,7 @@
   align-items: center;
   justify-content: space-between;
   padding-top: 0.75rem;
-  border-top: 1px solid #f1f5f9;
+  border-top: 1px solid var(--secondary);
 }
 
 .project-card-meta {
@@ -557,7 +557,7 @@
   align-items: center;
   gap: 0.4rem;
   font-size: 0.75rem;
-  color: #94a3b8;
+  color: var(--muted-foreground);
   font-weight: 500;
 }
 
@@ -591,17 +591,17 @@
 
 .project-card-action-btn.live:hover {
   background: #2563eb;
-  color: #ffffff;
+  color: var(--background);
 }
 
 .project-card-action-btn.code {
-  background: #f1f5f9;
+  background: var(--secondary);
   color: #475569;
 }
 
 .project-card-action-btn.code:hover {
-  background: #0f172a;
-  color: #ffffff;
+  background: var(--foreground);
+  color: var(--background);
 }
 
 /* ---- Timeline View ---- */
@@ -636,7 +636,7 @@
 
 .work-timeline-year-pill {
   background: #2563eb;
-  color: #ffffff;
+  color: var(--background);
   font-weight: 900;
   font-size: 1.25rem;
   padding: 0.5rem 1.75rem;
@@ -656,7 +656,7 @@
   width: 1rem;
   height: 1rem;
   background: #2563eb;
-  border: 3px solid #ffffff;
+  border: 3px solid var(--background);
   border-radius: 50%;
   transform: translateX(-50%);
   z-index: 10;
@@ -676,7 +676,7 @@
   aspect-ratio: 16 / 10;
   border-radius: 1rem;
   overflow: hidden;
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--border);
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
 }
 
@@ -697,7 +697,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #0f172a;
+  background: var(--foreground);
   color: #38bdf8;
   font-size: 2.5rem;
   font-weight: 800;
@@ -707,8 +707,8 @@
   position: absolute;
   top: 0.75rem;
   left: 0.75rem;
-  background: #0f172a !important;
-  color: #ffffff !important;
+  background: var(--foreground) !important;
+  color: var(--background) !important;
   z-index: 10;
 }
 
@@ -753,21 +753,21 @@
 }
 
 .work-timeline-year-text {
-  color: #94a3b8;
+  color: var(--muted-foreground);
   font-weight: 500;
 }
 
 .work-timeline-title {
   font-size: 1.5rem;
   font-weight: 800;
-  color: #0f172a;
+  color: var(--foreground);
   line-height: 1.25;
   transition: color 0.2s ease;
 }
 
 .work-timeline-tagline {
   font-size: 0.95rem;
-  color: #64748b;
+  color: var(--muted-foreground);
   line-height: 1.6;
 }
 
@@ -782,7 +782,7 @@
   font-size: 0.75rem;
   font-weight: 600;
   padding: 0.25rem 0.6rem;
-  background: #f1f5f9;
+  background: var(--secondary);
   color: #475569;
   border-radius: 0.375rem;
 }
@@ -815,8 +815,8 @@
 }
 
 .work-stat-card {
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
+  background: var(--background);
+  border: 1px solid var(--border);
   border-radius: 1.25rem;
   padding: 1.75rem 1.5rem;
   display: flex;
@@ -862,7 +862,7 @@
 .work-stat-card-number {
   font-size: 2.25rem;
   font-weight: 900;
-  color: #0f172a;
+  color: var(--foreground);
   line-height: 1;
   letter-spacing: -0.03em;
 }
@@ -870,7 +870,7 @@
 .work-stat-card-label {
   font-size: 0.8125rem;
   font-weight: 600;
-  color: #64748b;
+  color: var(--muted-foreground);
   text-transform: uppercase;
   letter-spacing: 0.05em;
   margin-top: 0.25rem;
@@ -936,7 +936,7 @@
 .work-footer-main-title {
   font-size: 3rem;
   font-weight: 900;
-  color: #ffffff;
+  color: var(--background);
   line-height: 1.15;
   letter-spacing: -0.03em;
   margin-bottom: 1.25rem;
@@ -951,7 +951,7 @@
 
 .work-footer-description {
   font-size: 1.125rem;
-  color: #94a3b8;
+  color: var(--muted-foreground);
   line-height: 1.65;
   margin-bottom: 2.5rem;
 }
@@ -969,7 +969,7 @@
   gap: 0.6rem;
   padding: 0.9rem 2rem;
   background: #2563eb;
-  color: #ffffff;
+  color: var(--background);
   font-size: 1rem;
   font-weight: 700;
   border-radius: 0.75rem;
@@ -999,7 +999,7 @@
 }
 
 .work-footer-btn-secondary:hover {
-  color: #ffffff;
+  color: var(--background);
   background: rgba(255, 255, 255, 0.08);
   border-color: rgba(255, 255, 255, 0.3);
 }
@@ -1008,7 +1008,7 @@
 .work-footer-cta-container.light {
   position: relative;
   margin-top: 4rem;
-  background: #ffffff;
+  background: var(--background);
 }
 
 .work-stats-wrapper {
@@ -1024,8 +1024,8 @@
 }
 
 .work-stat-card-light {
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
+  background: var(--background);
+  border: 1px solid var(--border);
   border-radius: 1rem;
   padding: 1.5rem;
   display: flex;
@@ -1044,7 +1044,7 @@
 .work-stat-card-number-light {
   font-size: 2.25rem;
   font-weight: 900;
-  color: #0f172a;
+  color: var(--foreground);
   line-height: 1;
   letter-spacing: -0.03em;
 }
@@ -1052,7 +1052,7 @@
 .work-stat-card-label-light {
   font-size: 0.8125rem;
   font-weight: 600;
-  color: #64748b;
+  color: var(--muted-foreground);
   text-transform: uppercase;
   letter-spacing: 0.05em;
   margin-top: 0.25rem;
@@ -1060,8 +1060,8 @@
 
 .work-footer-light-body {
   position: relative;
-  background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
-  border-top: 1px solid #e2e8f0;
+  background: var(--background);
+  border-top: 1px solid var(--border);
   padding: 5rem 1.5rem 6rem;
   text-align: center;
 }
@@ -1084,7 +1084,7 @@
 .work-footer-main-title-light {
   font-size: 2.75rem;
   font-weight: 900;
-  color: #0f172a;
+  color: var(--foreground);
   line-height: 1.15;
   letter-spacing: -0.03em;
   margin-bottom: 1rem;
@@ -1100,7 +1100,7 @@
 
 .work-footer-description-light {
   font-size: 1.0625rem;
-  color: #64748b;
+  color: var(--muted-foreground);
   line-height: 1.65;
   max-width: 600px;
   margin: 0 auto 2.25rem;
@@ -1110,27 +1110,27 @@
   display: inline-flex;
   align-items: center;
   padding: 0.9rem 2rem;
-  background: #f1f5f9;
+  background: var(--secondary);
   color: #334155;
   font-size: 1rem;
   font-weight: 600;
   border-radius: 0.75rem;
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--border);
   text-decoration: none;
   transition: all 0.3s ease;
 }
 
 .work-footer-btn-secondary-light:hover {
-  color: #0f172a;
-  background: #e2e8f0;
+  color: var(--foreground);
+  background: var(--border);
   border-color: #cbd5e1;
 }
 
 /* ---- Seamless Pure White Footer CTA (No Stat Cards) ---- */
 .work-footer-simple-container {
   position: relative;
-  background: #ffffff;
-  border-top: 1px solid #f1f5f9;
+  background: var(--background);
+  border-top: 1px solid var(--secondary);
   padding: 5rem 1.5rem 6rem;
   text-align: center;
   margin-top: 4rem;
@@ -1159,7 +1159,7 @@
 .work-footer-title-simple {
   font-size: 2.75rem;
   font-weight: 900;
-  color: #0f172a;
+  color: var(--foreground);
   line-height: 1.15;
   letter-spacing: -0.03em;
   margin-bottom: 1rem;
@@ -1167,7 +1167,7 @@
 
 .work-footer-desc-simple {
   font-size: 1.0625rem;
-  color: #64748b;
+  color: var(--muted-foreground);
   line-height: 1.65;
   max-width: 600px;
   margin: 0 auto 2.25rem;
@@ -1177,19 +1177,19 @@
   display: inline-flex;
   align-items: center;
   padding: 0.9rem 2rem;
-  background: #f8fafc;
+  background: var(--background);
   color: #475569;
   font-size: 1rem;
   font-weight: 600;
   border-radius: 0.75rem;
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--border);
   text-decoration: none;
   transition: all 0.2s ease;
 }
 
 .work-footer-btn-secondary-simple:hover {
-  color: #0f172a;
-  background: #f1f5f9;
+  color: var(--foreground);
+  background: var(--secondary);
   border-color: #cbd5e1;
 }
 
@@ -1254,7 +1254,7 @@
 
   .work-mobile-btn:hover {
     background: #2563eb;
-    color: #ffffff;
+    color: var(--background);
   }
 
   .work-filters-panel {
