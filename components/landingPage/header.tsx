@@ -6,6 +6,7 @@ import { useLanguage } from "@/contexts/language-contexts"
 import { Globe } from "lucide-react"
 import { ScrollProgress } from "@/components/ui/scroll-progress"
 import { ModeToggle } from "@/components/theme-toggle"
+import { LanguageToggle } from "@/components/language-toggle"
 
 export default function Header() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -31,9 +32,6 @@ export default function Header() {
     // Hide header on standalone resume pages and admin pages (placed after hooks to avoid hook order mismatch)
     if (pathname?.startsWith("/resume") || pathname?.startsWith("/admin")) return null
 
-    const toggleLanguage = () => {
-        setLanguage(language === "en" ? "id" : "en")
-    }
 
     // Format time for Asia/Jakarta timezone
     const formatTime = () => {
@@ -80,23 +78,10 @@ export default function Header() {
                                 </div>
                             )}
 
-                            {/* Language Toggle with Dots */}
+                            {/* Language Toggle */}
                             {mounted && (
-                                <div className="flex flex-col items-center gap-1">
-                                    <button
-                                        onClick={toggleLanguage}
-                                        className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 bg-foreground hover:bg-foreground/80 !rounded-full text-xs sm:text-sm font-semibold text-background transition-all cursor-pointer"
-                                        aria-label={`Switch to ${language === "en" ? "Indonesian" : "English"} language`}
-                                        title={`Current language: ${language === "en" ? "English" : "Indonesian"}`}
-                                    >
-                                        <Globe size={16} className="text-background" />
-                                        <span className="uppercase">{language.toUpperCase()}</span>
-                                    </button>
-                                    {/* Dot Indicators: 1 dot = EN, 2 dots = ID */}
-                                    <div className="flex items-center gap-1">
-                                        <div className={`w-1.5 h-1.5 rounded-full transition-colors ${language === "en" ? "bg-foreground" : "bg-muted"}`}></div>
-                                        <div className={`w-1.5 h-1.5 rounded-full transition-colors ${language === "id" ? "bg-foreground" : "bg-muted"}`}></div>
-                                    </div>
+                                <div className="flex flex-col items-center justify-center">
+                                    <LanguageToggle />
                                 </div>
                             )}
 
