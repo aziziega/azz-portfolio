@@ -2,7 +2,7 @@
 
 import { useTheme } from "next-themes"
 import { useEffect, useState } from "react"
-import { Sun, Moon, Monitor } from "lucide-react"
+import { Sun, Moon } from "lucide-react"
 import { motion } from "motion/react"
 import { cn } from "@/lib/utils"
 
@@ -16,13 +16,12 @@ export function ModeToggle() {
 
   if (!mounted) {
     return (
-      <div className="flex items-center p-1 bg-secondary border border-border rounded-full w-[100px] h-9 animate-pulse" />
+      <div className="flex items-center p-1 bg-secondary border border-border rounded-full w-[72px] h-9 animate-pulse" />
     )
   }
 
   const options = [
     { label: "light", icon: Sun },
-    { label: "system", icon: Monitor },
     { label: "dark", icon: Moon },
   ]
 
