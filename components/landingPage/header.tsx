@@ -70,7 +70,7 @@ export default function Header() {
                             <Link href="/#testimonials" onClick={(e) => handleNavClick(e, "testimonials")}>{t("nav.testimonials")}</Link>
                             <Link href="/#contact" onClick={(e) => handleNavClick(e, "contact")}>{t("nav.contact")}</Link>
                         </div>
-                        <div className="flex items-center gap-2 sm:gap-4 ml-auto md:ml-0 mr-1 sm:mr-0">
+                        <div className="flex items-center gap-1.5 sm:gap-4 ml-auto md:ml-0 mr-1 sm:mr-0">
                             {/* Mode Toggle */}
                             {mounted && (
                                 <div className="flex flex-col items-center justify-center">
@@ -87,7 +87,7 @@ export default function Header() {
 
                             {/* Live Clock - Asia/Jakarta */}
                             {mounted && (
-                                <div className="inline-flex flex-col items-center justify-center px-2 sm:px-4 py-1.5 sm:py-2 transition-all">
+                                <div className="hidden md:inline-flex flex-col items-center justify-center px-2 sm:px-4 py-1.5 sm:py-2 transition-all">
                                     <span className="text-xs sm:text-sm font-mono font-semibold text-foreground">
                                         {formatTime()}
                                     </span>

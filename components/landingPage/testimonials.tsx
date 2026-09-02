@@ -109,6 +109,28 @@ export default function Testimonials() {
     fetchTestimonials()
   }, [language])
 
+  useEffect(() => {
+    if (loading || reviews.length === 0) return
+
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: "0px 0px -100px 0px",
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("animate-in")
+        }
+      })
+    }, observerOptions)
+
+    const animatedElements = document.querySelectorAll(".testimonials-section .animate-on-scroll")
+    animatedElements.forEach((el) => observer.observe(el))
+
+    return () => observer.disconnect()
+  }, [loading, reviews.length])
+
   // If loading or no published testimonials found from DB, hide the section
   if (loading || reviews.length === 0) {
     return null
