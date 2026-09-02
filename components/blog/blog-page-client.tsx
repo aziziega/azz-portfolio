@@ -178,7 +178,7 @@ export default function BlogPageClient() {
               <Link
                 href="/#contact"
                 className="btn-submit"
-                style={{ display: "inline-flex", alignItems: "center", gap: "8px", width: "auto", borderRadius: "4px", padding: "14px 28px", background: "var(--accent)", color: "white" }}
+                style={{ display: "inline-flex", alignItems: "center", gap: "8px", width: "auto", borderRadius: "4px", padding: "14px 28px" }}
               >
                 {copy.contactCta}
                 <ArrowUpRight size={16} />
