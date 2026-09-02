@@ -7,7 +7,7 @@ export default function LineAvailable() {
 
     return (
         <>
-            <div className="marquee-wrapper">
+            <div className="marquee-wrapper bg-black text-white">
                 <div className="marquee-content">
                     <div className="marquee-text">
                         <span>{t("lineAvailable.available")}</span>
