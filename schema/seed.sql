@@ -248,6 +248,57 @@ INSERT INTO public.projects (
     '{"en": "UniCMS - Student Organization Website CMS", "id": "UniCMS - CMS Website Organisasi Mahasiswa"}'::jsonb,
     '{"en": "Content management system for university student organizations", "id": "Sistem manajemen konten untuk organisasi mahasiswa universitas"}'::jsonb,
     now()
+  ),
+
+  -- Project 5: Azz Portfolio
+  (
+    'd5555555-5555-5555-5555-555555555555',
+    'azz-portfolio-cms',
+    'published',
+    true,
+    5,
+    2026,
+    '{"en": "azz-portfolio — Developer Portfolio & CMS", "id": "azz-portfolio — Portfolio Developer & CMS"}'::jsonb,
+    '{"en": "Interactive developer portfolio with 3D physics and headless CMS", "id": "Portfolio developer interaktif dengan fisika 3D dan headless CMS"}'::jsonb,
+    '{"en": "A highly polished, interactive personal portfolio and full-stack headless CMS. It serves as a Public Proof of Work to showcase fullstack engineering, Web3, and ML projects, featuring a 3D interactive physics lanyard, bento grid UI, and a custom Midnight Blue dark mode.", "id": "Portfolio personal interaktif dan full-stack headless CMS. Berfungsi sebagai Public Proof of Work untuk menampilkan proyek fullstack engineering, Web3, dan ML, dilengkapi lanyard fisika 3D interaktif, bento grid UI, dan mode gelap Midnight Blue kustom."}'::jsonb,
+    '{"en": "Web App / Portfolio", "id": "Aplikasi Web / Portfolio"}'::jsonb,
+    '{"en": "Ongoing (Aug 2026 - Present)", "id": "Berjalan (Agt 2026 - Sekarang)"}'::jsonb,
+    '{"en": "Fullstack Engineer", "id": "Fullstack Engineer"}'::jsonb,
+    '{"en": "Personal Project", "id": "Proyek Personal"}'::jsonb,
+    '{"en": "Solo Project", "id": "Proyek Solo"}'::jsonb,
+    '{"en": "Needed a centralized hub to showcase diverse skills ranging from fullstack web development to machine learning. Existing template solutions lacked the deep interactivity, custom CMS capabilities, and distinct personal branding required to stand out as a top-tier developer.", "id": "Membutuhkan hub terpusat untuk memamerkan beragam keahlian mulai dari fullstack web development hingga machine learning. Solusi template yang ada kurang memiliki interaktivitas mendalam, kemampuan CMS kustom, dan personal branding yang berbeda untuk menonjol sebagai developer top-tier."}'::jsonb,
+    '{"en": "Developed a custom Next.js 16 portfolio with a headless UI architecture, Supabase backend for dynamic content (CMS), and smooth Framer Motion/Three.js animations. Integrated a fully-fledged admin dashboard to manage content and a client feedback portal.", "id": "Mengembangkan portfolio Next.js 16 kustom dengan arsitektur headless UI, backend Supabase untuk konten dinamis (CMS), dan animasi Framer Motion/Three.js yang halus. Mengintegrasikan dashboard admin lengkap untuk mengelola konten dan portal feedback klien."}'::jsonb,
+    '[
+      {"en": "Custom Headless CMS - Built-in admin dashboard (/admin) to manage projects, testimonials, and blog posts securely using Supabase.", "id": "Headless CMS Kustom - Dashboard admin bawaan (/admin) untuk mengelola proyek, testimoni, dan artikel blog secara aman menggunakan Supabase."},
+      {"en": "3D Interactive Lanyard - Physics-based 3D lanyard interaction built with Three.js and React Three Fiber.", "id": "Lanyard Interaktif 3D - Interaksi lanyard 3D berbasis fisika yang dibangun dengan Three.js dan React Three Fiber."},
+      {"en": "Advanced Dark Mode - Midnight Blue OKLCH-based dark theme with segmented pill toggles and smooth transitions.", "id": "Mode Gelap Lanjutan - Tema gelap Midnight Blue berbasis OKLCH dengan toggle pill tersegmentasi dan transisi mulus."},
+      {"en": "Bilingual System - Seamless multi-language support (EN & ID) leveraging JSONB columns in Supabase.", "id": "Sistem Bilingual - Dukungan multi-bahasa yang mulus (EN & ID) memanfaatkan kolom JSONB di Supabase."},
+      {"en": "Email Automation - Integrated with Resend API for newsletter, contact form, and direct replies.", "id": "Otomasi Email - Terintegrasi dengan Resend API untuk newsletter, form kontak, dan balasan langsung."}
+    ]'::jsonb,
+    '[
+      {"en": "3D Performance Optimization - Balancing the rich 3D physics of the lanyard with fast loading times and maintaining high Lighthouse scores.", "id": "Optimasi Performa 3D - Menyeimbangkan fisika 3D yang kaya pada lanyard dengan waktu loading yang cepat dan mempertahankan skor Lighthouse yang tinggi."},
+      {"en": "Complex State Management - Handling theme switching (Midnight Blue Dark Mode), language toggles, and CMS state simultaneously without hydration mismatches.", "id": "Manajemen State Kompleks - Menangani perpindahan tema (Midnight Blue Dark Mode), toggle bahasa, dan state CMS secara bersamaan tanpa hydration mismatch."}
+    ]'::jsonb,
+    '[
+      {"en": "Serves as the primary professional identity and lead generation hub for freelance projects.", "id": "Berfungsi sebagai identitas profesional utama dan pusat penghasil prospek untuk proyek freelance."},
+      {"en": "Open-sourced as a template, helping other developers build high-quality interactive portfolios.", "id": "Di-open-source-kan sebagai template, membantu developer lain membangun portofolio interaktif berkualitas tinggi."},
+      {"en": "Demonstrates mastery of modern React 19, Next.js 16 App Router, and full-stack integration with Supabase.", "id": "Mendemonstrasikan penguasaan React 19 modern, Next.js 16 App Router, dan integrasi full-stack dengan Supabase."}
+    ]'::jsonb,
+    '[
+      {"en": "Vision & Identity - Defined the core vision as a Public Proof of Work with a focus on modern aesthetic (Glassmorphism & Bento Grid).", "id": "Visi & Identitas - Menetapkan visi inti sebagai Public Proof of Work dengan fokus pada estetika modern (Glassmorphism & Bento Grid)."},
+      {"en": "Architecture Design - Selected Next.js 16 for SSR/SSG capabilities and Supabase for a robust, secure headless CMS backend.", "id": "Desain Arsitektur - Memilih Next.js 16 untuk kemampuan SSR/SSG dan Supabase untuk backend headless CMS yang tangguh dan aman."}
+    ]'::jsonb,
+    '[
+      {"en": "Using OKLCH for colors provides much better perceptual uniformity, especially for custom dark modes.", "id": "Menggunakan OKLCH untuk warna memberikan keseragaman perseptual yang jauh lebih baik, terutama untuk mode gelap kustom."},
+      {"en": "React Three Fiber integration requires careful loading strategies (lazy loading) to not block the main thread during initial page load.", "id": "Integrasi React Three Fiber membutuhkan strategi loading yang hati-hati (lazy loading) agar tidak memblokir main thread saat initial page load."}
+    ]'::jsonb,
+    ARRAY['Next.js', 'React', 'TypeScript', 'Supabase', 'Tailwind CSS', 'Three.js', 'Framer Motion', 'Resend']::text[],
+    'https://aziziem.xyz',
+    'https://github.com/aziziega/azz-portfolio',
+    '/azz-portfolio-desktop.png',
+    '{"en": "azz-portfolio - Developer Portfolio & Headless CMS", "id": "azz-portfolio - Portfolio Developer & Headless CMS"}'::jsonb,
+    '{"en": "Interactive developer portfolio and headless CMS built with Next.js, Supabase, and Three.js.", "id": "Portfolio developer interaktif dan headless CMS dibangun dengan Next.js, Supabase, dan Three.js."}'::jsonb,
+    now()
   );
 
 -- 2. Insert Project Images
@@ -277,8 +328,7 @@ INSERT INTO public.project_images (
   -- UniCMS
   ('d4444444-4444-4444-4444-444444444444', '/modern-design-system-interface.png', '{"en": "UniCMS Dashboard", "id": "Dashboard UniCMS"}'::jsonb, 0),
   ('d4444444-4444-4444-4444-444444444444', '/mobile-app-interface.png', '{"en": "UniCMS Frontend", "id": "Frontend UniCMS"}'::jsonb, 1),
-  ('d4444444-4444-4444-4444-444444444444', '/modern-ecommerce-website.png', '{"en": "UniCMS Documentation", "id": "Dokumentasi UniCMS"}'::jsonb, 2);
-
+  ('d4444444-4444-4444-4444-444444444444', '/modern-ecommerce-website.png', '{"en": "UniCMS Documentation", "id": "Dokumentasi UniCMS"}'::jsonb, 2),
 
 -- 3. Insert Certificates Seed Data
 INSERT INTO public.certificates (title, issuer, year, image_url, credential_url, description, featured, sort_order, status)
