@@ -10,7 +10,7 @@ export default function Contact() {
     const [subject, setSubject] = useState("")
     const [message, setMessage] = useState("")
     const [nameHoney, setNameHoney] = useState("")
-    
+
     const [loading, setLoading] = useState(false)
     const [success, setSuccess] = useState(false)
     const [error, setError] = useState("")
@@ -55,10 +55,10 @@ export default function Contact() {
 
     return (
         <>
-            <section id="contact" className="section contact-section">
+            <section className="section contact-section">
                 <div className="container">
                     <div className="contact-wrapper animate-on-scroll">
-                        <div className="contact-info">
+                        <div id="contact" className="contact-info">
                             <h2 className="section-title" suppressHydrationWarning>{t("contact.title")}</h2>
                             <p className="contact-desc">
                                 {t("contact.subtitle")}
