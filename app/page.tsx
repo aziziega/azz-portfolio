@@ -15,6 +15,18 @@ import { useEffect, useState } from "react"
 
 export default function Portfolio() {
 
+  // Auto-scroll to hash when navigating from another page (e.g. from /work to /#testimonials)
+  useEffect(() => {
+    if (window.location.hash) {
+      const id = window.location.hash.substring(1)
+      // Slight delay ensures the DOM is fully painted
+      setTimeout(() => {
+        const el = document.getElementById(id)
+        if (el) el.scrollIntoView({ behavior: "smooth" })
+      }, 200)
+    }
+  }, [])
+
   useEffect(() => {
     const animateText = (element: Element) => {
       const text = element.textContent || ""

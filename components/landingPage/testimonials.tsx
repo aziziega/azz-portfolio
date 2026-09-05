@@ -131,8 +131,25 @@ export default function Testimonials() {
     return () => observer.disconnect()
   }, [loading, reviews.length])
 
-  // If loading or no published testimonials found from DB, hide the section
-  if (loading || reviews.length === 0) {
+  // Render skeleton/placeholder during initial load to prevent layout shift and losing hash anchor
+  if (loading && reviews.length === 0) {
+    return (
+      <section className="section testimonials-section">
+        <div className="container">
+          <div id="testimonials" className="section-header animate-on-scroll">
+            <h2 className="section-title">{t("testimonials.title")}</h2>
+            <p className="section-subtitle">{t("testimonials.subtitle")}</p>
+          </div>
+          <div style={{ minHeight: "300px", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--text-secondary)" }}>
+            Loading testimonials...
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  // If no published testimonials found from DB after fetching, hide the section
+  if (!loading && reviews.length === 0) {
     return null
   }
 
