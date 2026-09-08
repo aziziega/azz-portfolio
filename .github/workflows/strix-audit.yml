@@ -28,7 +28,7 @@ jobs:
       - name: Run Strix Security Scan
         env:
           # Menggunakan model frontier yang direkomendasikan dan gratis di AI Studio
-          STRIX_LLM: "glm-5.3-flash:cloud" 
+          STRIX_LLM: "deepseek-v4-flash:cloud" 
           # Mengambil API key dari GitHub Secrets yang baru kamu buat
           LLM_API_KEY: ${{ secrets.AI_PROVIDER_API_KEY }}
         run: |
