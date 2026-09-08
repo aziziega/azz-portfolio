@@ -27,8 +27,8 @@ jobs:
           
       - name: Run Strix Security Scan
         env:
-          # Kita arahkan providernya ke Gemini 2.5 Flash sesuai permintaan
-          STRIX_LLM: "gemini/gemini-2.5-flash" 
+          # Menggunakan model frontier yang direkomendasikan dan gratis di AI Studio
+          STRIX_LLM: "gemini/gemini-3.7-flash" 
           # Mengambil API key dari GitHub Secrets yang baru kamu buat
           LLM_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
