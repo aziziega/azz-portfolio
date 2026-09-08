@@ -28,9 +28,9 @@ jobs:
       - name: Run Strix Security Scan
         env:
           # Menggunakan model frontier yang direkomendasikan dan gratis di AI Studio
-          STRIX_LLM: "gemini/gemini-3.7-flash" 
+          STRIX_LLM: "glm-5.3-flash:cloud" 
           # Mengambil API key dari GitHub Secrets yang baru kamu buat
-          LLM_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          LLM_API_KEY: ${{ secrets.AI_PROVIDER_API_KEY }}
         run: |
           echo "Memulai audit keamanan berbasis AI (Strix)..."
           # Mengeksekusi via module python untuk menghindari masalah PATH (command not found)
