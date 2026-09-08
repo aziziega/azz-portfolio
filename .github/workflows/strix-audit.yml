@@ -19,10 +19,11 @@ jobs:
         with:
           python-version: "3.12"
 
-      # Install Strix (package bernama 'strix-agent') menggunakan pipx agar executable otomatis masuk PATH
+      # Install Strix (package bernama 'strix-agent') menggunakan pip
       - name: Install Strix
         run: |
-          pipx install strix-agent
+          python -m pip install --upgrade pip
+          python -m pip install strix-agent
           
       - name: Run Strix Security Scan
         env:
@@ -32,6 +33,5 @@ jobs:
           LLM_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
           echo "Memulai audit keamanan berbasis AI (Strix)..."
-          # -n = headless mode (tanpa interaktif UI, wajib untuk CI/CD)
-          # --target . = mengeksekusi scan di direktori proyek ini
-          strix -n --target .
+          # Mengeksekusi via module python untuk menghindari masalah PATH (command not found)
+          python -m strix.interface.main -n --target .
