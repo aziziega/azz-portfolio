@@ -1,0 +1,39 @@
+name: Strix AI Security Audit
+
+on:
+  workflow_dispatch: # Memungkinkan eksekusi manual dari tab Actions
+  pull_request:
+    branches: [ "main" ] # Hanya berjalan otomatis saat PR ke branch main (menghemat token)
+
+jobs:
+  security-audit:
+    runs-on: ubuntu-latest
+    name: Run Strix AI Pentest
+    
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      # Install Strix (asumsikan menggunakan pip dan package bernama 'strix')
+      # Note: Docker sudah otomatis tersedia (built-in) di ubuntu-latest GitHub Actions
+      - name: Install Strix
+        run: |
+          python -m pip install --upgrade pip
+          pip install strix
+          
+      - name: Run Strix Security Scan
+        env:
+          # Kita arahkan providernya ke Gemini
+          STRIX_LLM: "gemini/gemini-1.5-pro" 
+          # Mengambil API key dari GitHub Secrets yang baru kamu buat
+          LLM_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          echo "Memulai audit keamanan berbasis AI (Strix)..."
+          # -n = headless mode (tanpa interaktif UI, wajib untuk CI/CD)
+          # --target . = mengeksekusi scan di direktori proyek ini
+          strix -n --target .
