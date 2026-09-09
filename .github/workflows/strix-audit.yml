@@ -13,6 +13,8 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Wajib agar Strix bisa melihat seluruh history untuk diff-scoping
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -35,5 +37,18 @@ jobs:
           OPENAI_API_KEY: ${{ secrets.AI_PROVIDER_API_KEY }}
         run: |
           echo "Memulai audit keamanan berbasis AI (Strix)..."
-          # Mengeksekusi via module python untuk menghindari masalah PATH (command not found)
-          python -m strix.interface.main -n --target .
+          # Mengeksekusi via module python, tambahkan --scan-mode quick untuk mempercepat proses
+          python -m strix.interface.main -n --target . --scan-mode quick
+
+      - name: Upload Strix Report Artifacts (ZIP)
+        if: always() # Memastikan artifact tetap di-upload meskipun ada celah keamanan (exit code non-zero)
+        uses: actions/upload-artifact@v4
+        with:
+          name: strix-scan-results
+          path: strix_runs/
+
+      - name: Upload SARIF to GitHub Code Scanning (Untuk PR Comment)
+        if: always()
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: strix_runs/
