@@ -18,12 +18,17 @@ export async function GET(request: NextRequest) {
     // Find subscriber with this token
     const { data: subscriber, error: findError } = await supabase
       .from("newsletter_subscribers")
-      .select("id, email, status")
+      .select("id, email, status, confirm_expires_at")
       .eq("confirm_token", token)
       .single()
 
     if (findError || !subscriber) {
       return NextResponse.redirect(`${SITE_URL}/?newsletter=invalid`)
+    }
+
+    // Check if token has expired
+    if (subscriber.confirm_expires_at && new Date(subscriber.confirm_expires_at) < new Date()) {
+      return NextResponse.redirect(`${SITE_URL}/?newsletter=expired`)
     }
 
     if (subscriber.status === "active") {
