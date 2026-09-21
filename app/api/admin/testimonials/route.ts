@@ -9,7 +9,11 @@ export async function POST(request: Request) {
 
     // Auth security check
     const { data: { user } } = await supabase.auth.getUser()
-    if (!user || user.email !== process.env.ADMIN_ALLOWED_EMAIL) {
+    if (
+      !user?.email ||
+      !process.env.ADMIN_ALLOWED_EMAIL ||
+      user.email !== process.env.ADMIN_ALLOWED_EMAIL
+    ) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 })
     }
 
