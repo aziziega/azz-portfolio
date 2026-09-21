@@ -2,9 +2,27 @@ import { NextResponse } from "next/server"
 import { createAdminClient } from "@/lib/supabase/admin"
 import { newsletterSchema } from "@/lib/validations/newsletter"
 import { sendConfirmationEmail } from "@/lib/email/resend"
+import { Ratelimit } from "@upstash/ratelimit"
+import { Redis } from "@upstash/redis"
+
+// Allow 5 submissions per hour per IP
+const ratelimit = new Ratelimit({
+  redis: Redis.fromEnv(),
+  limiter: Ratelimit.slidingWindow(5, "1 h"),
+})
 
 export async function POST(request: Request) {
   try {
+    // Rate Limiting Security Check
+    const ip = request.headers.get("x-real-ip") ?? request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "127.0.0.1"
+    const { success } = await ratelimit.limit(`newsletter_rate_limit_${ip}`)
+    
+    if (!success) {
+      return NextResponse.json({ 
+        message: "Too many requests. Please try again later." 
+      }, { status: 429 })
+    }
+
     const body = await request.json()
     
     // Validate with Zod
@@ -35,9 +53,14 @@ export async function POST(request: Request) {
       if (existing.status === "pending") {
         // Resend confirmation email for pending subscribers
         const newToken = crypto.randomUUID()
+        const newExpiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString()
+        
         await supabase
           .from("newsletter_subscribers")
-          .update({ confirm_token: newToken })
+          .update({ 
+            confirm_token: newToken,
+            confirm_expires_at: newExpiresAt
+          })
           .eq("id", existing.id)
         await sendConfirmationEmail(email, newToken)
         return NextResponse.json({ 
@@ -48,6 +71,7 @@ export async function POST(request: Request) {
 
     // Generate unique confirmation token
     const confirmToken = crypto.randomUUID()
+    const confirmExpiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString()
 
     // Insert with "pending" status and token (Double Opt-in)
     const { data, error } = await supabase
@@ -57,6 +81,7 @@ export async function POST(request: Request) {
         status: "pending",
         source: "website",
         confirm_token: confirmToken,
+        confirm_expires_at: confirmExpiresAt,
       }])
       .select()
       .single()

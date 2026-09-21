@@ -8,6 +8,7 @@ on:
 permissions:
   contents: read
   security-events: write
+  pull-requests: write
   actions: read
 
 jobs:
@@ -51,6 +52,14 @@ jobs:
         with:
           name: strix-scan-results
           path: strix_runs/
+
+      - name: Filter Invalid SARIF Findings
+        if: always()
+        run: |
+          for f in $(find strix_runs -name "*.sarif"); do
+            echo "Membersihkan data SARIF di $f..."
+            jq 'del(.runs[].results[]? | select(.locations == null or .locations[0].physicalLocation == null))' "$f" > "$f.tmp" && mv "$f.tmp" "$f"
+          done
 
       - name: Upload SARIF to GitHub Code Scanning (Untuk PR Comment)
         if: always()
