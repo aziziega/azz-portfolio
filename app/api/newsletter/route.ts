@@ -14,7 +14,7 @@ const ratelimit = new Ratelimit({
 export async function POST(request: Request) {
   try {
     // Rate Limiting Security Check
-    const ip = request.headers.get("x-forwarded-for") || "127.0.0.1"
+    const ip = request.headers.get("x-real-ip") ?? request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "127.0.0.1"
     const { success } = await ratelimit.limit(`newsletter_rate_limit_${ip}`)
     
     if (!success) {

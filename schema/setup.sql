@@ -177,6 +177,7 @@ create table if not exists public.newsletter_subscribers (
   status text not null default 'pending' check (status in ('active', 'pending', 'unsubscribed', 'bounced')),
   source text not null default 'website',
   confirm_token text,
+  confirm_expires_at timestamptz,
   created_at timestamptz not null default now()
 );
 
